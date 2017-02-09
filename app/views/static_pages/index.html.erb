@@ -1,1 +1,27 @@
 <h1>This is the index page</h1>
+
+<%= form_for @webpage do |f| %>
+  <%= f.label 'Url' %>
+  <%= f.text_field :url %>
+
+  <%= f.submit 'Add' %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>URL</th>
+      <th>Options</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @webpages.each do |webpage| %>
+      <tr>
+        <td><%= webpage.id %></td>
+        <td><%= webpage.url %></td>
+        <td><%= link_to 'Visit', webpage.url + "?hello_world=welcome", :target => '_blank' %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
