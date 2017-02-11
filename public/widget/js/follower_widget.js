@@ -79,7 +79,7 @@ $(document).ready( function () {
   }
 
   document.onclick = function(e) {
-    checkingElements(e);
+    //checkingElements(e);
   }
 });
 
