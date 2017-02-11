@@ -46,10 +46,12 @@ function readCookie(name) {
 }
 
 if (readCookie('hello_world_cookie') == 'welcome') {
+  console.log('Correct cookie found');
   //should send session hash to B/E and verify it
   $.loadScript('http://localhost:3000/widget/js/follower_widget.js', 'text/javascript', function() {
   });
 } else if (getParameterByName('hello_world') == 'welcome') {
+  console.log('Parameter is correct');
   //should send session hash to B/E and verify it. Additionally receives hash for session
   $.loadScript('http://localhost:3000/widget/js/follower_widget.js', 'text/javascript', function() {
     createCookie('hello_world_cookie', 'welcome', 1)

@@ -72,7 +72,7 @@ function checkingElements(e) {
   }), 1000);
 }
 
-window.onload = function() {
+$(document).ready( function () {
   addRootElement()
   document.getElementById('widget_log_out').onclick = function() {
     deleteCookie('hello_world_cookie');
@@ -81,5 +81,6 @@ window.onload = function() {
   document.onclick = function(e) {
     checkingElements(e);
   }
+});
 
-}
+//window.onload = function() {}
