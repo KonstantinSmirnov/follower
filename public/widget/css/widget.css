@@ -9,11 +9,7 @@
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 
-.red_header {
-  color: red;
-}
-
-.strange_text {
-  background-color: yellow;
-  color: blue;
+/* BUTTONS */
+.follower_widget_btn {
+  border: 1px solid blue;
 }

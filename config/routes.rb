@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'test_widget/index'
+
   root 'static_pages#index'
 
   resources :webpages
