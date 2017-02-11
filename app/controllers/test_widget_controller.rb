@@ -1,4 +1,7 @@
 class TestWidgetController < ApplicationController
-  def index
+  def with_script
+  end
+
+  def without_script
   end
 end

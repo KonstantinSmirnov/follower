@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  get 'test_widget/index'
+  get 'test_widget/with_script'
+  get 'test_widget/without_script'
 
   root 'static_pages#index'
 
