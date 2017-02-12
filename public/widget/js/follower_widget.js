@@ -43,7 +43,9 @@ function logOutButton() {
   newButton.innerHTML = 'Log Out';
   newButton.id = 'widget_log_out';
   newButton.onclick = function(){
-    deleteCookie('hello_world_cookie');
+    if (window.confirm("Are you sure to close follower?")) {
+      deleteCookie('hello_world_cookie');
+    };
   };
 
   document.getElementById('follower_widget_root').appendChild(newButton);
@@ -82,7 +84,6 @@ function removeURLParam(key, sourceURL) {
 function deleteCookie(name) {
   document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
   window.location.href = removeURLParam('hello_world', window.location.href);
-  alert('You logged out.');
 }
 
 
