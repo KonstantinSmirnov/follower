@@ -7,7 +7,10 @@ feature 'WIDGET APPEARANCE' do
     before(:each) do
       visit webpage.url + '?hello_world=welcome'
     end
-    scenario 'widget has title'
+
+    scenario 'widget has title', js: true do
+      expect(page).to have_selector('h1', text: 'Follower')
+    end
 
     scenario 'widget can be hidden and unhidden', js: true do
       expect(page).to have_selector('#follower_widget_collapse_button', text: '>')
@@ -28,6 +31,8 @@ feature 'WIDGET APPEARANCE' do
 
     scenario 'widget can be vertical'
 
-    scenario 'widget can be closed (logout)'
+    scenario 'widget can be closed (logout)', js: true do
+      skip 'Can not be tested because can not delete cookies on localhost'
+    end
   end
 end

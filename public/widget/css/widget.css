@@ -1,17 +1,68 @@
+/* Logo font */
+@import url('https://fonts.googleapis.com/css?family=Lobster');
+/* Texts font */
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+
 #follower_widget_root {
   position: fixed !important;
   top: 0 !important;
-  right: 0 !important;
   width: 300px !important;
   height: 100% !important;
   background-color: white !important;
   z-index: 9999999999 !important;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46) !important;
+  font-family: 'Roboto', sans-serif !important;
+}
+#follower_widget_root.follower_widget_position_right {
+  right: 0 !important;
 }
 
 /* BUTTONS */
 .follower_widget_btn {
-  border: 1px solid blue !important;
+  outline: none !important;
+  -moz-box-shadow: 0px 1px 0px 0px #f0f7fa;
+	-webkit-box-shadow: 0px 1px 0px 0px #f0f7fa;
+	box-shadow: 0px 1px 0px 0px #f0f7fa;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+  border: none;
+	display:inline-block;
+	cursor:pointer;
+	text-decoration:none;
+}
+.follower_widget_btn:hover {
+  background-color:#019ad2;
+}
+.follower_widget_btn:active {
+  position:relative;
+	top:1px;
+}
+.follower_widget_btn.follower_widget_btn_center {
+  display: block !important;
+  margin: 0px auto 0px auto !important;
+}
+.follower_widget_btn.follower_widget_btn_primary {
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+  color: white;
+  background-color:#33bdef;
+}
+.follower_widget_btn.follower_widget_btn_default {
+	font-size:14px;
+	font-weight:bold;
+	padding:3px 12px;
+  color: black;
+  background-color: white;
+}
+.follower_widget_btn.follower_widget_btn_small {
+	font-size:12px;
+	padding:3px 12px;
+  color: black;
+  background-color: white;
+  border: 1px solid #ccc;
 }
 
 #follower_widget_collapse_button {
@@ -20,7 +71,48 @@
   left: -23px !important;
   background-color: white !important;
   border: 1px solid #ccc !important;
+  outline: none !important;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  cursor:pointer !important;
+}
+#follower_widget_collapse_button:hover {
+  background-color: #ccc !important;
 }
 #follower_widget_collapse_button:active {
   background-color: gray !important;
+}
+
+/* LOGO */
+#follower_widget_logo h1 {
+  margin-top: 10px;
+  font-family: 'Lobster', cursive !important;
+  text-align: center;
+}
+
+/* DESCRIPTION */
+#follower_widget_description {
+  margin: 10px;
+  border: 1px dashed gray;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+/* WIDGET SETUP BLOCK */
+#follower_widget_setup {
+  margin: 10px;
+  border: 1px dashed gray;
+  padding: 10px;
+  border-radius: 6px;
+}
+.follower_widget_setup_block {
+  display: block;
+  margin-bottom: 10px;
+}
+.follower_widget_indicator {
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  background-color: red;
+
 }
