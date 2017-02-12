@@ -13,23 +13,52 @@ if (!document.getElementById(cssId))
 }
 // END
 
-function addRootElement() {
-  var newDiv = document.createElement('div');
-  newDiv.className = 'follower_widget_frame';
-  newDiv.innerHTML = '<div id="widget_root"><strong>Follower widget</strong><div id="follower_element_id">ID</div></div>';
+// Elements
 
-  document.body.appendChild(newDiv);
-  addLogOutButton();
-}
+// Collapse widget on the right
+function collapseButton() {
+  var collapseButton = document.createElement('button');
+  collapseButton.id = 'follower_widget_collapse_button';
+  collapseButton.innerHTML = '>';
+  collapseButton.onclick = function(){
+    symbol = document.getElementById('follower_widget_collapse_button').innerHTML;
+    console.log(symbol);
+    if (symbol == '&gt;') {
+      document.getElementById('follower_widget_root').setAttribute('style','right:-300px !important;');
+      document.getElementById('follower_widget_collapse_button').innerHTML = '<';
+    } else {
+      document.getElementById('follower_widget_root').setAttribute('style','right:0 !important;');
+      document.getElementById('follower_widget_collapse_button').innerHTML = '>';
+    }
 
-function addLogOutButton() {
+  };
+
+  document.getElementById('follower_widget_root').appendChild(collapseButton);
+};
+
+// Log out and close widget
+function logOutButton() {
   var newButton = document.createElement('button');
   newButton.className = 'follower_widget_btn';
   newButton.innerHTML = 'Log Out';
   newButton.id = 'widget_log_out';
+  newButton.onclick = function(){
+    deleteCookie('hello_world_cookie');
+  };
 
-  document.getElementById('widget_root').appendChild(newButton);
+  document.getElementById('follower_widget_root').appendChild(newButton);
 }
+
+function addRootElement() {
+  var newDiv = document.createElement('div');
+  newDiv.id = 'follower_widget_frame';
+  newDiv.innerHTML = '<div id="follower_widget_root"><strong>Follower widget</strong><div id="follower_element_id">ID</div></div>';
+
+  document.body.appendChild(newDiv);
+  logOutButton();
+}
+// END
+
 
 // Remove param from URL address
 function removeURLParam(key, sourceURL) {
@@ -73,10 +102,8 @@ function checkingElements(e) {
 }
 
 $(document).ready( function () {
-  addRootElement()
-  document.getElementById('widget_log_out').onclick = function() {
-    deleteCookie('hello_world_cookie');
-  }
+  addRootElement();
+  collapseButton();
 
   document.onclick = function(e) {
     //checkingElements(e);
