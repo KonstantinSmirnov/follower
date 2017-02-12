@@ -119,6 +119,25 @@ feature 'WIDGET' do
       end
     end
 
+    # scenario 'does not appear if hash is invalid', js: true do
+    #   # Can not clear cookies!
+    #
+    #   url_with_params = webpage.url + '?hello_world=invalid'
+    #
+    #   visit url_with_params
+    #
+    #   expect(page).not_to have_selector('div.follower_widget_frame')
+    # end
+
+    scenario 'appears if hash is valid', js: true do
+      # Can not clear cookies, so it rather will alerady have a cookie
+      url_with_params = webpage.url + '?hello_world=welcome'
+
+      visit url_with_params
+
+      expect(page).to have_selector('div.follower_widget_frame')
+    end
+
   end
 
 end
