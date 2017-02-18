@@ -1,0 +1,74 @@
+(function(){
+
+  /********* LOAD LOCAL JQUERY *******/
+  //Init internal jQuery variable; 
+  var jQuery;
+  
+  //Check if needed jQuery version already loaded. If not - use our jQuery verion
+  if (window.jQuery === undefined || window.jQuery.fn.jquery !== '1.7.1') {
+    var script_tag = document.createElement('script');
+    script_tag.setAttribute("type","text/javascript");
+    script_tag.setAttribute("src",
+               "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js");
+    if (script_tag.readyState) {
+      script_tag.onreadystatechange = function () { // For old versions of IE
+        if (this.readyState == 'complete' || this.readyState == 'loaded') {
+          scriptLoadHandler();
+        }
+      };
+    } else { // Other browsers
+      script_tag.onload = scriptLoadHandler;
+    }
+    (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);    
+    } else {    
+      jQuery = window.jQuery;
+      main(); //our main JS functionality
+    }
+
+  function scriptLoadHandler() {
+    jQuery = window.jQuery.noConflict(true);
+    main(); //our main JS functionality
+  } 
+  /********** END LOAD LOCAL JQUERY ******/
+
+
+
+
+
+  /********** LOAD CSS STYLES *******/
+  function loadCSS() {
+    var cssId = 'follower_widget__css';
+    if (!document.getElementById(cssId)) {
+      var head = document.getElementsByTagName('head')[0];
+      var link = document.createElement('link');
+      link.id = cssId;
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = "<%= request.base_url %>/widget/css/follower_widget_styles.css";
+      link.media = 'all';
+      head.appendChild(link);
+    }
+  }
+  /********** END LOAD CSS STYLES ****/
+
+
+  /********* FOLLOWER WIDGET ELEMENTS ********/
+  function widgetRootElement() {
+    var newDiv = document.createElement('div');
+    newDiv.id = 'follower_widget__root';
+    newDiv.className = 'follower_widget__position_right';
+    newDiv.innerHTML = '';
+    document.body.appendChild(newDiv);
+  }
+  /********* END FOLLOWER WIDGET ELEMENTS*****/
+
+  // Main jQuery functionality. here loading widget by itself
+  function main() {     
+    jQuery(document).ready(function($) {
+      // Load CSS
+      loadCSS();
+      widgetRootElement();
+    });
+  }
+
+})();

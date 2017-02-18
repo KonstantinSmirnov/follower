@@ -1,0 +1,19 @@
+/* Logo font */
+@import url('https://fonts.googleapis.com/css?family=Lobster');
+/* Text font */
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+/* WIDGET ROOT ELEMENT */
+#follower_widget__root {
+  position:fixed !important;
+  top: 0 !important;
+  width: 300px !important;
+  height: 100% !important;
+  background-color: white !important;
+  z-index: 999999999 !important;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46) !important;
+  font-family: 'Roboto', sans-serif !important;
+}
+#follower_widget__root.follower_widget__position_right {
+  right: 0 !important;
+}
