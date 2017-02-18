@@ -1,9 +1,9 @@
 (function(){
 
   /********* LOAD LOCAL JQUERY *******/
-  //Init internal jQuery variable; 
+  //Init internal jQuery variable;
   var jQuery;
-  
+
   //Check if needed jQuery version already loaded. If not - use our jQuery verion
   if (window.jQuery === undefined || window.jQuery.fn.jquery !== '1.7.1') {
     var script_tag = document.createElement('script');
@@ -19,8 +19,8 @@
     } else { // Other browsers
       script_tag.onload = scriptLoadHandler;
     }
-    (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);    
-    } else {    
+    (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
+    } else {
       jQuery = window.jQuery;
       main(); //our main JS functionality
     }
@@ -28,10 +28,8 @@
   function scriptLoadHandler() {
     jQuery = window.jQuery.noConflict(true);
     main(); //our main JS functionality
-  } 
+  }
   /********** END LOAD LOCAL JQUERY ******/
-
-
 
 
 
@@ -60,14 +58,92 @@
     newDiv.innerHTML = '';
     document.body.appendChild(newDiv);
   }
+
+  function widgetCollapseButton() {
+    var collapseButton = document.createElement('button');
+    collapseButton.id = 'follower_widget__collapse_button';
+    collapseButton.innerHTML = '>';
+    collapseButton.onclick = function() {
+      collapseWidget();
+    }
+    document.getElementById('follower_widget__root').appendChild(collapseButton);
+  }
+
+  function widgetLogo() {
+    var logo = document.createElement('div');
+    logo.id = 'follower_widget__logo';
+    logo.innerHTML = '<h4>Follower</h4>';
+    document.getElementById('follower_widget__root').appendChild(logo);
+  }
+
+  function logOutButton() {
+    var newButton = document.createElement('button');
+    newButton.className = 'follower_widget__button follower_widget__button_center';
+    newButton.innerHTML = 'Log Out';
+    newButton.id = 'follower_widget__log_out';
+    newButton.onclick = function() {
+      if (window.confirm('Are you sure to log out follower?')) {
+        // Delete cookie and clean sent request in URL
+        console.log('log out button clicked');
+        logOut();
+      }
+    }
+    document.getElementById('follower_widget__root').appendChild(newButton);
+  }
   /********* END FOLLOWER WIDGET ELEMENTS*****/
 
+  /******** FOLLOWER WIDGET FUNCTINOS *****/
+  function collapseWidget() {
+    var symbol = document.getElementById('follower_widget__collapse_button').innerHTML;
+    if (symbol == '&gt;') {
+      document.getElementById('follower_widget__root').setAttribute('style', 'right: -300px !important;');
+      document.getElementById('follower_widget__collapse_button').innerHTML = '<';
+    } else {
+      document.getElementById('follower_widget__root').setAttribute('style', 'right: 0 !important;');
+      document.getElementById('follower_widget__collapse_button').innerHTML = '>';
+    }
+  }
+
+  function logOut() {
+    removeCookie('hello_world_cookie');
+    window.location.href = removeURLParam('hello_world', window.location.href);
+  }
+
+  function removeCookie(name) {
+    document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    console.log('cookie removed');
+  }
+
+  function removeURLParam(key, sourceURL) {
+    var rtn = sourceURL.split("?")[0],
+      param,
+      params_arr = [],
+      queryString = (sourceURL.indexOf("?") !== -1) ? sourceURL.split("?")[1] : "";
+    if (queryString !== "") {
+      params_arr = queryString.split("&");
+      for (var i = params_arr.length - 1; i >= 0; i -= 1) {
+        param = params_arr[i].split("=")[0];
+        if (param === key) {
+          params_arr.splice(i, 1);
+        }
+      }
+      rtn = rtn + "?" + params_arr.join("&");
+    }
+    return rtn;
+  }
+
+  /******* END FOLLOWER WIDGET FUNCTIONS ***/
+
   // Main jQuery functionality. here loading widget by itself
-  function main() {     
+  function main() {
     jQuery(document).ready(function($) {
       // Load CSS
       loadCSS();
       widgetRootElement();
+      widgetCollapseButton();
+      widgetLogo();
+
+      logOutButton();
     });
   }
 

@@ -1,4 +1,3 @@
-
 (function() {
 
   /******* Check URL parameters and cookies*********/
@@ -57,7 +56,7 @@
   function loadWidget() {
     var scriptTag = document.createElement('script'), // create a script tag
         firstScriptTag = document.getElementsByTagName('script')[0]; // find the first script tag in the document
-    scriptTag.src = 'http://sandbox.smiplay.com:3000/widget_root.js'; // set the source of the script to your script
+    scriptTag.src = '<%= request.base_url %>/widget_root.js'; // set the source of the script to your script
     firstScriptTag.parentNode.insertBefore(scriptTag, firstScriptTag); // append the script to the DOM
   }
 })();

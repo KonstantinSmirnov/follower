@@ -17,3 +17,59 @@
 #follower_widget__root.follower_widget__position_right {
   right: 0 !important;
 }
+
+/* LOGO */
+#follower_widget__logo h4 {
+  margin-top: 10px !important;
+  font-family: 'Lobster', cursive !important;
+  text-align: center !important;
+  font-size: 3em !important;
+}
+
+/* BUTTONS */
+
+
+/* BUTTONS */
+.follower_widget__button {
+  outline: none !important;
+  -moz-box-shadow: 0px 1px 0px 0px #F0F7FA !important;
+  -webkit-box-shadow: 0px 1px 0px 0px #F0F7FA !important;
+  box-shadow: 0px 1px 0px 0px #F0F7FA !important;
+  -moz-border-radius: 6px !important;
+  -webkit-border-radius: 6px !important;
+  border-radius: 6px !important;
+  border: none !important;
+  display: inline-block !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+}
+.follower_widget__button:hover {
+  background-color: #019AD2 !important;
+}
+.follower_widget__button:active {
+  position: relative !important;
+  top: 1px !important;
+}
+
+.follower_widget__button_center {
+  display: block !important;
+  margin: 0px auto 0px auto !important;
+}
+
+#follower_widget__collapse_button {
+  position: absolute !important;
+  top: 50% !important;
+  left: -23px !important;
+  background-color: white !important;
+  border: 1px solid #ccc !important;
+  outline: none !important;
+  border-top-left-radius: 6px !important;
+  border-bottom-left-radius: 6px !important;
+  cursor: pointer !important;
+}
+#follower_widget__collapse_button:hover {
+  background-color: #ccc !important;
+}
+#follower_widget__collapse_button:active {
+  background-color: gray !important;
+}
