@@ -54,9 +54,13 @@
   function widgetRootElement() {
     var newDiv = document.createElement('div');
     newDiv.id = 'follower_widget__root';
-    newDiv.className = 'follower_widget__position_right';
+    newDiv.className = 'follower_widget__position_right follower_widget__clicking_disabled';
     newDiv.innerHTML = '';
     document.body.appendChild(newDiv);
+    widgetCollapseButton();
+    widgetLogo();
+    widgetAutomaticSetupButton();
+    logOutButton();
   }
 
   function widgetCollapseButton() {
@@ -74,6 +78,17 @@
     logo.id = 'follower_widget__logo';
     logo.innerHTML = '<h4>Follower</h4>';
     document.getElementById('follower_widget__root').appendChild(logo);
+  }
+
+  function widgetAutomaticSetupButton() {
+    var newButton = document.createElement('button');
+    newButton.className = 'follower_widget__button follower_widget__button_center follower_widget__button_primary';
+    newButton.id = 'follower_widget__automatic_setup';
+    newButton.innerHTML = 'Start automatic setup';
+    newButton.onclick = function() {
+      manageAutomaticSetup();
+    }
+    document.getElementById('follower_widget__root').appendChild(newButton);
   }
 
   function logOutButton() {
@@ -96,12 +111,20 @@
   function collapseWidget() {
     var symbol = document.getElementById('follower_widget__collapse_button').innerHTML;
     if (symbol == '&gt;') {
-      document.getElementById('follower_widget__root').setAttribute('style', 'right: -300px !important;');
-      document.getElementById('follower_widget__collapse_button').innerHTML = '<';
+      hideWidget();
     } else {
-      document.getElementById('follower_widget__root').setAttribute('style', 'right: 0 !important;');
-      document.getElementById('follower_widget__collapse_button').innerHTML = '>';
+      showWidget();
     }
+  }
+
+  function hideWidget() {
+    document.getElementById('follower_widget__root').setAttribute('style', 'right: -300px !important;');
+    document.getElementById('follower_widget__collapse_button').innerHTML = '<';
+  }
+
+  function showWidget() {
+    document.getElementById('follower_widget__root').setAttribute('style', 'right: 0 !important;');
+    document.getElementById('follower_widget__collapse_button').innerHTML = '>';
   }
 
   function logOut() {
@@ -132,6 +155,83 @@
     return rtn;
   }
 
+  var automaticSetupActive = false;
+  function manageAutomaticSetup() {
+    if (automaticSetupActive) {
+      //stop automatic setup
+      stopAutomaticSetup();
+    } else {
+      //start automatic setup
+      startAutomaticSetup();
+    }
+  }
+
+  function startAutomaticSetup() {
+    enableClicking();
+    hideWidget();
+    document.getElementById('follower_widget__automatic_setup').innerHTML = 'Stop automatic setup';
+    jQuery('#follower_widget__automatic_setup').css('background-color', 'red');
+    automaticSetupActive = true;
+  }
+
+  function stopAutomaticSetup() {
+    disableClicking();
+    document.getElementById('follower_widget__automatic_setup').innerHTML = 'Start automatic setup';
+    jQuery('#follower_widget__automatic_setup').css('background-color', '#33BDEF');
+    showWidget();
+    automaticSetupActive = false;
+  }
+
+  //FirstClick variable is used to disable first click which appears when we load funciton first time
+  var firstClick;
+  function enableClicking() {
+    firstClick = true;
+    window.onclick = function(e) {
+      if (firstClick) {
+        firstClick = false;
+      } else {
+        // can check elements only if they are not from widget
+        if (e.target.id != 'follower_widget__root'
+        && $(e.target).parents('#follower_widget__root').length == 0)
+        {
+          checkingElements(e);
+        }
+      }
+    }
+  }
+
+  function disableClicking() {
+    window.onclick = null;
+  }
+
+  // FOLLOWER CHECKING ELEMENTS
+  function checkingElements(e) {
+    //Disable clicking function
+    document.body.onclick = null;
+
+    e.preventDefault();
+    var elementMouseIsOver, old_style, x, y;
+    x = e.clientX;
+    y = e.clientY;
+    elementMouseIsOver = document.elementFromPoint(x, y);
+    //document.getElementById('follower_element_id').innerHTML = elementMouseIsOver.id;
+    old_style = elementMouseIsOver.style["boxShadow"];
+    elementMouseIsOver.style["boxShadow"] = "0 0 15px #EC5616";
+    //Display element which was selected
+    return setTimeout((function() {
+      displaySelectedElement(elementMouseIsOver);
+      return elementMouseIsOver.style["boxShadow"] = old_style;
+    }), 500);
+  };
+
+  function displaySelectedElement(e) {
+    if (window.confirm('Is it correct element?' + e.innerHTML + e.id)) {
+      console.log('user decides that element is correct');
+      stopAutomaticSetup();
+    } else {
+      console.log('user decides that element is incorrect');
+    }
+  }
   /******* END FOLLOWER WIDGET FUNCTIONS ***/
 
   // Main jQuery functionality. here loading widget by itself
@@ -140,10 +240,6 @@
       // Load CSS
       loadCSS();
       widgetRootElement();
-      widgetCollapseButton();
-      widgetLogo();
-
-      logOutButton();
     });
   }
 

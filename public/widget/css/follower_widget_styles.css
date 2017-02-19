@@ -56,6 +56,15 @@
   margin: 0px auto 0px auto !important;
 }
 
+.follower_widget__button_primary {
+  font-size: 15px !important;
+  font-weight: bold !important;
+  text-transform: uppercase;
+  padding: 6px 24px;
+  color: white;
+  background-color: #33BDEF;
+}
+
 #follower_widget__collapse_button {
   position: absolute !important;
   top: 50% !important;
