@@ -1,0 +1,246 @@
+(function(){
+
+  /********* LOAD LOCAL JQUERY *******/
+  //Init internal jQuery variable;
+  var jQuery;
+
+  //Check if needed jQuery version already loaded. If not - use our jQuery verion
+  if (window.jQuery === undefined || window.jQuery.fn.jquery !== '1.7.1') {
+    var script_tag = document.createElement('script');
+    script_tag.setAttribute("type","text/javascript");
+    script_tag.setAttribute("src",
+               "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js");
+    if (script_tag.readyState) {
+      script_tag.onreadystatechange = function () { // For old versions of IE
+        if (this.readyState == 'complete' || this.readyState == 'loaded') {
+          scriptLoadHandler();
+        }
+      };
+    } else { // Other browsers
+      script_tag.onload = scriptLoadHandler;
+    }
+    (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
+    } else {
+      jQuery = window.jQuery;
+      main(); //our main JS functionality
+    }
+
+  function scriptLoadHandler() {
+    jQuery = window.jQuery.noConflict(true);
+    main(); //our main JS functionality
+  }
+  /********** END LOAD LOCAL JQUERY ******/
+
+
+
+  /********** LOAD CSS STYLES *******/
+  function loadCSS() {
+    var cssId = 'follower_widget__css';
+    if (!document.getElementById(cssId)) {
+      var head = document.getElementsByTagName('head')[0];
+      var link = document.createElement('link');
+      link.id = cssId;
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = "<%= request.base_url %>/widget/css/follower_widget_styles.css";
+      link.media = 'all';
+      head.appendChild(link);
+    }
+  }
+  /********** END LOAD CSS STYLES ****/
+
+
+  /********* FOLLOWER WIDGET ELEMENTS ********/
+  function widgetRootElement() {
+    var newDiv = document.createElement('div');
+    newDiv.id = 'follower_widget__root';
+    newDiv.className = 'follower_widget__position_right follower_widget__clicking_disabled';
+    newDiv.innerHTML = '';
+    document.body.appendChild(newDiv);
+    widgetCollapseButton();
+    widgetLogo();
+    widgetAutomaticSetupButton();
+    logOutButton();
+  }
+
+  function widgetCollapseButton() {
+    var collapseButton = document.createElement('button');
+    collapseButton.id = 'follower_widget__collapse_button';
+    collapseButton.innerHTML = '>';
+    collapseButton.onclick = function() {
+      collapseWidget();
+    }
+    document.getElementById('follower_widget__root').appendChild(collapseButton);
+  }
+
+  function widgetLogo() {
+    var logo = document.createElement('div');
+    logo.id = 'follower_widget__logo';
+    logo.innerHTML = '<h4>Follower</h4>';
+    document.getElementById('follower_widget__root').appendChild(logo);
+  }
+
+  function widgetAutomaticSetupButton() {
+    var newButton = document.createElement('button');
+    newButton.className = 'follower_widget__button follower_widget__button_center follower_widget__button_primary';
+    newButton.id = 'follower_widget__automatic_setup';
+    newButton.innerHTML = 'Start automatic setup';
+    newButton.onclick = function() {
+      manageAutomaticSetup();
+    }
+    document.getElementById('follower_widget__root').appendChild(newButton);
+  }
+
+  function logOutButton() {
+    var newButton = document.createElement('button');
+    newButton.className = 'follower_widget__button follower_widget__button_center';
+    newButton.innerHTML = 'Log Out';
+    newButton.id = 'follower_widget__log_out';
+    newButton.onclick = function() {
+      if (window.confirm('Are you sure to log out follower?')) {
+        // Delete cookie and clean sent request in URL
+        console.log('log out button clicked');
+        logOut();
+      }
+    }
+    document.getElementById('follower_widget__root').appendChild(newButton);
+  }
+  /********* END FOLLOWER WIDGET ELEMENTS*****/
+
+  /******** FOLLOWER WIDGET FUNCTINOS *****/
+  function collapseWidget() {
+    var symbol = document.getElementById('follower_widget__collapse_button').innerHTML;
+    if (symbol == '&gt;') {
+      hideWidget();
+    } else {
+      showWidget();
+    }
+  }
+
+  function hideWidget() {
+    document.getElementById('follower_widget__root').setAttribute('style', 'right: -300px !important;');
+    document.getElementById('follower_widget__collapse_button').innerHTML = '<';
+  }
+
+  function showWidget() {
+    document.getElementById('follower_widget__root').setAttribute('style', 'right: 0 !important;');
+    document.getElementById('follower_widget__collapse_button').innerHTML = '>';
+  }
+
+  function logOut() {
+    removeCookie('hello_world_cookie');
+    window.location.href = removeURLParam('hello_world', window.location.href);
+  }
+
+  function removeCookie(name) {
+    document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    console.log('cookie removed');
+  }
+
+  function removeURLParam(key, sourceURL) {
+    var rtn = sourceURL.split("?")[0],
+      param,
+      params_arr = [],
+      queryString = (sourceURL.indexOf("?") !== -1) ? sourceURL.split("?")[1] : "";
+    if (queryString !== "") {
+      params_arr = queryString.split("&");
+      for (var i = params_arr.length - 1; i >= 0; i -= 1) {
+        param = params_arr[i].split("=")[0];
+        if (param === key) {
+          params_arr.splice(i, 1);
+        }
+      }
+      rtn = rtn + "?" + params_arr.join("&");
+    }
+    return rtn;
+  }
+
+  var automaticSetupActive = false;
+  function manageAutomaticSetup() {
+    if (automaticSetupActive) {
+      //stop automatic setup
+      stopAutomaticSetup();
+    } else {
+      //start automatic setup
+      startAutomaticSetup();
+    }
+  }
+
+  function startAutomaticSetup() {
+    enableClicking();
+    hideWidget();
+    document.getElementById('follower_widget__automatic_setup').innerHTML = 'Stop automatic setup';
+    jQuery('#follower_widget__automatic_setup').css('background-color', 'red');
+    automaticSetupActive = true;
+  }
+
+  function stopAutomaticSetup() {
+    disableClicking();
+    document.getElementById('follower_widget__automatic_setup').innerHTML = 'Start automatic setup';
+    jQuery('#follower_widget__automatic_setup').css('background-color', '#33BDEF');
+    showWidget();
+    automaticSetupActive = false;
+  }
+
+  //FirstClick variable is used to disable first click which appears when we load funciton first time
+  var firstClick;
+  function enableClicking() {
+    firstClick = true;
+    window.onclick = function(e) {
+      if (firstClick) {
+        firstClick = false;
+      } else {
+        // can check elements only if they are not from widget
+        if (e.target.id != 'follower_widget__root'
+        && $(e.target).parents('#follower_widget__root').length == 0)
+        {
+          checkingElements(e);
+        }
+      }
+    }
+  }
+
+  function disableClicking() {
+    window.onclick = null;
+  }
+
+  // FOLLOWER CHECKING ELEMENTS
+  function checkingElements(e) {
+    //Disable clicking function
+    document.body.onclick = null;
+
+    e.preventDefault();
+    var elementMouseIsOver, old_style, x, y;
+    x = e.clientX;
+    y = e.clientY;
+    elementMouseIsOver = document.elementFromPoint(x, y);
+    //document.getElementById('follower_element_id').innerHTML = elementMouseIsOver.id;
+    old_style = elementMouseIsOver.style["boxShadow"];
+    elementMouseIsOver.style["boxShadow"] = "0 0 15px #EC5616";
+    //Display element which was selected
+    return setTimeout((function() {
+      displaySelectedElement(elementMouseIsOver);
+      return elementMouseIsOver.style["boxShadow"] = old_style;
+    }), 500);
+  };
+
+  function displaySelectedElement(e) {
+    if (window.confirm('Is it correct element?' + e.innerHTML + e.id)) {
+      console.log('user decides that element is correct');
+      stopAutomaticSetup();
+    } else {
+      console.log('user decides that element is incorrect');
+    }
+  }
+  /******* END FOLLOWER WIDGET FUNCTIONS ***/
+
+  // Main jQuery functionality. here loading widget by itself
+  function main() {
+    jQuery(document).ready(function($) {
+      // Load CSS
+      loadCSS();
+      widgetRootElement();
+    });
+  }
+
+})();

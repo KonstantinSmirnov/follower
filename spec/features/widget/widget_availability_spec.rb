@@ -9,7 +9,7 @@ feature 'WIDGET' do
 
       new_window = window_opened_by { click_link 'Visit' }
       within_window new_window do
-        expect(page).not_to have_selector('div#follower_widget_frame')
+        expect(page).not_to have_selector('div#follower_widget__root')
         page.execute_script "window.close();"
       end
     end
@@ -21,7 +21,7 @@ feature 'WIDGET' do
     scenario 'does not have widget if url does not contain secret hash', js: true do
       visit webpage.url
 
-      expect(page).not_to have_selector('div#follower_widget_frame')
+      expect(page).not_to have_selector('div#follower_widget_root')
     end
 
     scenario 'has widget if url contains secret hash', js: true do
@@ -29,7 +29,7 @@ feature 'WIDGET' do
 
       new_window = window_opened_by { click_link 'Visit' }
       within_window new_window do
-        expect(page).to have_selector('div#follower_widget_root')
+        expect(page).to have_selector('div#follower_widget__root')
         page.execute_script "window.close();"
       end
     end
@@ -39,12 +39,11 @@ feature 'WIDGET' do
 
       new_window = window_opened_by { click_link 'Visit' }
       within_window new_window do
-        expect(page).to have_selector('div#follower_widget_root')
-
+        expect(page).to have_selector('div#follower_widget__root')
         # Note that here script reloads each time new page is opened
         click_link 'Another test page with script'
 
-        expect(page).to have_selector('div#follower_widget_root')
+        expect(page).to have_selector('div#follower_widget__root')
         page.execute_script "window.close();"
       end
     end
@@ -55,7 +54,8 @@ feature 'WIDGET' do
       new_window = window_opened_by { click_link 'Visit' }
       within_window new_window do
         visit root_path
-        expect(page).not_to have_selector('div#follower_widget_root')
+
+        expect(page).not_to have_selector('div#follower_widget__root')
         page.execute_script "window.close();"
       end
     end
@@ -65,12 +65,13 @@ feature 'WIDGET' do
 
       new_window = window_opened_by { click_link 'Visit' }
       within_window new_window do
-        expect(page).to have_selector('div#follower_widget_root')
+        expect(page).to have_selector('div#follower_widget__root')
         page.execute_script "window.close();"
       end
 
       visit webpage.url
-      expect(page).to have_selector('div#follower_widget_root')
+
+      expect(page).to have_selector('div#follower_widget__root')
     end
 
     scenario 'adds widget cookie after opening page with secret hash', js: true do
@@ -135,7 +136,7 @@ feature 'WIDGET' do
 
       visit url_with_params
 
-      expect(page).to have_selector('div#follower_widget_root')
+      expect(page).to have_selector('div#follower_widget__root')
     end
 
   end

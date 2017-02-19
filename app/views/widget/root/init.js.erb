@@ -1,0 +1,63 @@
+(function() {
+
+  /******* Check URL parameters and cookies*********/
+  if (readCookie("hello_world_cookie") == "welcome") {
+    console.log("Correct cookie found!");
+    // verify session hash
+    // Load jQuery
+    loadWidget();
+  } else if (getParameterByName("hello_world") == "welcome") {
+    console.log("URL parameter is corerct");
+    // verify session hash
+    // Create cookie
+    createCookie("hello_world_cookie", "welcome", 1);
+    // Load jQuery
+    loadWidget();
+  } else {
+    console.log('You have no parameter nor cookie to access widget');
+  }
+
+  /**********    FUNCTIONS **************/
+
+  function createCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+      var date = new Date();
+      date.setTime(date.getTime() + (days*24*60*1000));
+      expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + value + expires + "; path=/";
+    console.log("Cookie has been added");
+  }
+
+  function readCookie(name) {
+    var nameEq = name + "=";
+    var cookiesArray = document.cookie.split(";");
+    for (var i = 0; i < cookiesArray.length; i++) {
+      var cookie = cookiesArray[i];
+      while (cookie.charAt(0) == " ") cookie = cookie.substring(1, cookie.length);
+      if (cookie.indexOf(nameEq) == 0) return cookie.substring(nameEq.length, cookie.length);
+    }
+    return null;
+  }
+  
+  function getParameterByName(name, url) {
+    if (!url) {
+      url = window.location.href;
+    }
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+  }
+
+  function loadWidget() {
+    var scriptTag = document.createElement('script'), // create a script tag
+        firstScriptTag = document.getElementsByTagName('script')[0]; // find the first script tag in the document
+    scriptTag.src = '<%= request.base_url %>/widget_root.js'; // set the source of the script to your script
+    firstScriptTag.parentNode.insertBefore(scriptTag, firstScriptTag); // append the script to the DOM
+  }
+})();
+
