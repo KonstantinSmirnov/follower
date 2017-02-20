@@ -172,6 +172,7 @@
     document.getElementById('follower_widget__automatic_setup').innerHTML = 'Stop automatic setup';
     jQuery('#follower_widget__automatic_setup').css('background-color', 'red');
     automaticSetupActive = true;
+    modal.open({content: 'Hello! Lets start automatic setup for Follower.'});
   }
 
   function stopAutomaticSetup() {
@@ -235,7 +236,74 @@
   /******* END FOLLOWER WIDGET FUNCTIONS ***/
 
   /******* MODAL WINDOW ************/
+  var modal = (function(){
+    var
+      method = {},
+      $overlay,
+      $modal,
+      $content,
+      $close;
 
+    // Append the HTML
+    $overlay = $('<div id="follower_widget__overlay"></div>');
+    $modal = $('<div id="follower_widget__modal"></div>');
+    $content = $('<div id="follower_widget__content"></div>');
+    $close = $('<a id="follower_widget__close" href="#">&times;</a>');
+
+    $modal.hide();
+    $overlay.hide();
+    $modal.append($content, $close);
+
+    $(document).ready(function(){
+      $('body').append($overlay, $modal);
+    });
+    
+    // Center the modal in the viewport
+    method.center = function() {
+      var top, left;
+
+      top = Math.max($(window).height() - $modal.outerHeight(), 0) / 2;
+      left = Math.max($(window).width() - $modal.outerWidth(), 0) / 2;
+
+      $modal.css({
+        top:top + $(window).scrollTop(),
+        left:left + $(window).scrollLeft()
+      });
+    };
+
+    // Open the modal
+    method.open = function(settings) {
+      $content.empty().append(settings.content);
+
+      $modal.css({
+        width: settings.width || 'auto',
+        height: settings.height || 'auto'
+      })
+
+      method.center();
+
+      $(window).bind('resize.modal', method.center);
+
+      $modal.show();
+      $overlay.show();
+    };
+
+    // Close the modal
+    method.close = function() {
+      $modal.hide();
+      $overlay.hide();
+      $content.empty();
+      $(window).unbind('resize.modal');
+    };
+
+    $close.click(function(e) {
+      e.preventDefault();
+      method.close();
+    });
+
+    return method;
+
+  }());
   /******* MODAL WINDOW END ********/
 
   // Main jQuery functionality. here loading widget by itself

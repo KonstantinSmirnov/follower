@@ -84,5 +84,42 @@
 }
 
 /* MODAL WINDOW */
+#follower_widget__overlay {
+  position:fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
 
+#follower_widget__modal {
+  position: absolute;
+  border-radius: 6px;
+  padding: 0px;
+}
+
+#follower_widget__content {
+  border-radius: 6px;
+  background: #FFF;
+  padding: 20px;
+  padding-top: 40px;
+}
+
+#follower_widget__close {
+  position: absolute;
+  display: block;
+  top: 4px;
+  right: 7px;
+  font-size: 2em;
+  text-decoration: none;
+  line-height: 0.8em;
+  color: #CCC;
+}
+
+#follower_widget__close:hover {
+  color: black;
+}
 /* END MODAL WINDOW */
