@@ -167,20 +167,20 @@
   }
 
   function startAutomaticSetup() {
-    enableClicking();
     hideWidget();
     document.getElementById('follower_widget__automatic_setup').innerHTML = 'Stop automatic setup';
-    jQuery('#follower_widget__automatic_setup').css('background-color', 'red');
+    document.getElementById('follower_widget__automatic_setup').setAttribute('style', 'background-color: red !important')
     automaticSetupActive = true;
-    modal.open({content: 'Hello! Lets start automatic setup for Follower.'});
+    showWidgetModal('hello world');
   }
 
   function stopAutomaticSetup() {
     disableClicking();
     document.getElementById('follower_widget__automatic_setup').innerHTML = 'Start automatic setup';
-    jQuery('#follower_widget__automatic_setup').css('background-color', '#33BDEF');
+    document.getElementById('follower_widget__automatic_setup').setAttribute('style', 'background-color: #33BDEF !important')
     showWidget();
     automaticSetupActive = false;
+    hideWidgetModal();
   }
 
   //FirstClick variable is used to disable first click which appears when we load funciton first time
@@ -236,74 +236,66 @@
   /******* END FOLLOWER WIDGET FUNCTIONS ***/
 
   /******* MODAL WINDOW ************/
-  var modal = (function(){
-    var
-      method = {},
-      $overlay,
-      $modal,
-      $content,
-      $close;
-
+  function widgetModalInit() {
     // Append the HTML
-    $overlay = $('<div id="follower_widget__overlay"></div>');
-    $modal = $('<div id="follower_widget__modal"></div>');
-    $content = $('<div id="follower_widget__content"></div>');
-    $close = $('<a id="follower_widget__close" href="#">&times;</a>');
+    var overlay = jQuery('<div id="follower_widget__overlay"></div>');
+    var modal = jQuery('<div id="follower_widget__modal"></div>');
+    var content = jQuery('<div id="follower_widget__modal_content"></div>');
+    var actions = jQuery('<div id="follower_widget__modal_actions"></div>');
+    var submitButton = jQuery('<a href="#" id="follower_widget__modal_submit" class="follower_widget__button follower_widget__button_success">Yes</a>');
+    var declineButton = jQuery('<a href="#" id="follower_widget__modal_decline" class="follower_widget__button follower_widget__button_default">No</a>');
+    var close = jQuery('<a id="follower_widget__modal_close" href="#">&times;</a>');
+    modal.hide();
+    overlay.hide();
+    modal.append(content, actions, close);
+    actions.append(submitButton, declineButton);
 
-    $modal.hide();
-    $overlay.hide();
-    $modal.append($content, $close);
-
-    $(document).ready(function(){
-      $('body').append($overlay, $modal);
+    // Place modal in the structure
+    jQuery(document).ready(function(){
+      jQuery('body').append(overlay, modal)
     });
-    
-    // Center the modal in the viewport
-    method.center = function() {
-      var top, left;
 
-      top = Math.max($(window).height() - $modal.outerHeight(), 0) / 2;
-      left = Math.max($(window).width() - $modal.outerWidth(), 0) / 2;
+    // Center modal
+    var top, left;
+    top = Math.max(jQuery(window).height() - modal.outerHeight(), 0) / 2;
+    left = Math.max(jQuery(window).width() - modal.outerWidth(), 0) / 2;
+    modal.css({
+      top:top + jQuery(window).scrollTop(),
+      left:left + jQuery(window).scrollLeft()
+    });
 
-      $modal.css({
-        top:top + $(window).scrollTop(),
-        left:left + $(window).scrollLeft()
-      });
-    };
-
-    // Open the modal
-    method.open = function(settings) {
-      $content.empty().append(settings.content);
-
-      $modal.css({
-        width: settings.width || 'auto',
-        height: settings.height || 'auto'
-      })
-
-      method.center();
-
-      $(window).bind('resize.modal', method.center);
-
-      $modal.show();
-      $overlay.show();
-    };
-
-    // Close the modal
-    method.close = function() {
-      $modal.hide();
-      $overlay.hide();
-      $content.empty();
-      $(window).unbind('resize.modal');
-    };
-
-    $close.click(function(e) {
+    // Close widget
+    close.click( function(e) {
       e.preventDefault();
-      method.close();
+      hideWidgetModal();
     });
+    submitButton.click( function(e) {
+      e.preventDefault();
+      submitWidgetModal();
+    });
+    declineButton.click( function(e) {
+      e.preventDefault();
+      declineWidgetModal();
+    })
+  }
 
-    return method;
+  function showWidgetModal(message) {
+    jQuery('#follower_widget__modal_content').empty().append(message);
+    jQuery('#follower_widget__overlay').show();
+    jQuery('#follower_widget__modal').show();
+  }
+  function hideWidgetModal() {
+    jQuery('#follower_widget__modal').hide();
+    jQuery('#follower_widget__overlay').hide();
+    jQuery('#follower_widget__modal_content').empty();
+  }
+  function submitWidgetModal() {
+    console.log('User has submit modal');
+  }
+  function declineWidgetModal() {
+    console.log('User has declined modal');
+  }
 
-  }());
   /******* MODAL WINDOW END ********/
 
   // Main jQuery functionality. here loading widget by itself
@@ -311,6 +303,7 @@
     jQuery(document).ready(function($) {
       // Load CSS
       loadCSS();
+      widgetModalInit();
       widgetRootElement();
     });
   }
