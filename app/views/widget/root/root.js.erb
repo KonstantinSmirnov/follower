@@ -280,6 +280,7 @@
   }
 
   function showWidgetModal(message, submitFunction, declineFunction) {
+    jQuery('#follower_widget__modal_content').empty().append(message);
     // Center modal
     var top, left;
     var modal = jQuery('#follower_widget__modal')
@@ -290,7 +291,6 @@
       left:left + jQuery(window).scrollLeft()
     });
     // Show modal
-    jQuery('#follower_widget__modal_content').empty().append(message);
     jQuery('#follower_widget__overlay').show();
     jQuery('#follower_widget__modal').show();
   }
