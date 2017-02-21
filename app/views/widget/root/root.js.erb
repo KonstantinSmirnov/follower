@@ -176,8 +176,11 @@
     document.getElementById('follower_widget__automatic_setup').innerHTML = 'Stop automatic setup';
     document.getElementById('follower_widget__automatic_setup').setAttribute('style', 'background-color: red !important')
     automaticSetupActive = true;
+    // Call widget function with functions as parameters
     showWidgetModal(
-      '<p>Hello! You selected automatic setup scenario.</p><p>Please select an item image from your cart.</p>'
+      '<p>Hello! You selected automatic setup scenario.</p><p>Please select an item image from your cart.</p>',
+      stopAutomaticSetup,
+      stopAutomaticSetup
     );
   }
 
@@ -249,13 +252,13 @@
     var modal = jQuery('<div id="follower_widget__modal"></div>');
     var content = jQuery('<div id="follower_widget__modal_content"></div>');
     var actions = jQuery('<div id="follower_widget__modal_actions"></div>');
-    var submitButton = jQuery('<a href="#" id="follower_widget__modal_submit" class="follower_widget__button follower_widget__button_success">Ok</a>');
+    var confirmButton = jQuery('<a href="#" id="follower_widget__modal_confirm" class="follower_widget__button follower_widget__button_success">Ok</a>');
     var declineButton = jQuery('<a href="#" id="follower_widget__modal_decline" class="follower_widget__button follower_widget__button_default">Cancel</a>');
     var close = jQuery('<a id="follower_widget__modal_close" href="#">&times;</a>');
     modal.hide();
     overlay.hide();
     modal.append(content, actions, close);
-    actions.append(submitButton, declineButton);
+    actions.append(confirmButton, declineButton);
 
     // Place modal in the structure
     jQuery(document).ready(function(){
@@ -269,26 +272,32 @@
         stopAutomaticSetup();
       };
     });
-    submitButton.click( function(e) {
-      e.preventDefault();
-      submitWidgetModal();
-    });
-    declineButton.click( function(e) {
-      e.preventDefault();
-      declineWidgetModal();
-    })
   }
 
-  function showWidgetModal(message, submitFunction, declineFunction) {
+  function showWidgetModal(message, confirmFunction, declineFunction) {
     jQuery('#follower_widget__modal_content').empty().append(message);
+
+    var modal = jQuery('#follower_widget__modal');
+
     // Center modal
     var top, left;
-    var modal = jQuery('#follower_widget__modal')
     top = Math.max(jQuery(window).height() - modal.outerHeight(), 0) / 2;
     left = Math.max(jQuery(window).width() - modal.outerWidth(), 0) / 2;
     modal.css({
       top:top + jQuery(window).scrollTop(),
       left:left + jQuery(window).scrollLeft()
+    });
+
+    // Action buttons
+    var confirmButton = jQuery('#follower_widget__modal_confirm');
+    var declineButton = jQuery('#follower_widget__modal_decline');
+    confirmButton.click( function(e) {
+      e.preventDefault();
+      confirmFunction();
+    });
+    declineButton.click( function(e) {
+      e.preventDefault();
+      declineFunction();
     });
     // Show modal
     jQuery('#follower_widget__overlay').show();
@@ -298,9 +307,6 @@
     jQuery('#follower_widget__modal').hide();
     jQuery('#follower_widget__overlay').hide();
     jQuery('#follower_widget__modal_content').empty();
-  }
-  function submitWidgetModal() {
-    console.log('User has submit modal');
   }
 
   /******* MODAL WINDOW END ********/
