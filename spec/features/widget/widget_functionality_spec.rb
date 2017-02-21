@@ -37,10 +37,6 @@ feature 'WIDGET' do
       end
     end
 
-    scenario 'it changes start automatic setup button color after starting', js: true do
-      skip
-    end
-
     scenario 'it changes start automatic setup button text after stopping', js: true do
       visit root_path
 
@@ -54,30 +50,94 @@ feature 'WIDGET' do
       end
     end
 
-    scenario 'it changes start automatic setup button color after stopping', js: true do
-      skip
+    scenario 'it changes start automatic setup button color after starting and stopping', js: true do
+      visit root_path
+
+      new_window = window_opened_by { click_link 'Visit' }
+      within_window new_window do
+        click_button 'follower_widget__automatic_setup'
+        click_button 'follower_widget__collapse_button'
+
+        expect(find('#follower_widget__automatic_setup').native.css_value('background-color')).to eq('rgba(255, 0, 0, 1)')
+
+        click_button 'follower_widget__automatic_setup'
+
+        expect(find('#follower_widget__automatic_setup').native.css_value('background-color')).to eq('rgba(51, 189, 239, 1)')
+
+        page.execute_script 'window.close();'
+      end
     end
 
     scenario 'it shows modal window after pressing automatic setup button', js: true do
-      skip
+      visit root_path
+
+      new_window = window_opened_by { click_link 'Visit' }
+      within_window new_window do
+        click_button 'follower_widget__automatic_setup'
+
+        expect(page).to have_selector('#follower_widget__overlay')
+        expect(page).to have_selector('#follower_widget__modal')
+
+        page.execute_script 'window.close();'
+      end
+    end
+
+    scenario 'it hides modal window after pressing close button', js: true do
+      visit root_path
+
+      new_window = window_opened_by { click_link 'Visit' }
+      within_window new_window do
+        click_button 'follower_widget__automatic_setup'
+
+        expect(page).to have_selector('#follower_widget__overlay')
+        expect(page).to have_selector('#follower_widget__modal')
+
+        click_link 'follower_widget__modal_close'
+
+        expect(page).not_to have_selector('#follower_widget__overlay')
+        expect(page).not_to have_selector('#follower_widget__modal')
+
+        page.execute_script 'window.close();'
+      end
     end
 
     scenario 'it automatically closes modal window if pressed button stop automatic setup', js: true do
-      skip
+      visit root_path
+
+      new_window = window_opened_by { click_link 'Visit' }
+      within_window new_window do
+        click_button 'follower_widget__automatic_setup'
+
+        expect(page).to have_selector('#follower_widget__overlay')
+        expect(page).to have_selector('#follower_widget__modal')
+
+        click_button 'follower_widget__collapse_button'
+        click_button 'follower_widget__automatic_setup'
+
+        expect(page).not_to have_selector('#follower_widget__overlay')
+        expect(page).not_to have_selector('#follower_widget__modal')
+
+        page.execute_script 'window.close();'
+      end
     end
 
     context 'automatic setup modal window' do
-      scenario 'it has action button', js: true do
-        skip
+      scenario 'it has action and decline buttons', js: true do
+        visit root_path
+
+        new_window = window_opened_by { click_link 'Visit' }
+        within_window new_window do
+          click_button 'follower_widget__automatic_setup'
+
+          expect(page).to have_selector('#follower_widget__modal')
+          expect(page).to have_selector('#follower_widget__modal_submit', text: 'Yes')
+          expect(page).to have_selector('#follower_widget__modal_decline', text: 'No')
+
+          page.execute_script 'window.close();'
+        end
       end
 
-      scenario 'it has decline button', js: true do
-        skip
-      end
 
-      scenario 'it has close modal button', js: true do
-        skip
-      end
     end
 
   end
