@@ -129,6 +129,7 @@ feature 'WIDGET' do
           expect(page).to have_selector('#follower_widget__modal')
 
           click_link 'follower_widget__modal_close'
+          page.driver.browser.switch_to.alert.accept
 
           expect(page).not_to have_selector('#follower_widget__overlay')
           expect(page).not_to have_selector('#follower_widget__modal')
@@ -147,6 +148,7 @@ feature 'WIDGET' do
           expect(page).to have_selector('#follower_widget__modal')
 
           click_link 'follower_widget__modal_close'
+          page.driver.browser.switch_to.alert.accept
 
           expect(find('#follower_widget__automatic_setup').native.css_value('background-color')).to eq('rgba(51, 189, 239, 1)')
           expect(page).to have_selector('button#follower_widget__automatic_setup', text: 'START AUTOMATIC SETUP')

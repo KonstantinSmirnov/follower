@@ -272,7 +272,9 @@
     // Close widget
     close.click( function(e) {
       e.preventDefault();
-      stopAutomaticSetup();
+      if (window.confirm('You are going to terminate setup process. Are you sure?')) {
+        stopAutomaticSetup();
+      };
     });
     submitButton.click( function(e) {
       e.preventDefault();
