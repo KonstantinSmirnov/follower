@@ -45,6 +45,8 @@ feature 'WIDGET' do
         click_button 'follower_widget__automatic_setup'
         click_button 'follower_widget__collapse_button'
         click_button 'follower_widget__automatic_setup'
+        page.driver.browser.switch_to.alert.accept
+
         expect(page).to have_selector('button#follower_widget__automatic_setup', text: 'START AUTOMATIC SETUP')
         page.execute_script 'window.close();'
       end
@@ -61,6 +63,7 @@ feature 'WIDGET' do
         expect(find('#follower_widget__automatic_setup').native.css_value('background-color')).to eq('rgba(255, 0, 0, 1)')
 
         click_button 'follower_widget__automatic_setup'
+        page.driver.browser.switch_to.alert.accept
 
         expect(find('#follower_widget__automatic_setup').native.css_value('background-color')).to eq('rgba(51, 189, 239, 1)')
 
@@ -94,6 +97,7 @@ feature 'WIDGET' do
 
         click_button 'follower_widget__collapse_button'
         click_button 'follower_widget__automatic_setup'
+        page.driver.browser.switch_to.alert.accept
 
         expect(page).not_to have_selector('#follower_widget__overlay')
         expect(page).not_to have_selector('#follower_widget__modal')

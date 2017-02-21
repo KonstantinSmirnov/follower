@@ -162,7 +162,9 @@
   function manageAutomaticSetup() {
     if (automaticSetupActive) {
       //stop automatic setup
-      stopAutomaticSetup();
+      if (window.confirm('You are going to terminate setup process. Are you sure?')) {
+        stopAutomaticSetup();
+      };
     } else {
       //start automatic setup
       startAutomaticSetup();
@@ -260,15 +262,6 @@
       jQuery('body').append(overlay, modal)
     });
 
-    // Center modal
-    var top, left;
-    top = Math.max(jQuery(window).height() - modal.outerHeight(), 0) / 2;
-    left = Math.max(jQuery(window).width() - modal.outerWidth(), 0) / 2;
-    modal.css({
-      top:top + jQuery(window).scrollTop(),
-      left:left + jQuery(window).scrollLeft()
-    });
-
     // Close widget
     close.click( function(e) {
       e.preventDefault();
@@ -287,6 +280,16 @@
   }
 
   function showWidgetModal(message, submitFunction, declineFunction) {
+    // Center modal
+    var top, left;
+    var modal = jQuery('#follower_widget__modal')
+    top = Math.max(jQuery(window).height() - modal.outerHeight(), 0) / 2;
+    left = Math.max(jQuery(window).width() - modal.outerWidth(), 0) / 2;
+    modal.css({
+      top:top + jQuery(window).scrollTop(),
+      left:left + jQuery(window).scrollLeft()
+    });
+    // Show modal
     jQuery('#follower_widget__modal_content').empty().append(message);
     jQuery('#follower_widget__overlay').show();
     jQuery('#follower_widget__modal').show();
