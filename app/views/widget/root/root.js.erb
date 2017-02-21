@@ -1,4 +1,7 @@
 (function(){
+  /********* INIT ELEMENT VARIABLES ******/
+  var itemImage;
+  /********* END INIT ELEMENT VARIABLES ******/
 
   /********* LOAD LOCAL JQUERY *******/
   //Init internal jQuery variable;
@@ -171,7 +174,9 @@
     document.getElementById('follower_widget__automatic_setup').innerHTML = 'Stop automatic setup';
     document.getElementById('follower_widget__automatic_setup').setAttribute('style', 'background-color: red !important')
     automaticSetupActive = true;
-    showWidgetModal('hello world');
+    showWidgetModal(
+      '<p>Hello! You selected automatic setup scenario.</p><p>Please select an item image from your cart.</p>'
+    );
   }
 
   function stopAutomaticSetup() {
@@ -242,8 +247,8 @@
     var modal = jQuery('<div id="follower_widget__modal"></div>');
     var content = jQuery('<div id="follower_widget__modal_content"></div>');
     var actions = jQuery('<div id="follower_widget__modal_actions"></div>');
-    var submitButton = jQuery('<a href="#" id="follower_widget__modal_submit" class="follower_widget__button follower_widget__button_success">Yes</a>');
-    var declineButton = jQuery('<a href="#" id="follower_widget__modal_decline" class="follower_widget__button follower_widget__button_default">No</a>');
+    var submitButton = jQuery('<a href="#" id="follower_widget__modal_submit" class="follower_widget__button follower_widget__button_success">Ok</a>');
+    var declineButton = jQuery('<a href="#" id="follower_widget__modal_decline" class="follower_widget__button follower_widget__button_default">Cancel</a>');
     var close = jQuery('<a id="follower_widget__modal_close" href="#">&times;</a>');
     modal.hide();
     overlay.hide();
@@ -267,7 +272,7 @@
     // Close widget
     close.click( function(e) {
       e.preventDefault();
-      hideWidgetModal();
+      stopAutomaticSetup();
     });
     submitButton.click( function(e) {
       e.preventDefault();
@@ -279,7 +284,7 @@
     })
   }
 
-  function showWidgetModal(message) {
+  function showWidgetModal(message, submitFunction, declineFunction) {
     jQuery('#follower_widget__modal_content').empty().append(message);
     jQuery('#follower_widget__overlay').show();
     jQuery('#follower_widget__modal').show();
@@ -291,9 +296,6 @@
   }
   function submitWidgetModal() {
     console.log('User has submit modal');
-  }
-  function declineWidgetModal() {
-    console.log('User has declined modal');
   }
 
   /******* MODAL WINDOW END ********/

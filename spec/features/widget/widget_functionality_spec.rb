@@ -82,25 +82,6 @@ feature 'WIDGET' do
       end
     end
 
-    scenario 'it hides modal window after pressing close button', js: true do
-      visit root_path
-
-      new_window = window_opened_by { click_link 'Visit' }
-      within_window new_window do
-        click_button 'follower_widget__automatic_setup'
-
-        expect(page).to have_selector('#follower_widget__overlay')
-        expect(page).to have_selector('#follower_widget__modal')
-
-        click_link 'follower_widget__modal_close'
-
-        expect(page).not_to have_selector('#follower_widget__overlay')
-        expect(page).not_to have_selector('#follower_widget__modal')
-
-        page.execute_script 'window.close();'
-      end
-    end
-
     scenario 'it automatically closes modal window if pressed button stop automatic setup', js: true do
       visit root_path
 
@@ -130,14 +111,49 @@ feature 'WIDGET' do
           click_button 'follower_widget__automatic_setup'
 
           expect(page).to have_selector('#follower_widget__modal')
-          expect(page).to have_selector('#follower_widget__modal_submit', text: 'Yes')
-          expect(page).to have_selector('#follower_widget__modal_decline', text: 'No')
+          expect(page).to have_selector('#follower_widget__modal_submit', text: 'Ok')
+          expect(page).to have_selector('#follower_widget__modal_decline', text: 'Cancel')
 
           page.execute_script 'window.close();'
         end
       end
 
+      scenario 'it hides modal window after pressing close button', js: true do
+        visit root_path
 
+        new_window = window_opened_by { click_link 'Visit' }
+        within_window new_window do
+          click_button 'follower_widget__automatic_setup'
+
+          expect(page).to have_selector('#follower_widget__overlay')
+          expect(page).to have_selector('#follower_widget__modal')
+
+          click_link 'follower_widget__modal_close'
+
+          expect(page).not_to have_selector('#follower_widget__overlay')
+          expect(page).not_to have_selector('#follower_widget__modal')
+
+          page.execute_script 'window.close();'
+        end
+      end
+
+      scenario 'it stops automatic setup if pressed close button', js: true do
+        visit root_path
+
+        new_window = window_opened_by { click_link 'Visit' }
+        within_window new_window do
+          click_button 'follower_widget__automatic_setup'
+
+          expect(page).to have_selector('#follower_widget__modal')
+
+          click_link 'follower_widget__modal_close'
+
+          expect(find('#follower_widget__automatic_setup').native.css_value('background-color')).to eq('rgba(51, 189, 239, 1)')
+          expect(page).to have_selector('button#follower_widget__automatic_setup', text: 'START AUTOMATIC SETUP')
+
+          page.execute_script 'window.close();'
+        end
+      end
     end
 
   end
