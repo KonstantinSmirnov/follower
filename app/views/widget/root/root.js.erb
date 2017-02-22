@@ -1,6 +1,6 @@
 (function(){
   /********* INIT ELEMENT VARIABLES ******/
-  var itemImage;
+
   /********* END INIT ELEMENT VARIABLES ******/
 
   /********* LOAD LOCAL JQUERY *******/
@@ -177,15 +177,13 @@
     document.getElementById('follower_widget__automatic_setup').setAttribute('style', 'background-color: red !important')
     automaticSetupActive = true;
     // Call widget function with functions as parameters
-    showWidgetModal(
-      '<p>Hello! You selected automatic setup scenario.</p><p>Please select an item image from your cart.</p>',
-      stopAutomaticSetup,
-      stopAutomaticSetup
-    );
+    initSelectItemImage();
   }
 
   function stopAutomaticSetup() {
-    disableClicking();
+    // Disable clicking
+    window.onclick = null;
+
     document.getElementById('follower_widget__automatic_setup').innerHTML = 'Start automatic setup';
     document.getElementById('follower_widget__automatic_setup').setAttribute('style', 'background-color: #33BDEF !important')
     showWidget();
@@ -193,10 +191,63 @@
     hideWidgetModal();
   }
 
-  //FirstClick variable is used to disable first click which appears when we load funciton first time
-  var firstClick;
-  function enableClicking() {
-    firstClick = true;
+  /******* setup functions *******/
+  function initSelectItemImage() {
+    showWidgetModal(
+      '<h4>Hello! You selected automatic setup scenario.</h4><p>Please select an item image from your cart.</p>',
+      selectItemImage,
+      stopAutomaticSetup
+    );
+  }
+  function selectItemImage() {
+    //FirstClick variable is used to disable first click which appears when we load funciton first time
+    var firstClick = true;
+    window.onclick = function(e) {
+      if (firstClick) {
+        firstClick = false;
+      } else {
+        // can check elements only if they are not from widget
+        if (e.target.id != 'follower_widget__root'
+        && jQuery(e.target).parents('#follower_widget__root').length == 0)
+        {
+          //checkingElements(e);
+          //Disable clicking function
+          window.onclick = null;
+
+          e.preventDefault();
+          var elementMouseIsOver, old_style, x, y;
+          x = e.clientX;
+          y = e.clientY;
+          elementMouseIsOver = document.elementFromPoint(x, y);
+          old_style = elementMouseIsOver.style["boxShadow"];
+          elementMouseIsOver.style["boxShadow"] = "0 0 15px #EC5616";
+          //Display element which was selected
+          setTimeout((function() {
+            console.log(elementMouseIsOver.src);
+            showWidgetModal(
+              //TODO dynamically generate content part of widget
+              '<h4 id="follower_widget__modal_header">Is it your element?</h4><img src="http://peanut.smiplay.com/images/logo.jpg" />',
+              initSelectItemPrice,
+              selectItemImage
+            );
+            elementMouseIsOver.style["boxShadow"] = old_style;
+          }), 500);
+        }
+      }
+    }
+  }
+
+  function initSelectItemPrice() {
+    showWidgetModal(
+      '<h4>Select Item price</h4>',
+      selectItemPrice,
+      stopAutomaticSetup
+    );
+  }
+
+  function selectItemPrice() {
+    //FirstClick variable is used to disable first click which appears when we load funciton first time
+    var firstClick = true;
     window.onclick = function(e) {
       if (firstClick) {
         firstClick = false;
@@ -205,48 +256,44 @@
         if (e.target.id != 'follower_widget__root'
         && $(e.target).parents('#follower_widget__root').length == 0)
         {
-          checkingElements(e);
+          //checkingElements(e);
+          //Disable clicking function
+          window.onclick = null;
+
+          e.preventDefault();
+          var elementMouseIsOver, old_style, x, y;
+          x = e.clientX;
+          y = e.clientY;
+          elementMouseIsOver = document.elementFromPoint(x, y);
+          old_style = elementMouseIsOver.style["boxShadow"];
+          elementMouseIsOver.style["boxShadow"] = "0 0 15px #EC5616";
+          //Display element which was selected
+          setTimeout((function() {
+            showWidgetModal(
+              '<h4>Is it your element?</h4>' + elementMouseIsOver.innerHTML,
+              finishAutomaticSetup,
+              initSelectItemPrice
+            );
+            elementMouseIsOver.style["boxShadow"] = old_style;
+          }), 500);
         }
       }
     }
   }
 
-  function disableClicking() {
-    window.onclick = null;
+  function finishAutomaticSetup() {
+    showWidgetModal(
+      '<h4>You fiished setup!</h4>',
+      stopAutomaticSetup,
+      stopAutomaticSetup
+    );
   }
 
-  // FOLLOWER CHECKING ELEMENTS
-  function checkingElements(e) {
-    //Disable clicking function
-    document.body.onclick = null;
-
-    e.preventDefault();
-    var elementMouseIsOver, old_style, x, y;
-    x = e.clientX;
-    y = e.clientY;
-    elementMouseIsOver = document.elementFromPoint(x, y);
-    //document.getElementById('follower_element_id').innerHTML = elementMouseIsOver.id;
-    old_style = elementMouseIsOver.style["boxShadow"];
-    elementMouseIsOver.style["boxShadow"] = "0 0 15px #EC5616";
-    //Display element which was selected
-    return setTimeout((function() {
-      displaySelectedElement(elementMouseIsOver);
-      return elementMouseIsOver.style["boxShadow"] = old_style;
-    }), 500);
-  };
-
-  function displaySelectedElement(e) {
-    if (window.confirm('Is it correct element?' + e.innerHTML + e.id)) {
-      console.log('user decides that element is correct');
-      stopAutomaticSetup();
-    } else {
-      console.log('user decides that element is incorrect');
-    }
-  }
   /******* END FOLLOWER WIDGET FUNCTIONS ***/
 
   /******* MODAL WINDOW ************/
   function widgetModalInit() {
+    // TODO Generate modal the same way as root widget (for make it over all webpage)
     // Append the HTML
     var overlay = jQuery('<div id="follower_widget__overlay"></div>');
     var modal = jQuery('<div id="follower_widget__modal"></div>');
@@ -269,6 +316,7 @@
     close.click( function(e) {
       e.preventDefault();
       if (window.confirm('You are going to terminate setup process. Are you sure?')) {
+        console.log('clicked close button X');
         stopAutomaticSetup();
       };
     });
@@ -291,19 +339,29 @@
     // Action buttons
     var confirmButton = jQuery('#follower_widget__modal_confirm');
     var declineButton = jQuery('#follower_widget__modal_decline');
+
     confirmButton.click( function(e) {
       e.preventDefault();
+      console.log('click confirm button');
+      hideWidgetModal();
       confirmFunction();
     });
     declineButton.click( function(e) {
       e.preventDefault();
+      console.log('click decline button');
+      hideWidgetModal();
       declineFunction();
     });
     // Show modal
     jQuery('#follower_widget__overlay').show();
     jQuery('#follower_widget__modal').show();
   }
+
   function hideWidgetModal() {
+    /*** unbing onclick functions ***/
+    jQuery('#follower_widget__modal_confirm').unbind();
+    jQuery('#follower_widget__modal_decline').unbind();
+
     jQuery('#follower_widget__modal').hide();
     jQuery('#follower_widget__overlay').hide();
     jQuery('#follower_widget__modal_content').empty();

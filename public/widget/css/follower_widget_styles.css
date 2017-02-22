@@ -122,6 +122,7 @@
   background: #FFF !important;
   font-family: 'Roboto', sans-serif !important;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46) !important;
+  z-index: 999999999 !important;
 }
 
 #follower_widget__modal_content {
