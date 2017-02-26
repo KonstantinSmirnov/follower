@@ -1,7 +1,4 @@
 (function(){
-  /********* INIT ELEMENT VARIABLES ******/
-
-  /********* END INIT ELEMENT VARIABLES ******/
 
   /********* LOAD LOCAL JQUERY *******/
   //Init internal jQuery variable;
@@ -34,8 +31,6 @@
   }
   /********** END LOAD LOCAL JQUERY ******/
 
-
-
   /********** LOAD CSS STYLES *******/
   function loadCSS() {
     var cssId = 'follower_widget__css';
@@ -52,6 +47,103 @@
   }
   /********** END LOAD CSS STYLES ****/
 
+  /******* MODAL WINDOW ************/
+  var widgetModal = {};
+
+  widgetModal.init = function() {
+    var overlay = document.createElement('div');
+    overlay.id = "follower_widget__overlay";
+    overlay.innerHTML = "";
+    var modal = document.createElement('div');
+    modal.id = "follower_widget__modal";
+    modal.innerHTML = ""
+    var header = document.createElement('h4');
+    header.id = "follower_widget__modal_header";
+    header.innerHTML = "";
+    var content = document.createElement('div');
+    content.id = "follower_widget__modal_content";
+    var actions = document.createElement('div');
+    actions.id = "follower_widget__modal_actions"
+    var confirmButton = document.createElement('a')
+    confirmButton.id = "follower_widget__modal_confirm";
+    confirmButton.className = "follower_widget__button follower_widget__button_success";
+    confirmButton.innerHTML = "Confirm"
+    var declineButton = document.createElement('a');
+    declineButton.id = "follower_widget__modal_decline";
+    declineButton.className = "follower_widget__button follower_widget__button_default";
+    declineButton.innerHTML = "Decline";
+    var close = document.createElement('a');
+    close.id = "follower_widget__modal_close";
+    close.innerHTML = "&times;";
+
+    modal.style.display = 'none';
+    overlay.style.display = 'none';
+    modal.append(header, content, actions, close);
+    actions.append(confirmButton, declineButton);
+
+    // Place modal in the structure
+    jQuery(document).ready(function(){
+      jQuery('body').append(overlay, modal)
+    });
+
+    // Close widget
+    close.onclick = function(e) {
+      e.preventDefault();
+      if (window.confirm('You are going to terminate setup process. Are you sure?')) {
+        console.log('clicked close button X');
+        stopAutomaticSetup();
+      };
+    }
+  }
+
+  widgetModal.show = function(headerText, message, confirmFunction, declineFunction) {
+    var header = document.getElementById('follower_widget__modal_header');
+    header.innerHTML = headerText;
+    var content = document.getElementById('follower_widget__modal_content');
+    content.innerHTML = "";
+    content.append(message);
+
+    var modal = jQuery('#follower_widget__modal');
+
+    // Center modal
+    var top, left;
+    top = Math.max(jQuery(window).height() - modal.outerHeight(), 0) / 2;
+    left = Math.max(jQuery(window).width() - modal.outerWidth(), 0) / 2;
+    modal.css({
+      top:top + jQuery(window).scrollTop(),
+      left:left + jQuery(window).scrollLeft()
+    });
+
+    // Action buttons
+    var confirmButton = jQuery('#follower_widget__modal_confirm');
+    var declineButton = jQuery('#follower_widget__modal_decline');
+
+    confirmButton.click( function(e) {
+      e.preventDefault();
+      console.log('click confirm button');
+      widgetModal.hide();
+      confirmFunction();
+    });
+    declineButton.click( function(e) {
+      e.preventDefault();
+      console.log('click decline button');
+      widgetModal.hide();
+      declineFunction();
+    });
+    // Show modal
+    jQuery('#follower_widget__overlay').show();
+    jQuery('#follower_widget__modal').show();
+  }
+
+  widgetModal.hide = function() {
+    jQuery('#follower_widget__modal_confirm').unbind();
+    jQuery('#follower_widget__modal_decline').unbind();
+
+    jQuery('#follower_widget__modal').hide();
+    jQuery('#follower_widget__overlay').hide();
+    jQuery('#follower_widget__modal_content').empty();
+  }
+  /******* MODAL WINDOW END ********/
 
   /********* FOLLOWER WIDGET ELEMENTS ********/
   function widgetRootElement() {
@@ -188,13 +280,17 @@
     document.getElementById('follower_widget__automatic_setup').setAttribute('style', 'background-color: #33BDEF !important')
     showWidget();
     automaticSetupActive = false;
-    hideWidgetModal();
+    widgetModal.hide();
   }
 
-  /******* setup functions *******/
+  /******* SETUP FUNCTIONS *******/
   function initSelectItemImage() {
-    showWidgetModal(
-      '<h4>Hello! You selected automatic setup scenario.</h4><p>Please select an item image from your cart.</p>',
+    var content = document.createElement('p');
+    content.innerHTML = 'You selected automatic setup scenario. Please select an image and check if this image will apear in the next modal.';
+
+    widgetModal.show(
+      'Hello world!',
+      content,
       selectItemImage,
       stopAutomaticSetup
     );
@@ -224,9 +320,13 @@
           //Display element which was selected
           setTimeout((function() {
             console.log(elementMouseIsOver.src);
-            showWidgetModal(
-              //TODO dynamically generate content part of widget
-              '<h4 id="follower_widget__modal_header">Is it your element?</h4><img src="http://peanut.smiplay.com/images/logo.jpg" />',
+
+            var content = document.createElement('img');
+            content.src = elementMouseIsOver.src;
+
+            widgetModal.show(
+              'There is your result:',
+              content,
               initSelectItemPrice,
               selectItemImage
             );
@@ -238,8 +338,12 @@
   }
 
   function initSelectItemPrice() {
-    showWidgetModal(
-      '<h4>Select Item price</h4>',
+    var content = document.createElement('p');
+    content.innerHTML = 'Please show me where is item price on this page.';
+
+    widgetModal.show(
+      'Now we select item price',
+      content,
       selectItemPrice,
       stopAutomaticSetup
     );
@@ -268,11 +372,15 @@
           old_style = elementMouseIsOver.style["boxShadow"];
           elementMouseIsOver.style["boxShadow"] = "0 0 15px #EC5616";
           //Display element which was selected
+          var content = document.createElement('p');
+          content.innerHTML = elementMouseIsOver.innerHTML;
+
           setTimeout((function() {
-            showWidgetModal(
-              '<h4>Is it your element?</h4>' + elementMouseIsOver.innerHTML,
+            widgetModal.show(
+              'Is this the price you selected?',
+              content,
               finishAutomaticSetup,
-              initSelectItemPrice
+              selectItemPrice
             );
             elementMouseIsOver.style["boxShadow"] = old_style;
           }), 500);
@@ -282,7 +390,8 @@
   }
 
   function finishAutomaticSetup() {
-    showWidgetModal(
+    widgetModal.show(
+      'You have finished automatic setup',
       '<h4>You fiished setup!</h4>',
       stopAutomaticSetup,
       stopAutomaticSetup
@@ -291,90 +400,12 @@
 
   /******* END FOLLOWER WIDGET FUNCTIONS ***/
 
-  /******* MODAL WINDOW ************/
-  function widgetModalInit() {
-    // TODO Generate modal the same way as root widget (for make it over all webpage)
-    // Append the HTML
-    var overlay = jQuery('<div id="follower_widget__overlay"></div>');
-    var modal = jQuery('<div id="follower_widget__modal"></div>');
-    var content = jQuery('<div id="follower_widget__modal_content"></div>');
-    var actions = jQuery('<div id="follower_widget__modal_actions"></div>');
-    var confirmButton = jQuery('<a href="#" id="follower_widget__modal_confirm" class="follower_widget__button follower_widget__button_success">Ok</a>');
-    var declineButton = jQuery('<a href="#" id="follower_widget__modal_decline" class="follower_widget__button follower_widget__button_default">Cancel</a>');
-    var close = jQuery('<a id="follower_widget__modal_close" href="#">&times;</a>');
-    modal.hide();
-    overlay.hide();
-    modal.append(content, actions, close);
-    actions.append(confirmButton, declineButton);
-
-    // Place modal in the structure
-    jQuery(document).ready(function(){
-      jQuery('body').append(overlay, modal)
-    });
-
-    // Close widget
-    close.click( function(e) {
-      e.preventDefault();
-      if (window.confirm('You are going to terminate setup process. Are you sure?')) {
-        console.log('clicked close button X');
-        stopAutomaticSetup();
-      };
-    });
-  }
-
-  function showWidgetModal(message, confirmFunction, declineFunction) {
-    jQuery('#follower_widget__modal_content').empty().append(message);
-
-    var modal = jQuery('#follower_widget__modal');
-
-    // Center modal
-    var top, left;
-    top = Math.max(jQuery(window).height() - modal.outerHeight(), 0) / 2;
-    left = Math.max(jQuery(window).width() - modal.outerWidth(), 0) / 2;
-    modal.css({
-      top:top + jQuery(window).scrollTop(),
-      left:left + jQuery(window).scrollLeft()
-    });
-
-    // Action buttons
-    var confirmButton = jQuery('#follower_widget__modal_confirm');
-    var declineButton = jQuery('#follower_widget__modal_decline');
-
-    confirmButton.click( function(e) {
-      e.preventDefault();
-      console.log('click confirm button');
-      hideWidgetModal();
-      confirmFunction();
-    });
-    declineButton.click( function(e) {
-      e.preventDefault();
-      console.log('click decline button');
-      hideWidgetModal();
-      declineFunction();
-    });
-    // Show modal
-    jQuery('#follower_widget__overlay').show();
-    jQuery('#follower_widget__modal').show();
-  }
-
-  function hideWidgetModal() {
-    /*** unbing onclick functions ***/
-    jQuery('#follower_widget__modal_confirm').unbind();
-    jQuery('#follower_widget__modal_decline').unbind();
-
-    jQuery('#follower_widget__modal').hide();
-    jQuery('#follower_widget__overlay').hide();
-    jQuery('#follower_widget__modal_content').empty();
-  }
-
-  /******* MODAL WINDOW END ********/
-
   // Main jQuery functionality. here loading widget by itself
   function main() {
     jQuery(document).ready(function($) {
       // Load CSS
       loadCSS();
-      widgetModalInit();
+      widgetModal.init();
       widgetRootElement();
     });
   }

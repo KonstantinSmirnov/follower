@@ -114,8 +114,8 @@ feature 'AUTOMATIC SETUP' do
         click_button 'follower_widget__automatic_setup'
 
         expect(page).to have_selector('#follower_widget__modal')
-        expect(page).to have_selector('#follower_widget__modal_confirm', text: 'Ok')
-        expect(page).to have_selector('#follower_widget__modal_decline', text: 'Cancel')
+        expect(page).to have_selector('#follower_widget__modal_confirm', text: 'Confirm')
+        expect(page).to have_selector('#follower_widget__modal_decline', text: 'Decline')
 
         page.execute_script 'window.close();'
       end
@@ -131,7 +131,7 @@ feature 'AUTOMATIC SETUP' do
         expect(page).to have_selector('#follower_widget__overlay')
         expect(page).to have_selector('#follower_widget__modal')
 
-        click_link 'follower_widget__modal_close'
+        page.find("#follower_widget__modal_close").click
         page.driver.browser.switch_to.alert.accept
 
         expect(page).not_to have_selector('#follower_widget__overlay')
@@ -150,7 +150,7 @@ feature 'AUTOMATIC SETUP' do
 
         expect(page).to have_selector('#follower_widget__modal')
 
-        click_link 'follower_widget__modal_close'
+        page.find("#follower_widget__modal_close").click
         page.driver.browser.switch_to.alert.accept
 
         expect(find('#follower_widget__automatic_setup').native.css_value('background-color')).to eq('rgba(51, 189, 239, 1)')

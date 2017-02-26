@@ -125,14 +125,19 @@
   z-index: 999999999 !important;
 }
 
-#follower_widget__modal_content {
+#follower_widget__modal_header {
   margin: 20px !important;
   margin-top: 30px !important;
 }
 
+#follower_widget__modal_content {
+  margin: 20px !important;
+  margin-top: 30px !important;
+  max-width: 300px;
+}
+
 #follower_widget__modal_actions {
-  height: auto !important;
-  margin: 5px !important;
+  text-align: center;
 }
 
 #follower_widget__modal_close {
@@ -144,6 +149,7 @@
   text-decoration: none !important;
   line-height: 0.8em !important;
   color: #CCC !important;
+  cursor: pointer;
 }
 
 #follower_widget__modal_close:hover {
