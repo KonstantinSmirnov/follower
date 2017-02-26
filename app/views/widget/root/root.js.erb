@@ -1,5 +1,10 @@
 (function(){
 
+  // First click variable is used to disable first click, which appears when we load function for the first time
+  var modalFirstClick;
+  // It lets pass values betwee modals
+  var temporaryBuffer;
+
   /********* LOAD LOCAL JQUERY *******/
   //Init internal jQuery variable;
   var jQuery;
@@ -93,10 +98,12 @@
         console.log('clicked close button X');
         stopAutomaticSetup();
       };
-    }
-  }
+    };
+  };
 
-  widgetModal.show = function(headerText, message, confirmFunction, declineFunction) {
+  widgetModal.show = function(headerText, message, confirmButtonText, confirmButtonAction, declineButtonText, declineButtonAction) {
+    modalFirstClick = true;
+
     var header = document.getElementById('follower_widget__modal_header');
     header.innerHTML = headerText;
     var content = document.getElementById('follower_widget__modal_content');
@@ -114,22 +121,24 @@
       left:left + jQuery(window).scrollLeft()
     });
 
-    // Action buttons
-    var confirmButton = jQuery('#follower_widget__modal_confirm');
-    var declineButton = jQuery('#follower_widget__modal_decline');
+    var confirmButton = document.getElementById('follower_widget__modal_confirm');
+    confirmButton.innerHTML = confirmButtonText;
+    confirmButton.onclick = function(e) {
+      e.preventDefault();
+      console.log('clicked confirm button');
+      widgetModal.hide();
+      confirmButtonAction();
+    };
 
-    confirmButton.click( function(e) {
+    var declineButton = document.getElementById('follower_widget__modal_decline');
+    declineButton.innerHTML = declineButtonText;
+    declineButton.onclick = function(e) {
       e.preventDefault();
-      console.log('click confirm button');
+      console.log('clicked decline button');
       widgetModal.hide();
-      confirmFunction();
-    });
-    declineButton.click( function(e) {
-      e.preventDefault();
-      console.log('click decline button');
-      widgetModal.hide();
-      declineFunction();
-    });
+      declineButtonAction();
+    };
+
     // Show modal
     jQuery('#follower_widget__overlay').show();
     jQuery('#follower_widget__modal').show();
@@ -155,6 +164,7 @@
     widgetCollapseButton();
     widgetLogo();
     widgetAutomaticSetupButton();
+    widgetParams();
     logOutButton();
   }
 
@@ -184,6 +194,20 @@
       manageAutomaticSetup();
     }
     document.getElementById('follower_widget__root').appendChild(newButton);
+  }
+
+  function widgetParams() {
+    var paramsDiv = document.createElement('div');
+    paramsDiv.id = 'follower_widget__params';
+    var cartURL = document.createElement('p');
+    cartURL.id = 'follower_widget__params_url'
+    cartURL.innerHTML = 'URL: (not defined)';
+    var itemImage = document.createElement('p');
+    itemImage.id = 'follower_widget__params_item_image';
+    itemImage.innerHTML = 'Item Image: (not defined)'
+    paramsDiv.append(cartURL, itemImage);
+
+    document.getElementById('follower_widget__root').appendChild(paramsDiv);
   }
 
   function logOutButton() {
@@ -269,7 +293,7 @@
     document.getElementById('follower_widget__automatic_setup').setAttribute('style', 'background-color: red !important')
     automaticSetupActive = true;
     // Call widget function with functions as parameters
-    initSelectItemImage();
+    initGetCartURL();
   }
 
   function stopAutomaticSetup() {
@@ -284,30 +308,54 @@
   }
 
   /******* SETUP FUNCTIONS *******/
-  function initSelectItemImage() {
+  function initGetCartURL() {
     var content = document.createElement('p');
-    content.innerHTML = 'You selected automatic setup scenario. Please select an image and check if this image will apear in the next modal.';
+    content.innerHTML = 'You selected automatic setup scenario. Step by step we will setup Follower.'
+    var content2 = document.createElement('p');
+    content2.innerHTML = 'If you are not on Cart page yet, please navigate there and add some items in your cart.'
+    content.append(content2);
 
     widgetModal.show(
-      'Hello world!',
+      'STEP 1',
       content,
-      selectItemImage,
+      'I am on cart page',
+      getCartURL,
+      'I am not on cart page',
       stopAutomaticSetup
     );
+  };
+
+  function getCartURL() {
+    var paramsURL = document.getElementById('follower_widget__params_url');
+    paramsURL.innerHTML = 'URL: ' + removeURLParam('hello_world', window.location.href);
+    initSelectItemImage();
   }
+
+  function initSelectItemImage() {
+    var content = document.createElement('p');
+    content.innerHTML = 'Now please select an image of an item in your cart.';
+
+    widgetModal.show(
+      'STEP 2',
+      content,
+      'Select image',
+      selectItemImage,
+      'Interrupt process',
+      stopAutomaticSetup
+    );
+
+  }
+
   function selectItemImage() {
-    //FirstClick variable is used to disable first click which appears when we load funciton first time
-    var firstClick = true;
     window.onclick = function(e) {
-      if (firstClick) {
-        firstClick = false;
+      if (modalFirstClick) {
+        modalFirstClick = false;
       } else {
-        // can check elements only if they are not from widget
+        // Can check elements only if they are not from widget
         if (e.target.id != 'follower_widget__root'
         && jQuery(e.target).parents('#follower_widget__root').length == 0)
         {
-          //checkingElements(e);
-          //Disable clicking function
+          // Disable clicking function
           window.onclick = null;
 
           e.preventDefault();
@@ -316,18 +364,20 @@
           y = e.clientY;
           elementMouseIsOver = document.elementFromPoint(x, y);
           old_style = elementMouseIsOver.style["boxShadow"];
-          elementMouseIsOver.style["boxShadow"] = "0 0 15px #EC5616";
-          //Display element which was selected
+          elementMouseIsOver.style["boxShadow"] = "0 0 15px #EC566";
+          // Display element which was clicked
           setTimeout((function() {
-            console.log(elementMouseIsOver.src);
-
             var content = document.createElement('img');
+            content.id = 'follower_widget__modal_image'
             content.src = elementMouseIsOver.src;
+            temporaryBuffer = elementMouseIsOver.src;
 
             widgetModal.show(
-              'There is your result:',
+              'Is it a correct item image?',
               content,
-              initSelectItemPrice,
+              'Correct',
+              getItemImage,
+              'Incorrect, I will try again',
               selectItemImage
             );
             elementMouseIsOver.style["boxShadow"] = old_style;
@@ -337,14 +387,22 @@
     }
   }
 
-  function initSelectItemPrice() {
+  function getItemImage() {
+    var itemImage = document.getElementById('follower_widget__params_item_image');
+    itemImage.innerHTML = 'Image URL: ' + temporaryBuffer;
+    initSelectItemTitle();
+  }
+
+  function initSelectItemTitle() {
     var content = document.createElement('p');
-    content.innerHTML = 'Please show me where is item price on this page.';
+    content.innerHTML = 'This is it for now';
 
     widgetModal.show(
-      'Now we select item price',
+      'STEP 3',
       content,
-      selectItemPrice,
+      'Done',
+      stopAutomaticSetup,
+      'Interrupt process',
       stopAutomaticSetup
     );
   }

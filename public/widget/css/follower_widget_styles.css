@@ -26,6 +26,17 @@
   font-size: 3em !important;
 }
 
+/* PARAMS */
+#follower_widget__params {
+  display: block !important;
+  height: 100px !important;
+  width: 100% !important;
+}
+
+#follower_widget__params_item_image {
+
+}
+
 /* BUTTONS */
 .follower_widget__button {
   outline: none !important;
@@ -133,7 +144,7 @@
 #follower_widget__modal_content {
   margin: 20px !important;
   margin-top: 30px !important;
-  max-width: 300px;
+  width: 400px !important;
 }
 
 #follower_widget__modal_actions {
@@ -154,5 +165,10 @@
 
 #follower_widget__modal_close:hover {
   color: black !important;
+}
+
+#follower_widget__modal_image {
+  width: 100%;
+  height: auto;
 }
 /* END MODAL WINDOW */

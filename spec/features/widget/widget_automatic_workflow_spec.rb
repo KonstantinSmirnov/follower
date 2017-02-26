@@ -114,8 +114,8 @@ feature 'AUTOMATIC SETUP' do
         click_button 'follower_widget__automatic_setup'
 
         expect(page).to have_selector('#follower_widget__modal')
-        expect(page).to have_selector('#follower_widget__modal_confirm', text: 'Confirm')
-        expect(page).to have_selector('#follower_widget__modal_decline', text: 'Decline')
+        expect(page).to have_selector('#follower_widget__modal_confirm')
+        expect(page).to have_selector('#follower_widget__modal_decline')
 
         page.execute_script 'window.close();'
       end
@@ -162,20 +162,217 @@ feature 'AUTOMATIC SETUP' do
   end
 
   context 'WORKFLOW' do
-    scenario 'first step - show item', js: true do
+    context 'STEP 1: get current URL' do
+      scenario 'modal window is correct', js: true do
+        visit root_path
+
+        new_window = window_opened_by { click_link 'Visit' }
+        within_window new_window do
+          click_button 'follower_widget__automatic_setup'
+
+          expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 1')
+          expect(page).to have_selector('#follower_widget__modal_confirm', text: 'I am on cart page')
+          expect(page).to have_selector('#follower_widget__modal_decline', text: 'I am not on cart page')
+
+          page.execute_script 'window.close();'
+        end
+      end
+
+      scenario 'clicking on confirm button saves current URL (without secret param)', js: true do
+        visit root_path
+
+        new_window = window_opened_by { click_link 'Visit' }
+        within_window new_window do
+          click_button 'follower_widget__automatic_setup'
+
+          page.find("#follower_widget__modal_confirm").click
+          click_button 'follower_widget__collapse_button'
+          expect(page).to have_selector('#follower_widget__params_url', text: 'http://localhost:3000/test_widget/with_script?')
+
+          page.execute_script 'window.close();'
+        end
+      end
+
+      scenario 'clicking on confirm button opens modal of next step', js: true do
+        visit root_path
+
+        new_window = window_opened_by { click_link 'Visit' }
+        within_window new_window do
+          click_button 'follower_widget__automatic_setup'
+
+          page.find("#follower_widget__modal_confirm").click
+
+          expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 2')
+
+          page.execute_script 'window.close();'
+        end
+      end
+
+      scenario 'clicking on decline button terminates automatic setup', js: true do
+        visit root_path
+
+        new_window = window_opened_by { click_link 'Visit' }
+        within_window new_window do
+          click_button 'follower_widget__automatic_setup'
+
+          page.find("#follower_widget__modal_decline").click
+
+          expect(page).not_to have_selector('follower_widget__modal')
+          expect(page).to have_selector('button#follower_widget__automatic_setup', text: 'START AUTOMATIC SETUP')
+
+          page.execute_script 'window.close();'
+        end
+      end
+    end
+
+    context 'STEP 2: get item image', js: true do
+      scenario 'modal window is correct', js: true do
+        visit root_path
+
+        new_window = window_opened_by { click_link 'Visit' }
+        within_window new_window do
+          click_button 'follower_widget__automatic_setup'
+          page.find("#follower_widget__modal_confirm").click
+
+          expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 2')
+          expect(page).to have_selector('#follower_widget__modal_confirm', text: 'Select image')
+          expect(page).to have_selector('#follower_widget__modal_decline', text: 'Interrupt process')
+
+          page.execute_script 'window.close();'
+        end
+      end
+
+      scenario 'clicking on decline button terminates automatic setup', js: true do
+        visit root_path
+
+        new_window = window_opened_by { click_link 'Visit' }
+        within_window new_window do
+          click_button 'follower_widget__automatic_setup'
+          page.find("#follower_widget__modal_confirm").click
+
+          page.find("#follower_widget__modal_decline").click
+
+          expect(page).not_to have_selector('follower_widget__modal')
+          expect(page).to have_selector('button#follower_widget__automatic_setup', text: 'START AUTOMATIC SETUP')
+
+          page.execute_script 'window.close();'
+        end
+      end
+
+      scenario 'clicking on confirm button starts process of selecting image', js: true do
+        visit root_path
+
+        new_window = window_opened_by { click_link 'Visit' }
+        within_window new_window do
+          click_button 'follower_widget__automatic_setup'
+          page.find("#follower_widget__modal_confirm").click
+          page.find("#follower_widget__modal_confirm").click
+          page.find("#follower_widget__collapse_button").click
+
+          expect(page).not_to have_selector('#follower_widget__modal')
+          expect(page).to have_selector('button#follower_widget__automatic_setup', text: 'STOP AUTOMATIC SETUP')
+
+          page.execute_script 'window.close();'
+        end
+      end
+
+      scenario 'has correct modal for selected image', js: true do
+        visit root_path
+
+        new_window = window_opened_by { click_link 'Visit' }
+        within_window new_window do
+          click_button 'follower_widget__automatic_setup'
+          page.find("#follower_widget__modal_confirm").click
+          page.find("#follower_widget__modal_confirm").click
+
+          page.find("#follower_widget__test_image_1").click
+
+          expect(page).to have_selector('#follower_widget__modal_header', text: 'Is it a correct item image?')
+          expect(page).to have_selector('#follower_widget__modal_confirm', text: 'Correct')
+          expect(page).to have_selector('#follower_widget__modal_decline', text: 'Incorrect, I will try again')
+
+          page.execute_script 'window.close();'
+        end
+      end
+
+      scenario 'can see selected image in modal', js: true do
+        visit root_path
+
+        new_window = window_opened_by { click_link 'Visit' }
+        within_window new_window do
+          click_button 'follower_widget__automatic_setup'
+          page.find("#follower_widget__modal_confirm").click
+          page.find("#follower_widget__modal_confirm").click
+
+          page.find("#follower_widget__test_image_1").click
+
+          expect(page.find("#follower_widget__modal_image")['src']).to eq(page.find("#follower_widget__test_image_1")['src'])
+
+          page.execute_script 'window.close();'
+        end
+      end
+
+      scenario 'clicking on confirm button for selected image saves image URL', js: true do
+        visit root_path
+
+        new_window = window_opened_by { click_link 'Visit' }
+        within_window new_window do
+          click_button 'follower_widget__automatic_setup'
+
+          page.find("#follower_widget__modal_confirm").click
+          page.find("#follower_widget__modal_confirm").click
+          page.find("#follower_widget__test_image_1").click
+          page.find("#follower_widget__modal_confirm").click
+
+          sleep 1
+          page.find("#follower_widget__collapse_button").click
+
+          expect(page).to have_selector('#follower_widget__params_item_image', text: page.find("#follower_widget__test_image_1")['src'])
+
+          page.execute_script 'window.close();'
+        end
+      end
+
+      scenario 'can select another image if selected incorrect image and clicked decline button', js: true do
+        visit root_path
+
+        new_window = window_opened_by { click_link 'Visit' }
+        within_window new_window do
+          click_button 'follower_widget__automatic_setup'
+          page.find("#follower_widget__modal_confirm").click
+          page.find("#follower_widget__modal_confirm").click
+
+          page.find("#follower_widget__test_image_1").click
+          page.find("#follower_widget__modal_decline").click
+          page.find("#follower_widget__test_image_1").click
+
+          expect(page.find("#follower_widget__modal_image")['src']).to eq(page.find("#follower_widget__test_image_1")['src'])
+
+          page.execute_script 'window.close();'
+        end
+      end
+
+      scenario 'clicking on confirm button for selected image opens a modal for the next step', js: true do
+        visit root_path
+
+        new_window = window_opened_by { click_link 'Visit' }
+        within_window new_window do
+          click_button 'follower_widget__automatic_setup'
+          page.find("#follower_widget__modal_confirm").click
+          page.find("#follower_widget__modal_confirm").click
+          page.find("#follower_widget__test_image_1").click
+          page.find('#follower_widget__modal_confirm').click
+
+          expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 3')
+
+          page.execute_script 'window.close();'
+        end
+      end
+    end
+
+    scenario 'STEP 3: get item link', js: true do
       skip
     end
 
-    scenario 'first step confirm button - action', js: true do
-      skip
-    end
-
-    scenario 'first step decline button - action', js: true do
-      skip
-    end
-
-    scenario 'second step', js: true do
-      skip
-    end
   end
 end
