@@ -312,6 +312,10 @@ feature 'AUTOMATIC SETUP' do
         end
       end
 
+      scenario 'has warning message if was not selected image', js: true do
+        skip
+      end
+
       scenario 'clicking on confirm button for selected image saves image URL', js: true do
         visit root_path
 
