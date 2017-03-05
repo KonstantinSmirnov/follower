@@ -573,9 +573,6 @@ feature 'AUTOMATIC SETUP' do
           page.find('#follower_widget__modal_decline').click
         end
       end
-      after(:each) do
-        page.execute_script 'window.close();'
-      end
 
       scenario 'has correct modal window' do
         new_window=page.driver.browser.window_handles.last
@@ -583,6 +580,8 @@ feature 'AUTOMATIC SETUP' do
           expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 5')
           expect(page).to have_selector('#follower_widget__modal_confirm', text: 'Select item link')
           expect(page).to have_selector('#follower_widget__modal_decline', text: 'Skip')
+
+          page.execute_script 'window.close();'
         end
       end
 
@@ -594,6 +593,8 @@ feature 'AUTOMATIC SETUP' do
 
           expect(find('#follower_widget__automatic_setup').native.css_value('background-color')).to eq('rgba(51, 189, 239, 1)')
           expect(page).to have_selector('button#follower_widget__automatic_setup', text: 'START AUTOMATIC SETUP')
+
+          page.execute_script 'window.close();'
         end
       end
 
@@ -603,6 +604,8 @@ feature 'AUTOMATIC SETUP' do
           page.find('#follower_widget__modal_decline').click
 
           expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 6')
+
+          page.execute_script 'window.close();'
         end
       end
 
@@ -616,6 +619,8 @@ feature 'AUTOMATIC SETUP' do
 
           expect(page).not_to have_selector('#follower_widget__modal')
           expect(page).to have_selector('button#follower_widget__automatic_setup', text: 'STOP AUTOMATIC SETUP')
+
+          page.execute_script 'window.close();'
         end
       end
 
@@ -627,6 +632,8 @@ feature 'AUTOMATIC SETUP' do
           page.find('#follower_widget__test_item_link').click
 
           expect(page.find('#follower_widget__modal_content').text).to eq(page.find('#follower_widget__test_item_link')['href'])
+
+          page.execute_script 'window.close();'
         end
       end
 
@@ -640,6 +647,8 @@ feature 'AUTOMATIC SETUP' do
           page.find('#follower_widget__test_item_link').click
 
           expect(page.find('#follower_widget__modal_content').text).to eq(page.find('#follower_widget__test_item_link')['href'])
+
+          page.execute_script 'window.close();'
         end
       end
 
@@ -654,6 +663,8 @@ feature 'AUTOMATIC SETUP' do
           page.find('#follower_widget__collapse_button').click
 
           expect(page).to have_selector('#follower_widget__params_item_link', text: page.find('#follower_widget__test_item_link')['href'])
+
+          page.execute_script 'window.close();'
         end
       end
 
@@ -666,6 +677,8 @@ feature 'AUTOMATIC SETUP' do
           page.find('#follower_widget__modal_confirm').click
 
           expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 6')
+
+          page.execute_script 'window.close();'
         end
       end
     end
