@@ -221,7 +221,10 @@
     var itemLink = document.createElement('p');
     itemLink.id = 'follower_widget__params_item_link';
     itemLink.innerHTML = 'Item link: (not defined)';
-    paramsDiv.append(cartURL, itemImage, itemSKU, itemName, itemLink);
+    var itemQuantity = document.createElement('p');
+    itemQuantity.id = 'follower_widget__params_item_quantity'
+    itemQuantity.innerHTML = 'Item quantity: (not defined)';
+    paramsDiv.append(cartURL, itemImage, itemSKU, itemName, itemLink, itemQuantity);
 
     document.getElementById('follower_widget__root').appendChild(paramsDiv);
   }
@@ -593,13 +596,13 @@
       'STEP 6 of 9',
       content,
       'Select item quantity',
-      getCartURL,
+      selectItemQuantity,
       'Skip',
       initGetCartTotal
     );
   }
   function selectItemQuantity() {
-    dow.onclick = function(e) {
+    window.onclick = function(e) {
       if (modalFirstClick) {
         modalFirstClick = false;
       } else {
@@ -619,18 +622,17 @@
           elementMouseIsOver.style["boxShadow"] = "0 0 15px #EC5616";
           // Display element which was clicked
           setTimeout((function() {
-            var content = document.createElement('img');
-            content.id = 'follower_widget__modal_image'
-            content.src = elementMouseIsOver.src;
-            temporaryBuffer = elementMouseIsOver.src;
+            var content = document.createElement('p');
+            content.innerHTML = elementMouseIsOver.innerHTML;
+            temporaryBuffer = elementMouseIsOver.innerHTML;
 
             widgetModal.show(
-              'Is it a correct item image?',
+              'Is it a correct item quantity?',
               content,
               'Correct',
-              getItemImage,
+              getItemQuantity,
               'Incorrect, I will try again',
-              selectItemImage
+              selectItemQuantity
             );
             elementMouseIsOver.style["boxShadow"] = old_style;
           }), 500);
@@ -638,7 +640,11 @@
       }
     }
   }
-  function getItemQuantity() {}
+  function getItemQuantity() {
+    var itemQuantity = document.getElementById('follower_widget__params_item_quantity');
+    itemQuantity.innerHTML = 'Item quantity: ' + temporaryBuffer;
+    initGetCartTotal();
+  }
 
   // STEP 7: get item total
   function initGetCartTotal() {
