@@ -218,7 +218,10 @@
     var itemName = document.createElement('p');
     itemName.id = 'follower_widget__params_item_name';
     itemName.innerHTML = 'Item name: (not defined)'
-    paramsDiv.append(cartURL, itemImage, itemSKU, itemName);
+    var itemLink = document.createElement('p');
+    itemLink.id = 'follower_widget__params_item_link';
+    itemLink.innerHTML = 'Item link: (not defined)';
+    paramsDiv.append(cartURL, itemImage, itemSKU, itemName, itemLink);
 
     document.getElementById('follower_widget__root').appendChild(paramsDiv);
   }
@@ -330,7 +333,7 @@
     content.append(content2);
 
     widgetModal.show(
-      'STEP 1',
+      'STEP 1 of 9',
       content,
       'I am on cart page',
       getCartURL,
@@ -350,7 +353,7 @@
     content.innerHTML = 'Now please select an image of an item in your cart.';
 
     widgetModal.show(
-      'STEP 2',
+      'STEP 2 of 9',
       content,
       'Select image',
       selectItemImage,
@@ -410,7 +413,7 @@
     content.innerHTML = 'Please select an item SKU'
 
     widgetModal.show(
-      'STEP 3',
+      'STEP 3 of 9',
       content,
       'Select SKU',
       selectItemSKU,
@@ -469,7 +472,7 @@
     content.innerHTML = 'Please select an item name'
 
     widgetModal.show(
-      'STEP 4',
+      'STEP 4 of 9',
       content,
       'Select item name',
       selectItemName,
@@ -528,16 +531,16 @@
     content.innerHTML = 'Please select an item link'
 
     widgetModal.show(
-      'STEP 5',
+      'STEP 5 of 9',
       content,
       'Select item link',
-      getCartURL,
+      selectItemLink,
       'Skip',
       initGetItemQuantity
     );
   }
   function selectItemLink() {
-    dow.onclick = function(e) {
+    window.onclick = function(e) {
       if (modalFirstClick) {
         modalFirstClick = false;
       } else {
@@ -557,18 +560,17 @@
           elementMouseIsOver.style["boxShadow"] = "0 0 15px #EC5616";
           // Display element which was clicked
           setTimeout((function() {
-            var content = document.createElement('img');
-            content.id = 'follower_widget__modal_image'
-            content.src = elementMouseIsOver.src;
-            temporaryBuffer = elementMouseIsOver.src;
+            var content = document.createElement('p');
+            content.innerHTML = elementMouseIsOver.href;
+            temporaryBuffer = elementMouseIsOver.href;
 
             widgetModal.show(
-              'Is it a correct item image?',
+              'Is it a correct item link?',
               content,
               'Correct',
-              getItemImage,
+              getItemLink,
               'Incorrect, I will try again',
-              selectItemImage
+              selectItemLink
             );
             elementMouseIsOver.style["boxShadow"] = old_style;
           }), 500);
@@ -576,7 +578,11 @@
       }
     }
   }
-  function getItemLink() {}
+  function getItemLink() {
+    var itemLink = document.getElementById('follower_widget__params_item_link');
+    itemLink.innerHTML = 'Item link: ' + temporaryBuffer;
+    initGetItemQuantity();
+  }
 
   // STEP 6: get item quantity
   function initGetItemQuantity() {
@@ -584,7 +590,7 @@
     content.innerHTML = 'Please select an item quantity'
 
     widgetModal.show(
-      'STEP 6',
+      'STEP 6 of 9',
       content,
       'Select item quantity',
       getCartURL,
@@ -640,7 +646,7 @@
     content.innerHTML = 'Please select an item quantity'
 
     widgetModal.show(
-      'STEP 7',
+      'STEP 7 of 9',
       content,
       'Select cart total',
       getCartURL,
@@ -696,7 +702,7 @@
     content.innerHTML = 'Please select delivery price'
 
     widgetModal.show(
-      'STEP 8',
+      'STEP 8 of 9',
       content,
       'Select delivery price',
       getCartURL,
@@ -752,7 +758,7 @@
     content.innerHTML = 'Congratulations! You finished the setup!';
 
     widgetModal.show(
-      'STEP 9',
+      'STEP 9 of 9',
       content,
       'Finish',
       stopAutomaticSetup
