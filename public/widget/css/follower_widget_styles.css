@@ -29,7 +29,7 @@
 /* PARAMS */
 #follower_widget__params {
   display: block !important;
-  height: 100px !important;
+  height: auto !important;
   width: 100% !important;
 }
 
