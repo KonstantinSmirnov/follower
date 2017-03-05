@@ -472,13 +472,88 @@ feature 'AUTOMATIC SETUP' do
         end
       end
 
-      scenario 'clicking close button terminates the setup process'
-      scenario 'clicking on decline button skips this step'
-      scenario 'clicking on confirm button starts process of selection'
-      scenario 'can see selected value in modal'
-      scenario 'clicking on decline button allows to select another value'
-      scenario 'clicking on confirm button for selected value saves it'
-      scenario 'clicking on confirm button for selected value opens the next step modal'
+      scenario 'clicking close button terminates the setup process' do
+        new_window = page.driver.browser.window_handles.last
+        within_window new_window do
+          page.find('#follower_widget__modal_close').click
+          page.driver.browser.switch_to.alert.accept
+
+          expect(find('#follower_widget__automatic_setup').native.css_value('background-color')).to eq('rgba(51, 189, 239, 1)')
+          expect(page).to have_selector('button#follower_widget__automatic_setup', text: 'START AUTOMATIC SETUP')
+        end
+      end
+
+      scenario 'clicking on decline button skips this step' do
+        new_window = page.driver.browser.window_handles.last
+        within_window new_window do
+          page.find('#follower_widget__modal_decline').click
+
+          expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 5')
+        end
+      end
+
+      scenario 'clicking on confirm button starts process of selection' do
+        new_window = page.driver.browser.window_handles.last
+        within_window new_window do
+          page.find('#follower_widget__modal_confirm').click
+          expect(page).not_to have_selector('#follower_widget__modal')
+
+          page.find('#follower_widget__collapse_button').click
+
+          expect(page).not_to have_selector('#follower_widget__modal')
+          expect(page).to have_selector('button#follower_widget__automatic_setup', text: 'STOP AUTOMATIC SETUP')
+        end
+      end
+
+      scenario 'can see selected value in modal' do
+        new_window = page.driver.browser.window_handles.last
+        within_window new_window do
+          page.find('#follower_widget__modal_confirm').click
+
+          page.find('#follower_widget__test_item_name').click
+
+          expect(page.find('#follower_widget__modal_content').text).to eq(page.find('#follower_widget__test_item_name').text)
+        end
+      end
+
+      scenario 'clicking on decline button allows to select another value' do
+        new_window = page.driver.browser.window_handles.last
+        within_window new_window do
+          page.find('#follower_widget__modal_confirm').click
+
+          page.find('#follower_widget__test_item_name').click
+          page.find('#follower_widget__modal_decline').click
+          page.find('#follower_widget__test_item_name').click
+
+          expect(page.find('#follower_widget__modal_content').text).to eq(page.find('#follower_widget__test_item_name').text)
+        end
+      end
+
+      scenario 'clicking on confirm button for selected value saves it' do
+        new_window = page.driver.browser.window_handles.last
+        within_window new_window do
+          page.find('#follower_widget__modal_confirm').click
+          page.find('#follower_widget__test_item_name').click
+          page.find('#follower_widget__modal_confirm').click
+
+          sleep 1
+          page.find('#follower_widget__collapse_button').click
+
+          expect(page).to have_selector('#follower_widget__params_item_name', text: page.find('#follower_widget__test_item_name').text)
+        end
+      end
+
+      scenario 'clicking on confirm button for selected value opens the next step modal' do
+        new_window = page.driver.browser.window_handles.last
+        within_window new_window do
+          page.find('#follower_widget__modal_confirm').click
+
+          page.find('#follower_widget__test_item_name').click
+          page.find('#follower_widget__modal_confirm').click
+
+          expect(page).to have_selector('#follower_widget__modal_header'), text: 'STEP 5'
+        end
+      end
     end
 
     context 'STEP 5: get item link', js: true do

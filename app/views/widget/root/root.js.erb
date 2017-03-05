@@ -215,7 +215,10 @@
     var itemSKU = document.createElement('p');
     itemSKU.id = 'follower_widget__params_item_sku';
     itemSKU.innerHTML = 'Item SKU: (not defined)';
-    paramsDiv.append(cartURL, itemImage, itemSKU);
+    var itemName = document.createElement('p');
+    itemName.id = 'follower_widget__params_item_name';
+    itemName.innerHTML = 'Item name: (not defined)'
+    paramsDiv.append(cartURL, itemImage, itemSKU, itemName);
 
     document.getElementById('follower_widget__root').appendChild(paramsDiv);
   }
@@ -453,7 +456,6 @@
         }
       }
     }
-
   }
   function getItemSKU() {
     var itemSKU = document.getElementById('follower_widget__params_item_sku');
@@ -470,13 +472,13 @@
       'STEP 4',
       content,
       'Select item name',
-      getCartURL,
+      selectItemName,
       'Skip',
       initGetItemLink
     );
   }
   function selectItemName() {
-    dow.onclick = function(e) {
+    window.onclick = function(e) {
       if (modalFirstClick) {
         modalFirstClick = false;
       } else {
@@ -496,18 +498,17 @@
           elementMouseIsOver.style["boxShadow"] = "0 0 15px #EC5616";
           // Display element which was clicked
           setTimeout((function() {
-            var content = document.createElement('img');
-            content.id = 'follower_widget__modal_image'
-            content.src = elementMouseIsOver.src;
-            temporaryBuffer = elementMouseIsOver.src;
+            var content = document.createElement('p');
+            content.innerHTML = elementMouseIsOver.innerHTML;
+            temporaryBuffer = elementMouseIsOver.innerHTML;
 
             widgetModal.show(
-              'Is it a correct item image?',
+              'Is it a correct item name?',
               content,
               'Correct',
-              getItemImage,
+              getItemName,
               'Incorrect, I will try again',
-              selectItemImage
+              selectItemName
             );
             elementMouseIsOver.style["boxShadow"] = old_style;
           }), 500);
@@ -515,7 +516,11 @@
       }
     }
   }
-  function getItemName() {}
+  function getItemName() {
+    var itemName = document.getElementById('follower_widget__params_item_name');
+    itemName.innerHTML = 'Item name: ' + temporaryBuffer;
+    initGetItemLink();
+  }
 
   // STEP 5: get item link
   function initGetItemLink() {
