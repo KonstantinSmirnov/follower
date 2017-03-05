@@ -162,6 +162,14 @@ feature 'AUTOMATIC SETUP' do
   end
 
   context 'WORKFLOW' do
+    # Страница корзины:
+    #   sku (артикул) step 3
+    #   item_name (Наименование) step 4
+    #   image_thumb(мини-эскиз товара , если есть - src=) = step 2
+    #   item_link (ссылка на товар) step 5
+    #   quantity Количество step 6
+    #   delivery - стоимость доставки step 7
+    #   total - сумма корзины step 8
     context 'STEP 1: get current URL' do
       scenario 'modal window is correct', js: true do
         visit root_path
@@ -235,9 +243,6 @@ feature 'AUTOMATIC SETUP' do
           page.find("#follower_widget__modal_confirm").click
         end
       end
-      after(:each) do
-        page.execute_script 'window.close();'
-      end
 
       scenario 'has correct modal window' do
         new_window=page.driver.browser.window_handles.last
@@ -245,6 +250,8 @@ feature 'AUTOMATIC SETUP' do
           expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 2')
           expect(page).to have_selector('#follower_widget__modal_confirm', text: 'Select image')
           expect(page).to have_selector('#follower_widget__modal_decline', text: 'Skip')
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -254,6 +261,8 @@ feature 'AUTOMATIC SETUP' do
           page.find("#follower_widget__modal_decline").click
 
           expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 3')
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -265,6 +274,8 @@ feature 'AUTOMATIC SETUP' do
 
           expect(page).not_to have_selector('#follower_widget__modal')
           expect(page).to have_selector('button#follower_widget__automatic_setup', text: 'STOP AUTOMATIC SETUP')
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -278,6 +289,8 @@ feature 'AUTOMATIC SETUP' do
           expect(page).to have_selector('#follower_widget__modal_header', text: 'Is it a correct item image?')
           expect(page).to have_selector('#follower_widget__modal_confirm', text: 'Correct')
           expect(page).to have_selector('#follower_widget__modal_decline', text: 'Incorrect, I will try again')
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -289,6 +302,8 @@ feature 'AUTOMATIC SETUP' do
           page.find("#follower_widget__test_image_1").click
 
           expect(page.find("#follower_widget__modal_image")['src']).to eq(page.find("#follower_widget__test_image_1")['src'])
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -307,6 +322,8 @@ feature 'AUTOMATIC SETUP' do
           page.find("#follower_widget__collapse_button").click
 
           expect(page).to have_selector('#follower_widget__params_item_image', text: page.find("#follower_widget__test_image_1")['src'])
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -320,6 +337,8 @@ feature 'AUTOMATIC SETUP' do
           page.find("#follower_widget__test_image_1").click
 
           expect(page.find("#follower_widget__modal_image")['src']).to eq(page.find("#follower_widget__test_image_1")['src'])
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -331,6 +350,8 @@ feature 'AUTOMATIC SETUP' do
           page.find('#follower_widget__modal_confirm').click
 
           expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 3')
+
+          page.execute_script "window.close();"
         end
       end
     end
@@ -348,9 +369,6 @@ feature 'AUTOMATIC SETUP' do
           page.find('#follower_widget__modal_decline').click
         end
       end
-      after(:each) do
-        page.execute_script 'window.close();'
-      end
 
       scenario 'has correct modal window' do
         new_window=page.driver.browser.window_handles.last
@@ -358,6 +376,8 @@ feature 'AUTOMATIC SETUP' do
           expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 3')
           expect(page).to have_selector('#follower_widget__modal_confirm', text: 'Select SKU')
           expect(page).to have_selector('#follower_widget__modal_decline', text: 'Skip')
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -369,6 +389,8 @@ feature 'AUTOMATIC SETUP' do
 
           expect(find('#follower_widget__automatic_setup').native.css_value('background-color')).to eq('rgba(51, 189, 239, 1)')
           expect(page).to have_selector('button#follower_widget__automatic_setup', text: 'START AUTOMATIC SETUP')
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -378,6 +400,8 @@ feature 'AUTOMATIC SETUP' do
           page.find('#follower_widget__modal_decline').click
 
           expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 4')
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -391,6 +415,8 @@ feature 'AUTOMATIC SETUP' do
 
           expect(page).not_to have_selector('#follower_widget__modal')
           expect(page).to have_selector('button#follower_widget__automatic_setup', text: 'STOP AUTOMATIC SETUP')
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -402,6 +428,8 @@ feature 'AUTOMATIC SETUP' do
           page.find("#follower_widget__test_item_sku").click
 
           expect(page.find("#follower_widget__modal_content").text).to eq(page.find("#follower_widget__test_item_sku").text)
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -415,6 +443,8 @@ feature 'AUTOMATIC SETUP' do
           page.find("#follower_widget__test_item_sku").click
 
           expect(page.find("#follower_widget__modal_content").text).to eq(page.find("#follower_widget__test_item_sku").text)
+
+          page.execute_script "window.close();"
         end
       end
       scenario 'clicking on confirm button for selected value saves it' do
@@ -428,6 +458,8 @@ feature 'AUTOMATIC SETUP' do
           page.find("#follower_widget__collapse_button").click
 
           expect(page).to have_selector('#follower_widget__params_item_sku', text: page.find("#follower_widget__test_item_sku").text)
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -440,6 +472,8 @@ feature 'AUTOMATIC SETUP' do
           page.find("#follower_widget__modal_confirm").click
 
           expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 4')
+
+          page.execute_script "window.close();"
         end
       end
     end
@@ -459,9 +493,6 @@ feature 'AUTOMATIC SETUP' do
           page.find('#follower_widget__modal_decline').click
         end
       end
-      after(:each) do
-        page.execute_script 'window.close();'
-      end
 
       scenario 'has correct modal window' do
         new_window=page.driver.browser.window_handles.last
@@ -469,6 +500,8 @@ feature 'AUTOMATIC SETUP' do
           expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 4')
           expect(page).to have_selector('#follower_widget__modal_confirm', text: 'Select item name')
           expect(page).to have_selector('#follower_widget__modal_decline', text: 'Skip')
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -480,6 +513,8 @@ feature 'AUTOMATIC SETUP' do
 
           expect(find('#follower_widget__automatic_setup').native.css_value('background-color')).to eq('rgba(51, 189, 239, 1)')
           expect(page).to have_selector('button#follower_widget__automatic_setup', text: 'START AUTOMATIC SETUP')
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -489,6 +524,8 @@ feature 'AUTOMATIC SETUP' do
           page.find('#follower_widget__modal_decline').click
 
           expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 5')
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -502,6 +539,8 @@ feature 'AUTOMATIC SETUP' do
 
           expect(page).not_to have_selector('#follower_widget__modal')
           expect(page).to have_selector('button#follower_widget__automatic_setup', text: 'STOP AUTOMATIC SETUP')
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -513,6 +552,8 @@ feature 'AUTOMATIC SETUP' do
           page.find('#follower_widget__test_item_name').click
 
           expect(page.find('#follower_widget__modal_content').text).to eq(page.find('#follower_widget__test_item_name').text)
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -526,6 +567,8 @@ feature 'AUTOMATIC SETUP' do
           page.find('#follower_widget__test_item_name').click
 
           expect(page.find('#follower_widget__modal_content').text).to eq(page.find('#follower_widget__test_item_name').text)
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -540,6 +583,8 @@ feature 'AUTOMATIC SETUP' do
           page.find('#follower_widget__collapse_button').click
 
           expect(page).to have_selector('#follower_widget__params_item_name', text: page.find('#follower_widget__test_item_name').text)
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -552,6 +597,8 @@ feature 'AUTOMATIC SETUP' do
           page.find('#follower_widget__modal_confirm').click
 
           expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 5')
+
+          page.execute_script "window.close();"
         end
       end
     end
@@ -702,9 +749,6 @@ feature 'AUTOMATIC SETUP' do
           page.find('#follower_widget__modal_decline').click
         end
       end
-      after(:each) do
-        page.execute_script 'window.close();'
-      end
 
       scenario 'has correct modal window' do
         new_window=page.driver.browser.window_handles.last
@@ -712,6 +756,8 @@ feature 'AUTOMATIC SETUP' do
           expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 6')
           expect(page).to have_selector('#follower_widget__modal_confirm', text: 'Select item quantity')
           expect(page).to have_selector('#follower_widget__modal_decline', text: 'Skip')
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -723,6 +769,8 @@ feature 'AUTOMATIC SETUP' do
 
           expect(find('#follower_widget__automatic_setup').native.css_value('background-color')).to eq('rgba(51, 189, 239, 1)')
           expect(page).to have_selector('button#follower_widget__automatic_setup', text: 'START AUTOMATIC SETUP')
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -732,6 +780,8 @@ feature 'AUTOMATIC SETUP' do
           page.find('#follower_widget__modal_decline').click
 
           expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 7')
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -745,6 +795,8 @@ feature 'AUTOMATIC SETUP' do
 
           expect(page).not_to have_selector('#follower_widget__modal')
           expect(page).to have_selector('button#follower_widget__automatic_setup', text: 'STOP AUTOMATIC SETUP')
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -756,6 +808,8 @@ feature 'AUTOMATIC SETUP' do
           page.find('#follower_widget__test_item_quantity').click
 
           expect(page.find('#follower_widget__modal_content').text).to eq(page.find('#follower_widget__test_item_quantity').text)
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -769,6 +823,8 @@ feature 'AUTOMATIC SETUP' do
           page.find('#follower_widget__test_item_quantity').click
 
           expect(page.find('#follower_widget__modal_content').text).to eq(page.find('#follower_widget__test_item_quantity').text)
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -783,6 +839,8 @@ feature 'AUTOMATIC SETUP' do
           page.find('#follower_widget__collapse_button').click
 
           expect(page).to have_selector('#follower_widget__params_item_quantity', text: page.find('#follower_widget__test_item_quantity').text)
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -795,11 +853,13 @@ feature 'AUTOMATIC SETUP' do
           page.find('#follower_widget__modal_confirm').click
 
           expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 7')
+
+          page.execute_script "window.close();"
         end
       end
     end
 
-    context 'STEP 7: get cart total', js: true do
+    context 'STEP 7: get cart delivery price', js: true do
       before(:each) do
         visit root_path
         new_window = window_opened_by { click_link 'Visit' }
@@ -820,28 +880,117 @@ feature 'AUTOMATIC SETUP' do
           page.find('#follower_widget__modal_decline').click
         end
       end
-      after(:each) do
-        page.execute_script 'window.close();'
-      end
 
       scenario 'has correct modal window' do
         new_window=page.driver.browser.window_handles.last
         within_window new_window do
           expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 7')
-          expect(page).to have_selector('#follower_widget__modal_confirm', text: 'Select cart total')
+          expect(page).to have_selector('#follower_widget__modal_confirm', text: 'Select delivery price')
           expect(page).to have_selector('#follower_widget__modal_decline', text: 'Skip')
+
+          page.execute_script "window.close();"
         end
       end
-      scenario 'clicking close button terminates the setup process'
-      scenario 'clicking on decline button skips this step'
-      scenario 'clicking on confirm button starts process of selection'
-      scenario 'can see selected value in modal'
-      scenario 'clicking on decline button allows to select another value'
-      scenario 'clicking on confirm button for selected value saves it'
-      scenario 'clicking on confirm button for selected value opens the next step modal'
+
+      scenario 'clicking close button terminates the setup process' do
+        new_window = page.driver.browser.window_handles.last
+        within_window new_window do
+          page.find('#follower_widget__modal_close').click
+          page.driver.browser.switch_to.alert.accept
+
+          expect(find('#follower_widget__automatic_setup').native.css_value('background-color')).to eq('rgba(51, 189, 239, 1)')
+          expect(page).to have_selector('button#follower_widget__automatic_setup', text: 'START AUTOMATIC SETUP')
+
+          page.execute_script "window.close();"
+        end
+      end
+
+      scenario 'clicking on decline button skips this step' do
+        new_window = page.driver.browser.window_handles.last
+        within_window new_window do
+          page.find('#follower_widget__modal_decline').click
+
+          expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 8')
+
+          page.execute_script "window.close();"
+        end
+      end
+
+      scenario 'clicking on confirm button starts process of selection' do
+        new_window = page.driver.browser.window_handles.last
+        within_window new_window do
+          page.find('#follower_widget__modal_confirm').click
+          expect(page).not_to have_selector('#follower_widget__modal')
+
+          page.find('#follower_widget__collapse_button').click
+
+          expect(page).not_to have_selector('#follower_widget__modal')
+          expect(page).to have_selector('button#follower_widget__automatic_setup', text: 'STOP AUTOMATIC SETUP')
+
+          page.execute_script "window.close();"
+        end
+      end
+
+      scenario 'can see selected value in modal' do
+        new_window = page.driver.browser.window_handles.last
+        within_window new_window do
+          page.find('#follower_widget__modal_confirm').click
+
+          page.find('#follower_widget__test_cart_delivery').click
+
+          expect(page.find('#follower_widget__modal_content').text).to eq(page.find('#follower_widget__test_cart_delivery').text)
+
+          page.execute_script "window.close();"
+        end
+      end
+
+      scenario 'clicking on decline button allows to select another value' do
+        new_window = page.driver.browser.window_handles.last
+        within_window new_window do
+          page.find('#follower_widget__modal_confirm').click
+
+          page.find('#follower_widget__test_cart_delivery').click
+          page.find('#follower_widget__modal_decline').click
+          page.find('#follower_widget__test_cart_delivery').click
+
+          expect(page.find('#follower_widget__modal_content').text).to eq(page.find('#follower_widget__test_cart_delivery').text)
+
+          page.execute_script "window.close();"
+        end
+      end
+
+      scenario 'clicking on confirm button for selected value saves it' do
+        new_window = page.driver.browser.window_handles.last
+        within_window new_window do
+          page.find('#follower_widget__modal_confirm').click
+          page.find('#follower_widget__test_cart_delivery').click
+          page.find('#follower_widget__modal_confirm').click
+
+          sleep 1
+          page.find('#follower_widget__collapse_button').click
+
+          expect(page).to have_selector('#follower_widget__params_cart_delivery', text: page.find('#follower_widget__test_cart_delivery').text)
+
+          page.execute_script "window.close();"
+        end
+      end
+
+      scenario 'clicking on confirm button for selected value opens the next step modal' do
+        new_window = page.driver.browser.window_handles.last
+        within_window new_window do
+          page.find('#follower_widget__modal_confirm').click
+
+          page.find('#follower_widget__test_cart_delivery').click
+          page.find('#follower_widget__modal_confirm').click
+
+          expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 8')
+
+          page.execute_script "window.close();"
+        end
+      end
     end
 
-    context 'STEP 8: delivery price', js: true do
+    context 'STEP 8: get cart total', js: true do
       before(:each) do
         visit root_path
         new_window = window_opened_by { click_link 'Visit' }
@@ -864,26 +1013,114 @@ feature 'AUTOMATIC SETUP' do
           page.find('#follower_widget__modal_decline').click
         end
       end
-      after(:each) do
-        page.execute_script 'window.close();'
-      end
 
       scenario 'has correct modal window' do
         new_window=page.driver.browser.window_handles.last
         within_window new_window do
           expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 8')
-          expect(page).to have_selector('#follower_widget__modal_confirm', text: 'Select delivery price')
+          expect(page).to have_selector('#follower_widget__modal_confirm', text: 'Select cart total')
           expect(page).to have_selector('#follower_widget__modal_decline', text: 'Skip')
+
+          page.execute_script "window.close();"
         end
       end
 
-      scenario 'clicking close button terminates the setup process'
-      scenario 'clicking on decline button skips this step'
-      scenario 'clicking on confirm button starts process of selection'
-      scenario 'can see selected value in modal'
-      scenario 'clicking on decline button allows to select another value'
-      scenario 'clicking on confirm button for selected value saves it'
-      scenario 'clicking on confirm button for selected value opens the next step modal'
+      scenario 'clicking close button terminates the setup process' do
+        new_window = page.driver.browser.window_handles.last
+        within_window new_window do
+          page.find('#follower_widget__modal_close').click
+          page.driver.browser.switch_to.alert.accept
+
+          expect(find('#follower_widget__automatic_setup').native.css_value('background-color')).to eq('rgba(51, 189, 239, 1)')
+          expect(page).to have_selector('button#follower_widget__automatic_setup', text: 'START AUTOMATIC SETUP')
+
+          page.execute_script "window.close();"
+        end
+      end
+
+      scenario 'clicking on decline button skips this step' do
+        new_window = page.driver.browser.window_handles.last
+        within_window new_window do
+          page.find('#follower_widget__modal_decline').click
+
+          expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 9')
+
+          page.execute_script "window.close();"
+        end
+      end
+
+      scenario 'clicking on confirm button starts process of selection' do
+        new_window = page.driver.browser.window_handles.last
+        within_window new_window do
+          page.find('#follower_widget__modal_confirm').click
+          expect(page).not_to have_selector('#follower_widget__modal')
+
+          page.find('#follower_widget__collapse_button').click
+
+          expect(page).not_to have_selector('#follower_widget__modal')
+          expect(page).to have_selector('button#follower_widget__automatic_setup', text: 'STOP AUTOMATIC SETUP')
+
+          page.execute_script "window.close();"
+        end
+      end
+
+      scenario 'can see selected value in modal' do
+        new_window = page.driver.browser.window_handles.last
+        within_window new_window do
+          page.find('#follower_widget__modal_confirm').click
+
+          page.find('#follower_widget__test_cart_total').click
+
+          expect(page.find('#follower_widget__modal_content').text).to eq(page.find('#follower_widget__test_cart_total').text)
+
+          page.execute_script "window.close();"
+        end
+      end
+
+      scenario 'clicking on decline button allows to select another value' do
+        new_window = page.driver.browser.window_handles.last
+        within_window new_window do
+          page.find('#follower_widget__modal_confirm').click
+
+          page.find('#follower_widget__test_cart_total').click
+          page.find('#follower_widget__modal_decline').click
+          page.find('#follower_widget__test_cart_total').click
+
+          expect(page.find('#follower_widget__modal_content').text).to eq(page.find('#follower_widget__test_cart_total').text)
+
+          page.execute_script "window.close();"
+        end
+      end
+
+      scenario 'clicking on confirm button for selected value saves it' do
+        new_window = page.driver.browser.window_handles.last
+        within_window new_window do
+          page.find('#follower_widget__modal_confirm').click
+          page.find('#follower_widget__test_cart_total').click
+          page.find('#follower_widget__modal_confirm').click
+
+          sleep 1
+          page.find('#follower_widget__collapse_button').click
+
+          expect(page).to have_selector('#follower_widget__params_cart_total', text: page.find('#follower_widget__test_cart_total').text)
+
+          page.execute_script "window.close();"
+        end
+      end
+
+      scenario 'clicking on confirm button for selected value opens the next step modal' do
+        new_window = page.driver.browser.window_handles.last
+        within_window new_window do
+          page.find('#follower_widget__modal_confirm').click
+
+          page.find('#follower_widget__test_cart_total').click
+          page.find('#follower_widget__modal_confirm').click
+
+          expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 9')
+
+          page.execute_script "window.close();"
+        end
+      end
     end
 
     context 'STEP 9: final message', js: true do
@@ -911,9 +1148,6 @@ feature 'AUTOMATIC SETUP' do
           page.find('#follower_widget__modal_decline').click
         end
       end
-      after(:each) do
-        page.execute_script 'window.close();'
-      end
 
       scenario 'has correct modal window with final message' do
         new_window=page.driver.browser.window_handles.last
@@ -921,6 +1155,8 @@ feature 'AUTOMATIC SETUP' do
           expect(page).to have_selector('#follower_widget__modal_header', text: 'STEP 9')
           expect(page).to have_selector('#follower_widget__modal_confirm', text: 'Finish')
           expect(page).not_to have_selector('#follower_widget__modal_decline')
+
+          page.execute_script "window.close();"
         end
       end
 
@@ -932,18 +1168,10 @@ feature 'AUTOMATIC SETUP' do
           expect(page).not_to have_selector('#follower_widget__modal')
           expect(page).to have_selector('#follower_widget__collapse_button', text: '>')
           expect(page).to have_selector('button#follower_widget__automatic_setup', text: 'START AUTOMATIC SETUP')
+
+          page.execute_script "window.close();"
         end
       end
     end
-
-    # Страница корзины:
-    #   sku (артикул) step 3
-    #   item_name (Наименование) step 4
-    #   image_thumb(мини-эскиз товара , если есть - src=) = step 2
-    #   item_link (ссылка на товар) step 5
-    #   quantity Количество step 6
-    #   total - сумма корзины step 7
-    #   delivery - стоимость доставки step 8
-
   end
 end

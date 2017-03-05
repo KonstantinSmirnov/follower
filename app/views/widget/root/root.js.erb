@@ -224,7 +224,13 @@
     var itemQuantity = document.createElement('p');
     itemQuantity.id = 'follower_widget__params_item_quantity'
     itemQuantity.innerHTML = 'Item quantity: (not defined)';
-    paramsDiv.append(cartURL, itemImage, itemSKU, itemName, itemLink, itemQuantity);
+    var cartDelivery = document.createElement('p');
+    cartDelivery.id = 'follower_widget__params_cart_delivery';
+    cartDelivery.innerHTML = 'Delivery price: (not defined)';
+    var cartTotal = document.createElement('p');
+    cartTotal.id = 'follower_widget__params_cart_total';
+    cartTotal.innerHTML = 'Cart total: (not defined)';
+    paramsDiv.append(cartURL, itemImage, itemSKU, itemName, itemLink, itemQuantity, cartDelivery, cartTotal);
 
     document.getElementById('follower_widget__root').appendChild(paramsDiv);
   }
@@ -598,7 +604,7 @@
       'Select item quantity',
       selectItemQuantity,
       'Skip',
-      initGetCartTotal
+      initGetCartDeliveryPrice
     );
   }
   function selectItemQuantity() {
@@ -643,81 +649,25 @@
   function getItemQuantity() {
     var itemQuantity = document.getElementById('follower_widget__params_item_quantity');
     itemQuantity.innerHTML = 'Item quantity: ' + temporaryBuffer;
-    initGetCartTotal();
+    initGetCartDeliveryPrice();
   }
 
-  // STEP 7: get item total
-  function initGetCartTotal() {
-    var content = document.createElement('p');
-    content.innerHTML = 'Please select an item quantity'
-
-    widgetModal.show(
-      'STEP 7 of 9',
-      content,
-      'Select cart total',
-      getCartURL,
-      'Skip',
-      initGetItemDeliveryPrice
-    );
-  }
-  function selectCartTotal() {
-    dow.onclick = function(e) {
-      if (modalFirstClick) {
-        modalFirstClick = false;
-      } else {
-        // Can check elements only if they are not from widget
-        if (e.target.id != 'follower_widget__root'
-        && jQuery(e.target).parents('#follower_widget__root').length == 0)
-        {
-          // Disable clicking function
-          window.onclick = null;
-
-          e.preventDefault();
-          var elementMouseIsOver, old_style, x, y;
-          x = e.clientX;
-          y = e.clientY;
-          elementMouseIsOver = document.elementFromPoint(x, y);
-          old_style = elementMouseIsOver.style["boxShadow"];
-          elementMouseIsOver.style["boxShadow"] = "0 0 15px #EC5616";
-          // Display element which was clicked
-          setTimeout((function() {
-            var content = document.createElement('img');
-            content.id = 'follower_widget__modal_image'
-            content.src = elementMouseIsOver.src;
-            temporaryBuffer = elementMouseIsOver.src;
-
-            widgetModal.show(
-              'Is it a correct item image?',
-              content,
-              'Correct',
-              getItemImage,
-              'Incorrect, I will try again',
-              selectItemImage
-            );
-            elementMouseIsOver.style["boxShadow"] = old_style;
-          }), 500);
-        }
-      }
-    }
-  }
-  function getCartTotal() {}
-
-  // STEP 8: delivery price
-  function initGetItemDeliveryPrice() {
+  // STEP 7: get cart delivery price
+  function initGetCartDeliveryPrice() {
     var content = document.createElement('p');
     content.innerHTML = 'Please select delivery price'
 
     widgetModal.show(
-      'STEP 8 of 9',
+      'STEP 7 of 9',
       content,
       'Select delivery price',
-      getCartURL,
+      selectCartDeliveryPrice,
       'Skip',
-      finishAutomaticSetup
+      initGetCartTotal
     );
   }
-  function selectItemDeliveryPrice() {
-    dow.onclick = function(e) {
+  function selectCartDeliveryPrice() {
+    window.onclick = function(e) {
       if (modalFirstClick) {
         modalFirstClick = false;
       } else {
@@ -737,18 +687,17 @@
           elementMouseIsOver.style["boxShadow"] = "0 0 15px #EC5616";
           // Display element which was clicked
           setTimeout((function() {
-            var content = document.createElement('img');
-            content.id = 'follower_widget__modal_image'
-            content.src = elementMouseIsOver.src;
-            temporaryBuffer = elementMouseIsOver.src;
+            var content = document.createElement('p');
+            content.innerHTML = elementMouseIsOver.innerHTML;
+            temporaryBuffer = elementMouseIsOver.innerHTML;
 
             widgetModal.show(
-              'Is it a correct item image?',
+              'Is it a correct delivery price?',
               content,
               'Correct',
-              getItemImage,
+              getCartDeliveryPrice,
               'Incorrect, I will try again',
-              selectItemImage
+              selectCartDeliveryPrice
             );
             elementMouseIsOver.style["boxShadow"] = old_style;
           }), 500);
@@ -756,7 +705,72 @@
       }
     }
   }
-  function getItemDeliveryPrice() {}
+  function getCartDeliveryPrice() {
+    var cartDelivery = document.getElementById('follower_widget__params_cart_delivery');
+    cartDelivery.innerHTML = 'Delivery price: ' + temporaryBuffer;
+    initGetCartTotal();
+  }
+
+
+  // STEP 8: cart total
+  function initGetCartTotal() {
+    var content = document.createElement('p');
+    content.innerHTML = 'Please select cart total'
+
+    widgetModal.show(
+      'STEP 8 of 9',
+      content,
+      'Select cart total',
+      selectCartTotal,
+      'Skip',
+      finishAutomaticSetup
+    );
+  }
+  function selectCartTotal() {
+    window.onclick = function(e) {
+      if (modalFirstClick) {
+        modalFirstClick = false;
+      } else {
+        // Can check elements only if they are not from widget
+        if (e.target.id != 'follower_widget__root'
+        && jQuery(e.target).parents('#follower_widget__root').length == 0)
+        {
+          // Disable clicking function
+          window.onclick = null;
+
+          e.preventDefault();
+          var elementMouseIsOver, old_style, x, y;
+          x = e.clientX;
+          y = e.clientY;
+          elementMouseIsOver = document.elementFromPoint(x, y);
+          old_style = elementMouseIsOver.style["boxShadow"];
+          elementMouseIsOver.style["boxShadow"] = "0 0 15px #EC5616";
+          // Display element which was clicked
+          setTimeout((function() {
+            var content = document.createElement('p');
+            content.innerHTML = elementMouseIsOver.innerHTML;
+            temporaryBuffer = elementMouseIsOver.innerHTML;
+
+            widgetModal.show(
+              'Is it a correct cart total?',
+              content,
+              'Correct',
+              getCartTotal,
+              'Incorrect, I will try again',
+              selectCartTotal
+            );
+            elementMouseIsOver.style["boxShadow"] = old_style;
+          }), 500);
+        }
+      }
+    }
+  }
+  function getCartTotal() {
+    var cartTotal = document.getElementById('follower_widget__params_cart_total');
+    cartTotal.innerHTML = 'Item name: ' + temporaryBuffer;
+    finishAutomaticSetup();
+  }
+
 
   // STEP 9: final message
   function finishAutomaticSetup() {
