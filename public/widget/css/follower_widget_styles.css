@@ -148,7 +148,7 @@
 }
 
 #follower_widget__modal_actions {
-  text-align: center;
+  text-align: center !important;
 }
 
 #follower_widget__modal_close {

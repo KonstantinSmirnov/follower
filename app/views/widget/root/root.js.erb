@@ -122,6 +122,7 @@
     });
 
     var confirmButton = document.getElementById('follower_widget__modal_confirm');
+    confirmButton.setAttribute('style', 'display:visible !important');
     confirmButton.innerHTML = confirmButtonText;
     confirmButton.onclick = function(e) {
       e.preventDefault();
@@ -129,15 +130,21 @@
       widgetModal.hide();
       confirmButtonAction();
     };
-
-    var declineButton = document.getElementById('follower_widget__modal_decline');
-    declineButton.innerHTML = declineButtonText;
-    declineButton.onclick = function(e) {
-      e.preventDefault();
-      console.log('clicked decline button');
-      widgetModal.hide();
-      declineButtonAction();
-    };
+    if (declineButtonText) {
+      var declineButton = document.getElementById('follower_widget__modal_decline');
+      declineButton.setAttribute('style', 'display:visible !important');
+      declineButton.innerHTML = declineButtonText;
+      declineButton.onclick = function(e) {
+        e.preventDefault();
+        console.log('clicked decline button');
+        widgetModal.hide();
+        declineButtonAction();
+      };
+    } else {
+      var declineButton = document.getElementById('follower_widget__modal_decline');
+      declineButton.innerHTML = '(empty)';
+      declineButton.setAttribute('style', 'display:none !important');
+    }
 
     // Show modal
     jQuery('#follower_widget__overlay').show();
@@ -204,8 +211,11 @@
     cartURL.innerHTML = 'URL: (not defined)';
     var itemImage = document.createElement('p');
     itemImage.id = 'follower_widget__params_item_image';
-    itemImage.innerHTML = 'Item Image: (not defined)'
-    paramsDiv.append(cartURL, itemImage);
+    itemImage.innerHTML = 'Item Image: (not defined)';
+    var itemSKU = document.createElement('p');
+    itemSKU.id = 'follower_widget__params_item_sku';
+    itemSKU.innerHTML = 'Item SKU: (not defined)';
+    paramsDiv.append(cartURL, itemImage, itemSKU);
 
     document.getElementById('follower_widget__root').appendChild(paramsDiv);
   }
@@ -308,6 +318,7 @@
   }
 
   /******* SETUP FUNCTIONS *******/
+  // STEP 1
   function initGetCartURL() {
     var content = document.createElement('p');
     content.innerHTML = 'You selected automatic setup scenario. Step by step we will setup Follower.'
@@ -324,13 +335,13 @@
       stopAutomaticSetup
     );
   };
-
   function getCartURL() {
     var paramsURL = document.getElementById('follower_widget__params_url');
     paramsURL.innerHTML = 'URL: ' + removeURLParam('hello_world', window.location.href);
     initSelectItemImage();
   }
 
+  // STEP 2
   function initSelectItemImage() {
     var content = document.createElement('p');
     content.innerHTML = 'Now please select an image of an item in your cart.';
@@ -340,12 +351,10 @@
       content,
       'Select image',
       selectItemImage,
-      'Interrupt process',
-      stopAutomaticSetup
+      'Skip',
+      initGetItemSKU
     );
-
   }
-
   function selectItemImage() {
     window.onclick = function(e) {
       if (modalFirstClick) {
@@ -386,27 +395,367 @@
       }
     }
   }
-
   function getItemImage() {
     var itemImage = document.getElementById('follower_widget__params_item_image');
     itemImage.innerHTML = 'Image URL: ' + temporaryBuffer;
-    initSelectItemTitle();
+    initGetItemSKU();
   }
 
-  function initSelectItemTitle() {
+  // STEP 3: get item sku
+  function initGetItemSKU() {
     var content = document.createElement('p');
-    content.innerHTML = 'This is it for now';
+    content.innerHTML = 'Please select an item SKU'
 
     widgetModal.show(
       'STEP 3',
       content,
-      'Done',
-      stopAutomaticSetup,
-      'Interrupt process',
-      stopAutomaticSetup
+      'Select SKU',
+      selectItemSKU,
+      'Skip',
+      initGetItemName
     );
   }
+  function selectItemSKU() {
+    window.onclick = function(e) {
+      if (modalFirstClick) {
+        modalFirstClick = false;
+      } else {
+        // Can check elements only if they are not from widget
+        if (e.target.id != 'follower_widget__root'
+        && jQuery(e.target).parents('#follower_widget__root').length == 0)
+        {
+          // Disable clicking function
+          window.onclick = null;
 
+          e.preventDefault();
+          var elementMouseIsOver, old_style, x, y;
+          x = e.clientX;
+          y = e.clientY;
+          elementMouseIsOver = document.elementFromPoint(x, y);
+          old_style = elementMouseIsOver.style["boxShadow"];
+          elementMouseIsOver.style["boxShadow"] = "0 0 15px #EC5616";
+          // Display element which was clicked
+          setTimeout((function() {
+            var content = document.createElement('p');
+            content.innerHTML = elementMouseIsOver.innerHTML;
+            temporaryBuffer = elementMouseIsOver.innerHTML;
+
+            widgetModal.show(
+              'Is it a correct item SKU?',
+              content,
+              'Correct',
+              getItemSKU,
+              'Incorrect, I will try again',
+              selectItemSKU
+            );
+            elementMouseIsOver.style["boxShadow"] = old_style;
+          }), 500);
+        }
+      }
+    }
+
+  }
+  function getItemSKU() {
+    var itemSKU = document.getElementById('follower_widget__params_item_sku');
+    itemSKU.innerHTML = 'Item SKU: ' + temporaryBuffer;
+    initGetItemName();
+  }
+
+  // STEP 4: get item name
+  function initGetItemName() {
+    var content = document.createElement('p');
+    content.innerHTML = 'Please select an item name'
+
+    widgetModal.show(
+      'STEP 4',
+      content,
+      'Select item name',
+      getCartURL,
+      'Skip',
+      initGetItemLink
+    );
+  }
+  function selectItemName() {
+    dow.onclick = function(e) {
+      if (modalFirstClick) {
+        modalFirstClick = false;
+      } else {
+        // Can check elements only if they are not from widget
+        if (e.target.id != 'follower_widget__root'
+        && jQuery(e.target).parents('#follower_widget__root').length == 0)
+        {
+          // Disable clicking function
+          window.onclick = null;
+
+          e.preventDefault();
+          var elementMouseIsOver, old_style, x, y;
+          x = e.clientX;
+          y = e.clientY;
+          elementMouseIsOver = document.elementFromPoint(x, y);
+          old_style = elementMouseIsOver.style["boxShadow"];
+          elementMouseIsOver.style["boxShadow"] = "0 0 15px #EC5616";
+          // Display element which was clicked
+          setTimeout((function() {
+            var content = document.createElement('img');
+            content.id = 'follower_widget__modal_image'
+            content.src = elementMouseIsOver.src;
+            temporaryBuffer = elementMouseIsOver.src;
+
+            widgetModal.show(
+              'Is it a correct item image?',
+              content,
+              'Correct',
+              getItemImage,
+              'Incorrect, I will try again',
+              selectItemImage
+            );
+            elementMouseIsOver.style["boxShadow"] = old_style;
+          }), 500);
+        }
+      }
+    }
+  }
+  function getItemName() {}
+
+  // STEP 5: get item link
+  function initGetItemLink() {
+    var content = document.createElement('p');
+    content.innerHTML = 'Please select an item link'
+
+    widgetModal.show(
+      'STEP 5',
+      content,
+      'Select item link',
+      getCartURL,
+      'Skip',
+      initGetItemQuantity
+    );
+  }
+  function selectItemLink() {
+    dow.onclick = function(e) {
+      if (modalFirstClick) {
+        modalFirstClick = false;
+      } else {
+        // Can check elements only if they are not from widget
+        if (e.target.id != 'follower_widget__root'
+        && jQuery(e.target).parents('#follower_widget__root').length == 0)
+        {
+          // Disable clicking function
+          window.onclick = null;
+
+          e.preventDefault();
+          var elementMouseIsOver, old_style, x, y;
+          x = e.clientX;
+          y = e.clientY;
+          elementMouseIsOver = document.elementFromPoint(x, y);
+          old_style = elementMouseIsOver.style["boxShadow"];
+          elementMouseIsOver.style["boxShadow"] = "0 0 15px #EC5616";
+          // Display element which was clicked
+          setTimeout((function() {
+            var content = document.createElement('img');
+            content.id = 'follower_widget__modal_image'
+            content.src = elementMouseIsOver.src;
+            temporaryBuffer = elementMouseIsOver.src;
+
+            widgetModal.show(
+              'Is it a correct item image?',
+              content,
+              'Correct',
+              getItemImage,
+              'Incorrect, I will try again',
+              selectItemImage
+            );
+            elementMouseIsOver.style["boxShadow"] = old_style;
+          }), 500);
+        }
+      }
+    }
+  }
+  function getItemLink() {}
+
+  // STEP 6: get item quantity
+  function initGetItemQuantity() {
+    var content = document.createElement('p');
+    content.innerHTML = 'Please select an item quantity'
+
+    widgetModal.show(
+      'STEP 6',
+      content,
+      'Select item quantity',
+      getCartURL,
+      'Skip',
+      initGetCartTotal
+    );
+  }
+  function selectItemQuantity() {
+    dow.onclick = function(e) {
+      if (modalFirstClick) {
+        modalFirstClick = false;
+      } else {
+        // Can check elements only if they are not from widget
+        if (e.target.id != 'follower_widget__root'
+        && jQuery(e.target).parents('#follower_widget__root').length == 0)
+        {
+          // Disable clicking function
+          window.onclick = null;
+
+          e.preventDefault();
+          var elementMouseIsOver, old_style, x, y;
+          x = e.clientX;
+          y = e.clientY;
+          elementMouseIsOver = document.elementFromPoint(x, y);
+          old_style = elementMouseIsOver.style["boxShadow"];
+          elementMouseIsOver.style["boxShadow"] = "0 0 15px #EC5616";
+          // Display element which was clicked
+          setTimeout((function() {
+            var content = document.createElement('img');
+            content.id = 'follower_widget__modal_image'
+            content.src = elementMouseIsOver.src;
+            temporaryBuffer = elementMouseIsOver.src;
+
+            widgetModal.show(
+              'Is it a correct item image?',
+              content,
+              'Correct',
+              getItemImage,
+              'Incorrect, I will try again',
+              selectItemImage
+            );
+            elementMouseIsOver.style["boxShadow"] = old_style;
+          }), 500);
+        }
+      }
+    }
+  }
+  function getItemQuantity() {}
+
+  // STEP 7: get item total
+  function initGetCartTotal() {
+    var content = document.createElement('p');
+    content.innerHTML = 'Please select an item quantity'
+
+    widgetModal.show(
+      'STEP 7',
+      content,
+      'Select cart total',
+      getCartURL,
+      'Skip',
+      initGetItemDeliveryPrice
+    );
+  }
+  function selectCartTotal() {
+    dow.onclick = function(e) {
+      if (modalFirstClick) {
+        modalFirstClick = false;
+      } else {
+        // Can check elements only if they are not from widget
+        if (e.target.id != 'follower_widget__root'
+        && jQuery(e.target).parents('#follower_widget__root').length == 0)
+        {
+          // Disable clicking function
+          window.onclick = null;
+
+          e.preventDefault();
+          var elementMouseIsOver, old_style, x, y;
+          x = e.clientX;
+          y = e.clientY;
+          elementMouseIsOver = document.elementFromPoint(x, y);
+          old_style = elementMouseIsOver.style["boxShadow"];
+          elementMouseIsOver.style["boxShadow"] = "0 0 15px #EC5616";
+          // Display element which was clicked
+          setTimeout((function() {
+            var content = document.createElement('img');
+            content.id = 'follower_widget__modal_image'
+            content.src = elementMouseIsOver.src;
+            temporaryBuffer = elementMouseIsOver.src;
+
+            widgetModal.show(
+              'Is it a correct item image?',
+              content,
+              'Correct',
+              getItemImage,
+              'Incorrect, I will try again',
+              selectItemImage
+            );
+            elementMouseIsOver.style["boxShadow"] = old_style;
+          }), 500);
+        }
+      }
+    }
+  }
+  function getCartTotal() {}
+
+  // STEP 8: delivery price
+  function initGetItemDeliveryPrice() {
+    var content = document.createElement('p');
+    content.innerHTML = 'Please select delivery price'
+
+    widgetModal.show(
+      'STEP 8',
+      content,
+      'Select delivery price',
+      getCartURL,
+      'Skip',
+      finishAutomaticSetup
+    );
+  }
+  function selectItemDeliveryPrice() {
+    dow.onclick = function(e) {
+      if (modalFirstClick) {
+        modalFirstClick = false;
+      } else {
+        // Can check elements only if they are not from widget
+        if (e.target.id != 'follower_widget__root'
+        && jQuery(e.target).parents('#follower_widget__root').length == 0)
+        {
+          // Disable clicking function
+          window.onclick = null;
+
+          e.preventDefault();
+          var elementMouseIsOver, old_style, x, y;
+          x = e.clientX;
+          y = e.clientY;
+          elementMouseIsOver = document.elementFromPoint(x, y);
+          old_style = elementMouseIsOver.style["boxShadow"];
+          elementMouseIsOver.style["boxShadow"] = "0 0 15px #EC5616";
+          // Display element which was clicked
+          setTimeout((function() {
+            var content = document.createElement('img');
+            content.id = 'follower_widget__modal_image'
+            content.src = elementMouseIsOver.src;
+            temporaryBuffer = elementMouseIsOver.src;
+
+            widgetModal.show(
+              'Is it a correct item image?',
+              content,
+              'Correct',
+              getItemImage,
+              'Incorrect, I will try again',
+              selectItemImage
+            );
+            elementMouseIsOver.style["boxShadow"] = old_style;
+          }), 500);
+        }
+      }
+    }
+  }
+  function getItemDeliveryPrice() {}
+
+  // STEP 9: final message
+  function finishAutomaticSetup() {
+    var content = document.createElement('p');
+    content.innerHTML = 'Congratulations! You finished the setup!';
+
+    widgetModal.show(
+      'STEP 9',
+      content,
+      'Finish',
+      stopAutomaticSetup
+    );
+
+  }
+
+//========== TEMP
   function selectItemPrice() {
     //FirstClick variable is used to disable first click which appears when we load funciton first time
     var firstClick = true;
@@ -447,14 +796,6 @@
     }
   }
 
-  function finishAutomaticSetup() {
-    widgetModal.show(
-      'You have finished automatic setup',
-      '<h4>You fiished setup!</h4>',
-      stopAutomaticSetup,
-      stopAutomaticSetup
-    );
-  }
 
   /******* END FOLLOWER WIDGET FUNCTIONS ***/
 
