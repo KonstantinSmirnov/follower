@@ -195,7 +195,7 @@ feature 'AUTOMATIC SETUP' do
 
           page.find("#follower_widget__modal_confirm").click
           click_button 'follower_widget__collapse_button'
-          expect(page).to have_selector('#follower_widget__params_url', text: 'http://localhost:3000/test_widget/with_script?')
+          expect(page).to have_selector('#follower_widget__params_url img.follower_widget__params_success')
 
           page.execute_script 'window.close();'
         end
@@ -321,7 +321,7 @@ feature 'AUTOMATIC SETUP' do
           sleep 1
           page.find("#follower_widget__collapse_button").click
 
-          expect(page).to have_selector('#follower_widget__params_item_image', text: page.find("#follower_widget__test_image_1")['src'])
+          expect(page).to have_selector('#follower_widget__params_item_image img.follower_widget__params_success')
 
           page.execute_script "window.close();"
         end
@@ -457,7 +457,7 @@ feature 'AUTOMATIC SETUP' do
           sleep 1
           page.find("#follower_widget__collapse_button").click
 
-          expect(page).to have_selector('#follower_widget__params_item_sku', text: page.find("#follower_widget__test_item_sku").text)
+          expect(page).to have_selector('#follower_widget__params_item_sku img.follower_widget__params_success')
 
           page.execute_script "window.close();"
         end
@@ -582,7 +582,7 @@ feature 'AUTOMATIC SETUP' do
           sleep 1
           page.find('#follower_widget__collapse_button').click
 
-          expect(page).to have_selector('#follower_widget__params_item_name', text: page.find('#follower_widget__test_item_name').text)
+          expect(page).to have_selector('#follower_widget__params_item_name img.follower_widget__params_success')
 
           page.execute_script "window.close();"
         end
@@ -709,7 +709,7 @@ feature 'AUTOMATIC SETUP' do
           sleep 1
           page.find('#follower_widget__collapse_button').click
 
-          expect(page).to have_selector('#follower_widget__params_item_link', text: page.find('#follower_widget__test_item_link')['href'])
+          expect(page).to have_selector('#follower_widget__params_item_link img.follower_widget__params_success')
 
           page.execute_script 'window.close();'
         end
@@ -838,7 +838,7 @@ feature 'AUTOMATIC SETUP' do
           sleep 1
           page.find('#follower_widget__collapse_button').click
 
-          expect(page).to have_selector('#follower_widget__params_item_quantity', text: page.find('#follower_widget__test_item_quantity').text)
+          expect(page).to have_selector('#follower_widget__params_item_quantity img.follower_widget__params_success')
 
           page.execute_script "window.close();"
         end
@@ -969,7 +969,7 @@ feature 'AUTOMATIC SETUP' do
           sleep 1
           page.find('#follower_widget__collapse_button').click
 
-          expect(page).to have_selector('#follower_widget__params_cart_delivery', text: page.find('#follower_widget__test_cart_delivery').text)
+          expect(page).to have_selector('#follower_widget__params_cart_delivery img.follower_widget__params_success')
 
           page.execute_script "window.close();"
         end
@@ -1102,7 +1102,7 @@ feature 'AUTOMATIC SETUP' do
           sleep 1
           page.find('#follower_widget__collapse_button').click
 
-          expect(page).to have_selector('#follower_widget__params_cart_total', text: page.find('#follower_widget__test_cart_total').text)
+          expect(page).to have_selector('#follower_widget__params_cart_total img.follower_widget__params_success')
 
           page.execute_script "window.close();"
         end
