@@ -214,75 +214,35 @@
     var cartURL = document.createElement('p');
     cartURL.id = 'follower_widget__params_url'
     cartURL.innerHTML = 'URL: (not defined)';
-    var cartURLSetupButton = document.createElement('button');
-    cartURLSetupButton.id = 'follower_widget__params_url_setup_button';
-    cartURLSetupButton.className = 'follower_widget__button follower_widget__params_button';
-    cartURLSetupButton.innerHTML = 'Setup'
-    cartURL.append(cartURLSetupButton);
 
     var itemImage = document.createElement('p');
     itemImage.id = 'follower_widget__params_item_image';
     itemImage.innerHTML = 'Item Image: (not defined)';
-    var itemImageSetupButton = document.createElement('button');
-    itemImageSetupButton.id = 'follower_widget__params_item_image_setup_button';
-    itemImageSetupButton.className = 'follower_widget__button follower_widget__params_button';
-    itemImageSetupButton.innerHTML = 'Setup';
-    itemImage.append(itemImageSetupButton);
 
     var itemSKU = document.createElement('p');
     itemSKU.id = 'follower_widget__params_item_sku';
     itemSKU.innerHTML = 'Item SKU: (not defined)';
-    var itemSKUSetupButton = document.createElement('button');
-    itemSKUSetupButton.id = 'follower_widget__params_item_sku_setup_button';
-    itemSKUSetupButton.className = 'follower_widget__button follower_widget__params_button';
-    itemSKUSetupButton.innerHTML = 'Setup';
-    itemSKU.append(itemSKUSetupButton);
 
     var itemName = document.createElement('p');
     itemName.id = 'follower_widget__params_item_name';
     itemName.innerHTML = 'Item Name: (not defined)';
-    var itemNameSetupButton = document.createElement('button');
-    itemNameSetupButton.id = 'follower_widget__params_item_name_setup_button';
-    itemNameSetupButton.className = 'follower_widget__button follower_widget__params_button';
-    itemNameSetupButton.innerHTML = 'Setup';
-    itemName.append(itemNameSetupButton);
 
     var itemLink = document.createElement('p');
     itemLink.id = 'follower_widget__params_item_link';
     itemLink.innerHTML = 'Item Link: (not defined)';
-    var itemLinkSetupButton = document.createElement('button');
-    itemLinkSetupButton.id = 'follower_widget__params_item_link_setup_button';
-    itemLinkSetupButton.className = 'follower_widget__button follower_widget__params_button';
-    itemLinkSetupButton.innerHTML = 'Setup';
-    itemLink.append(itemLinkSetupButton);
 
     var itemQuantity = document.createElement('p');
     itemQuantity.id = 'follower_widget__params_item_quantity'
     itemQuantity.innerHTML = 'Item Quantity: (not defined)';
-    var itemQuantitySetupButton = document.createElement('button');
-    itemQuantitySetupButton.id = 'follower_widget__params_item_quantity_setup_button';
-    itemQuantitySetupButton.className = 'follower_widget__button follower_widget__params_button';
-    itemQuantitySetupButton.innerHTML = 'Setup';
-    itemQuantity.append(itemQuantitySetupButton);
 
     var cartDelivery = document.createElement('p');
     cartDelivery.id = 'follower_widget__params_cart_delivery';
     cartDelivery.innerHTML = 'Delivery Price: (not defined)';
-    var cartDeliverySetupButton = document.createElement('button');
-    cartDeliverySetupButton.id = 'follower_widget__params_cart_delivery_setup_button';
-    cartDeliverySetupButton.className = 'follower_widget__button follower_widget__params_button';
-    cartDeliverySetupButton.innerHTML = 'Setup';
-    cartDelivery.append(cartDeliverySetupButton);
 
     var cartTotal = document.createElement('p');
     cartTotal.id = 'follower_widget__params_cart_total';
     cartTotal.innerHTML = 'Cart Total: (not defined)';
-    var cartTotalSetupButton = document.createElement('button');
-    cartTotalSetupButton.id = 'follower_widget__params_cart_total_setup_button';
-    cartTotalSetupButton.className = 'follower_widget__button follower_widget__params_button';
-    cartTotalSetupButton.innerHTML = 'Setup';
-    cartTotal.append(cartTotalSetupButton);
-    
+
     paramsDiv.append(paramsHeader, cartURL, itemImage, itemSKU, itemName, itemLink, itemQuantity, cartDelivery, cartTotal);
 
     document.getElementById('follower_widget__root').appendChild(paramsDiv);
@@ -405,7 +365,7 @@
   };
   function getCartURL() {
     var paramsURL = document.getElementById('follower_widget__params_url');
-    paramsURL.innerHTML = 'URL: ' + removeURLParam('hello_world', window.location.href);
+    paramsURL.innerHTML = 'URL: got value!';
     initSelectItemImage();
   }
 
