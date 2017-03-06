@@ -206,6 +206,9 @@
   function widgetParams() {
     var paramsDiv = document.createElement('div');
     paramsDiv.id = 'follower_widget__params';
+    var paramsHeader = document.createElement('h4');
+    paramsHeader.id = 'follower_widget__params_header';
+    paramsHeader.innerHTML = 'Parameters'
     var cartURL = document.createElement('p');
     cartURL.id = 'follower_widget__params_url'
     cartURL.innerHTML = 'URL: (not defined)';
@@ -230,7 +233,7 @@
     var cartTotal = document.createElement('p');
     cartTotal.id = 'follower_widget__params_cart_total';
     cartTotal.innerHTML = 'Cart total: (not defined)';
-    paramsDiv.append(cartURL, itemImage, itemSKU, itemName, itemLink, itemQuantity, cartDelivery, cartTotal);
+    paramsDiv.append(paramsHeader, cartURL, itemImage, itemSKU, itemName, itemLink, itemQuantity, cartDelivery, cartTotal);
 
     document.getElementById('follower_widget__root').appendChild(paramsDiv);
   }

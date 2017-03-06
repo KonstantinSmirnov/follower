@@ -172,3 +172,14 @@
   height: auto;
 }
 /* END MODAL WINDOW */
+
+/* PARAMS */
+#follower_widget__params {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+#follower_widget__params_header {
+  text-transform: uppercase;
+}
+
+/* END PARAMS */
