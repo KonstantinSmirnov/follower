@@ -41,7 +41,8 @@
   font-weight: bold !important;
 }
 
-.follower_widget__params_success {
+.follower_widget__params_success,
+.follower_widget__params_skip {
   color: red !important;
   height: 30px !important;
   width: 30px !important;

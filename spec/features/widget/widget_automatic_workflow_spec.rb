@@ -191,6 +191,7 @@ feature 'AUTOMATIC SETUP' do
 
         new_window = window_opened_by { click_link 'Visit' }
         within_window new_window do
+          sleep 2
           click_button 'follower_widget__automatic_setup'
 
           page.find("#follower_widget__modal_confirm").click
