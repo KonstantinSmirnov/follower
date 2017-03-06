@@ -30,12 +30,17 @@
 #follower_widget__params {
   display: block !important;
   height: auto !important;
-  width: 100% !important;
+  width: 260px !important;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
-#follower_widget__params_item_image {
-
+#follower_widget__params_header {
+  text-transform: uppercase !important;
+  font-weight: bold !important;
 }
+
+/* END PARAMS */
 
 /* BUTTONS */
 .follower_widget__button {
@@ -90,6 +95,16 @@
   padding: 6px 24px !important;
   color: gray !important;
   border: 1px solid gray !important;
+}
+
+.follower_widget__params_button {
+  text-transform: uppercase;
+  font-size: 10px !important;
+  font-weight: bold !important;
+  padding: 3px 12px !important;
+  border: 1px solid gray !important;
+  margin: 0px !important;
+  float: right;
 }
 
 #follower_widget__collapse_button {
@@ -172,14 +187,3 @@
   height: auto;
 }
 /* END MODAL WINDOW */
-
-/* PARAMS */
-#follower_widget__params {
-  padding-left: 20px;
-  padding-right: 20px;
-}
-#follower_widget__params_header {
-  text-transform: uppercase;
-}
-
-/* END PARAMS */
