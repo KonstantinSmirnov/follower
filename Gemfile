@@ -59,6 +59,7 @@ source 'https://rails-assets.org' do
 end
 
 gem 'sorcery', '~> 0.9.1'
+gem 'simple_form'
 
 # TESTING
 group :development, :test do
