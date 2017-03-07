@@ -6,7 +6,9 @@ feature 'USERS REGISTRATION' do
     scenario 'fails without an email' do
       visit root_path
 
-      click_link
+      click_button 'registration_button'
+
+      expect(page).to have_selector('')
     end
 
     scenario 'fails if email format is invalid'

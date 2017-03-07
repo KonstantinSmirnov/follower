@@ -1,6 +1,14 @@
 Rails.application.routes.draw do
+  get 'users/new'
+
+  get 'users/create'
+
+  get 'user/new'
+
+  get 'user/create'
+
   root 'landing#index'
-  
+
   get 'landing', to: 'landing#index', as: 'landing'
 
   get 'test_widget/with_script'
@@ -11,6 +19,9 @@ Rails.application.routes.draw do
 
   resources :webpages
 
+  # Users registration
+  post 'registration' => 'users#create'
+  
   # Widget
   get 'widget_init', to: 'widget/root#init'
   get 'widget_root', to: 'widget/root#root'
