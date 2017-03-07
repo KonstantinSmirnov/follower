@@ -228,42 +228,42 @@
 
     var cartURL = document.createElement('p');
     cartURL.id = 'follower_widget__params_url'
-    cartURL.innerHTML = 'URL: (not defined)';
+    cartURL.innerHTML = 'URL:';
     cartURL.append(new StatusIcon());
 
     var itemImage = document.createElement('p');
     itemImage.id = 'follower_widget__params_item_image';
-    itemImage.innerHTML = 'Item Image: (not defined)';
+    itemImage.innerHTML = 'Item Image:';
     itemImage.append(new StatusIcon());
 
     var itemSKU = document.createElement('p');
     itemSKU.id = 'follower_widget__params_item_sku';
-    itemSKU.innerHTML = 'Item SKU: (not defined)';
+    itemSKU.innerHTML = 'Item SKU:';
     itemSKU.append(new StatusIcon());
 
     var itemName = document.createElement('p');
     itemName.id = 'follower_widget__params_item_name';
-    itemName.innerHTML = 'Item Name: (not defined)';
+    itemName.innerHTML = 'Item Name:';
     itemName.append(new StatusIcon());
 
     var itemLink = document.createElement('p');
     itemLink.id = 'follower_widget__params_item_link';
-    itemLink.innerHTML = 'Item Link: (not defined)';
+    itemLink.innerHTML = 'Item Link:';
     itemLink.append(new StatusIcon());
 
     var itemQuantity = document.createElement('p');
     itemQuantity.id = 'follower_widget__params_item_quantity'
-    itemQuantity.innerHTML = 'Item Quantity: (not defined)';
+    itemQuantity.innerHTML = 'Item Quantity:';
     itemQuantity.append(new StatusIcon());
 
     var cartDelivery = document.createElement('p');
     cartDelivery.id = 'follower_widget__params_cart_delivery';
-    cartDelivery.innerHTML = 'Delivery Price: (not defined)';
+    cartDelivery.innerHTML = 'Delivery Price:';
     cartDelivery.append(new StatusIcon());
 
     var cartTotal = document.createElement('p');
     cartTotal.id = 'follower_widget__params_cart_total';
-    cartTotal.innerHTML = 'Cart Total: (not defined)';
+    cartTotal.innerHTML = 'Cart Total:';
     cartTotal.append(new StatusIcon());
 
     paramsDiv.append(paramsHeader, cartURL, itemImage, itemSKU, itemName, itemLink, itemQuantity, cartDelivery, cartTotal);
@@ -273,7 +273,7 @@
 
   function logOutButton() {
     var newButton = document.createElement('button');
-    newButton.className = 'follower_widget__button follower_widget__button_center';
+    newButton.className = 'follower_widget__button follower_widget__button_default follower_widget__button_center';
     newButton.innerHTML = 'Log Out';
     newButton.id = 'follower_widget__log_out';
     newButton.onclick = function() {

@@ -32,8 +32,9 @@
   display: block !important;
   height: auto !important;
   width: 260px !important;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  text-transform: uppercase !important;
 }
 
 #follower_widget__params_header {
@@ -46,7 +47,7 @@
   color: red !important;
   height: 30px !important;
   width: 30px !important;
-  float: right;
+  float: right !important;
 }
 
 /* END PARAMS */
@@ -71,6 +72,7 @@
 }
 .follower_widget__button:hover {
   background-color: #019AD2 !important;
+  border: 1px solid #019AD2 !important;
   color: white !important;
 }
 .follower_widget__button:active {
@@ -100,20 +102,10 @@
 }
 
 .follower_widget__button_default {
-  font-size: 15px !important;
-  padding: 6px 24px !important;
-  color: gray !important;
-  border: 1px solid gray !important;
-}
-
-.follower_widget__params_button {
-  text-transform: uppercase;
+  text-transform: uppercase !important;
   font-size: 10px !important;
   font-weight: bold !important;
   padding: 3px 12px !important;
-  border: 1px solid gray !important;
-  margin: 0px !important;
-  float: right;
 }
 
 #follower_widget__collapse_button {
