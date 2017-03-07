@@ -104,10 +104,15 @@
 }
 
 .follower_widget__button_default {
-  text-transform: uppercase !important;
-  font-size: 10px !important;
-  font-weight: bold !important;
+  font-size: 15px !important;
+  padding: 6px 24px !important;
+  border: 1px solid gray !important;
+}
+.follower_widget__button_small {
   padding: 3px 12px !important;
+  font-size: 10px !important;
+  text-transform: uppercase !important;
+  font-weight: bold !important;
   background-color: lightgray !important;
   border: 1px solid lightgray !important;
 }
