@@ -5,14 +5,26 @@
     console.log("Correct cookie found!");
     // verify session hash
     // Load jQuery
-    loadWidget();
+    if (document.getElementById('follower_widget__script')) {
+      console.log('script is already loaded');
+      document.getElementById('follower_widget__script').remove();
+      loadWidget();
+    } else {
+      loadWidget();
+    }
   } else if (getParameterByName("hello_world") == "welcome") {
     console.log("URL parameter is corerct");
     // verify session hash
     // Create cookie
     createCookie("hello_world_cookie", "welcome", 1);
     // Load jQuery
-    loadWidget();
+    if (document.getElementById('follower_widget__script')) {
+      console.log('script is already loaded');
+      document.getElementById('follower_widget__script').remove();
+      loadWidget();
+    } else {
+      loadWidget();
+    }
   } else {
     console.log('You have no parameter nor cookie to access widget');
   }
@@ -40,7 +52,7 @@
     }
     return null;
   }
-  
+
   function getParameterByName(name, url) {
     if (!url) {
       url = window.location.href;
@@ -56,8 +68,8 @@
   function loadWidget() {
     var scriptTag = document.createElement('script'), // create a script tag
         firstScriptTag = document.getElementsByTagName('script')[0]; // find the first script tag in the document
+    scriptTag.id = 'follower_widget__script';
     scriptTag.src = '<%= request.base_url %>/widget_root.js'; // set the source of the script to your script
     firstScriptTag.parentNode.insertBefore(scriptTag, firstScriptTag); // append the script to the DOM
   }
 })();
-
