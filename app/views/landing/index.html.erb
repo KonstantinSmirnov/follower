@@ -36,12 +36,21 @@
       <div class="row">
         <div class="col-sm-5">
           <div class="description">
-            <h2>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</h2>
+            <h2>Praesent commodo cursus magna.</h2>
             <h5>Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit. Donec sed odio dui. Donec sed odio dui. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Aenean lacinia bibendum nulla sed consectetur.</h5>
             <hr>
             <div class="text-center">
-              <%= link_to 'SIGN UP', '#', class: 'btn btn-primary btn-lg' %>
+              <%= form_for :new_user, url: '#' do |f| %>
+                <div class="input-group">
+                  <%= f.text_field :email, class: 'form-control corm-control-lg', placeholder: 'name@company.com' %>
+                  <span class="input-group-btn">
+                    <%= f.submit 'SIGN UP', class: 'btn btn-primary btn-lg' %>
+                  </span>
+                </div>
+              <% end %>
             </div>
+            <p>please enter valid email</p>
+
           </div>
         </div>
         <div class="col-sm-7 hidden-xs">
