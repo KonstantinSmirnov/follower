@@ -887,6 +887,11 @@
       // Load CSS
       loadCSS();
       widgetModal.init();
+      if (document.getElementById('follower_widget__root')) {
+        document.getElementById('follower_widget__root').remove();
+        document.getElementById('follower_widget__modal').remove();
+        document.getElementById('follower_widget__overlay').remove();
+      };
       widgetRootElement();
     });
   }
