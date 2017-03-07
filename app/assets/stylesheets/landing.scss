@@ -1,3 +1,250 @@
 // Place all the styles related to the Landing controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.landing-page .container {
+  max-width: 1170px;
+}
+
+/* Header */
+.landing-page .navbar {
+  border: 0;
+  font-size: 16px;
+}
+.landing-page .navbar-top {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+}
+.landing-page .navbar .navbar-brand {
+  text-transform: uppercase;;
+  font-weight: 600;
+  margin: 5px 0px;
+  padding: 20px 15px;
+  font-size: 20px;
+}
+.landing-page .navbar .navbar-nav > li > a {
+  padding: 10px 15px;
+  margin: 15px 0px;
+  background-color: transparent;
+}
+.landing-page .navbar-transparent .navbar-brand {
+  color: white;
+  opacity: 0.9;
+  filter: alpha(opacity=90);
+}
+.landing-page .navbar-transparent .navbar-brand:focus,
+.landing-page .navbar-transparent .navbar-brand:hover {
+  background-color: transparent;
+  opacity: 1;
+  filter: alpha(opacity=90);
+}
+.landing-page .navbar-transparent .navbar-nav > li > a {
+  color: white;
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+}
+.landing-page .navbar-transparent .navbar-nav > .active > a,
+.landing-page .navbar-transparent .navbar-nav > .active > a:hover,
+.landing-page .navbar-transparent .navbar-nav > .active > a:focus,
+.landing-page .navbar-transparent .navbar-nav > li > a:hover,
+.landing-page .navbar-transparent .navbar-nav > li > a:focus {
+  color: white;
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+
+/* PARALLAX CONTAINER */
+.landing-page .parallax {
+  width: 100%;
+  height: 630px;
+  overflow: hidden;
+  display: block;
+  background-size: 100%;
+}
+.landing-page .parallax .container {
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+}
+.landing-page .parallax .parallax-background {
+  position: relative;
+  z-index: 1;
+  width:100%;
+  height: 100%;
+}
+.landing-page .parallax .parallax-background img {
+  width: 100%;
+  height: auto;
+  position: relative;
+}
+.landing-page .parallax .description {
+  margin-top: 123px;
+  color: white;
+  padding: 5px;
+  position: relative;
+}
+.landing-page .parallax .description h2{
+  text-shadow: 0 1px 5px rgba(0,0,0,0.2);
+  font-weight: 200;
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+.landing-page .parallax .description hr {
+  border-bottom: 1px solid white;
+}
+.landing-page .parallax .parallax-image {
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 145px;
+  float: right;
+  text-align: center;
+}
+.landing-page .parallax .parallax-image img {
+  height: auto;
+  width: 100%;
+}
+
+.landing-page .parallax .description h5 {
+  line-height: 1.4;
+  font-weight: 400;
+  text-shadow: 0 1px 5px rgba(0,0,0,0.5);
+  font-size: 18px;
+}
+.filter-gradient {
+  position: relative;
+}
+.filter-gradient:after {
+  background-size: 2000px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 1;
+  content: "";
+  opacity: .5;
+}
+.filter-gradient.filter-color:after {
+  background: rgba(54, 151, 142, 0.3) ; /* Old browsers */
+}
+.landing-page .section p{
+  margin-top: 30px;
+  line-height: 28px;
+  font-size: 18px;
+  font-weight: 200;
+}
+.section {
+  padding: 30px 0;
+  position: relative;
+  background-color: #FFFFFF;
+}
+.section-gray {
+  background-color: #EEEEEE;
+}
+.landing-page .section-with-image {
+  overflow: hidden;
+  width: 100%;
+  min-height: 400px;
+  margin-top: 10px;
+}
+.landing-page .section-with-image div {
+  overflow: hidden;
+}
+.landing-page .section-with-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: auto;
+  height: 350px;
+  margin-top: 10px;
+}
+.landing-page .section-with-image .description {
+  padding: 10px 5px 0;
+}
+.header-text {
+  text-transform: uppercase;
+  font-weight: 200;
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 30px;
+  position: relative;
+  line-height: 24px;
+}
+.landing-page .logos {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+.landing-page .logos ul {
+  display: block;
+  width:100%;
+  margin: 0px auto;
+  padding-top: 48px;
+}
+.landing-page .logos li {
+  display: inline-block;
+  margin: 0 17px;
+}
+
+.landing-page .footer {
+  background-color: white;
+  line-height: 20px;
+}
+.landing-page .footer hr {
+  border-color: #dddddd;
+}
+.landing-page .footer nav > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  font-size: 16px;
+}
+.landing-page .footer nav > ul a {
+  color: #9a9a9a;
+  display: block;
+  margin-bottom: 3px;
+  padding: 10px 0px;
+  margin: 15px 10px 15px 0px;
+}
+.landing-page .footer nav > ul a:hover, .footer nav > ul a:focus {
+  color: #777777;
+  text-decoration: none;
+}
+.landing-page .footer nav > ul li {
+  margin-right: 20px;
+  float: left;
+}
+.landing-page .footer .social-area {
+  padding: 15px 10px;
+}
+.landing-page .footer .social-area > a {
+  color: #9a9a9a;
+  display: inline-block;
+  vertical-align: top;
+  padding: 10px 5px;
+  font-size: 20px;
+  font-weight: normal;
+  line-height: 20px;
+  text-align: center;
+}
+.landing-page .footer .social-area > a:hover, .footer .social-area > a:focus {
+  color: #777777;
+}
+.landing-page .btn-facebook {
+  color: #3b5998;
+}
+.landing-page .btn-twitter {
+  color: #55acee;
+}
+.landing-page .btn-facebook:hover, .btn-twitter:hover {
+  color: #777777;
+}
