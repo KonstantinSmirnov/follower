@@ -5,7 +5,7 @@ feature 'WIDGET' do
     let!(:webpage) { FactoryGirl.create(:webpage_without_script) }
 
     scenario 'does not have widget', js: true do
-      visit root_path
+      visit test_pages_path
 
       new_window = window_opened_by { click_link 'Visit' }
       within_window new_window do
@@ -25,7 +25,7 @@ feature 'WIDGET' do
     end
 
     scenario 'has widget if url contains secret hash', js: true do
-      visit root_path
+      visit test_pages_path
 
       new_window = window_opened_by { click_link 'Visit' }
       within_window new_window do
@@ -35,7 +35,7 @@ feature 'WIDGET' do
     end
 
     scenario 'keeps widget if redirected on another page with script', js: true do
-      visit root_path
+      visit test_pages_path
 
       new_window = window_opened_by { click_link 'Visit' }
       within_window new_window do
@@ -49,11 +49,11 @@ feature 'WIDGET' do
     end
 
     scenario 'does not have widget if redirected on another page without script', js: true do
-      visit root_path
+      visit test_pages_path
 
       new_window = window_opened_by { click_link 'Visit' }
       within_window new_window do
-        visit root_path
+        visit test_pages_path
 
         expect(page).not_to have_selector('div#follower_widget__root')
         page.execute_script "window.close();"
@@ -61,7 +61,7 @@ feature 'WIDGET' do
     end
 
     scenario 'has widget if page closed and opened again', js: true do
-      visit root_path
+      visit test_pages_path
 
       new_window = window_opened_by { click_link 'Visit' }
       within_window new_window do
@@ -75,7 +75,7 @@ feature 'WIDGET' do
     end
 
     scenario 'adds widget cookie after opening page with secret hash', js: true do
-      visit root_path
+      visit test_pages_path
 
       new_window = window_opened_by { click_link 'Visit' }
       within_window new_window do
@@ -98,7 +98,7 @@ feature 'WIDGET' do
     end
 
     scenario 'removes URL parameter if widget logout', js: true do
-      visit root_path
+      visit test_pages_path
 
       new_window = window_opened_by { click_link 'Visit' }
       within_window new_window do
@@ -110,7 +110,7 @@ feature 'WIDGET' do
     end
 
     scenario 'checks if widget cookie is valid', js: true do
-      visit root_path
+      visit test_pages_path
 
       new_window = window_opened_by { click_link 'Visit' }
       within_window new_window do

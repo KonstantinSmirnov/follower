@@ -4,7 +4,7 @@ feature 'AUTOMATIC SETUP' do
   let!(:webpage) { FactoryGirl.create(:webpage_with_script) }
 
   scenario 'it has start setup button', js: true do
-    visit root_path
+    visit test_pages_path
 
     new_window = window_opened_by { click_link 'Visit' }
     within_window new_window do
@@ -14,7 +14,7 @@ feature 'AUTOMATIC SETUP' do
   end
 
   scenario 'it hides widget after pressed automatic setup button', js: true do
-    visit root_path
+    visit test_pages_path
 
     new_window = window_opened_by { click_link 'Visit' }
     within_window new_window do
@@ -25,7 +25,7 @@ feature 'AUTOMATIC SETUP' do
   end
 
   scenario 'it changes start automatic setup button text after starting', js: true do
-    visit root_path
+    visit test_pages_path
 
     new_window = window_opened_by { click_link 'Visit' }
     within_window new_window do
@@ -37,7 +37,7 @@ feature 'AUTOMATIC SETUP' do
   end
 
   scenario 'it changes start automatic setup button text after stopping', js: true do
-    visit root_path
+    visit test_pages_path
 
     new_window = window_opened_by { click_link 'Visit' }
     within_window new_window do
@@ -52,7 +52,7 @@ feature 'AUTOMATIC SETUP' do
   end
 
   scenario 'it changes start automatic setup button color after starting and stopping', js: true do
-    visit root_path
+    visit test_pages_path
 
     new_window = window_opened_by { click_link 'Visit' }
     within_window new_window do
@@ -71,7 +71,7 @@ feature 'AUTOMATIC SETUP' do
   end
 
   scenario 'it shows modal window after pressing automatic setup button', js: true do
-    visit root_path
+    visit test_pages_path
 
     new_window = window_opened_by { click_link 'Visit' }
     within_window new_window do
@@ -85,7 +85,7 @@ feature 'AUTOMATIC SETUP' do
   end
 
   scenario 'it automatically closes modal window if pressed button stop automatic setup', js: true do
-    visit root_path
+    visit test_pages_path
 
     new_window = window_opened_by { click_link 'Visit' }
     within_window new_window do
@@ -107,7 +107,7 @@ feature 'AUTOMATIC SETUP' do
 
   context 'automatic setup modal window' do
     scenario 'it has action and decline buttons', js: true do
-      visit root_path
+      visit test_pages_path
 
       new_window = window_opened_by { click_link 'Visit' }
       within_window new_window do
@@ -122,7 +122,7 @@ feature 'AUTOMATIC SETUP' do
     end
 
     scenario 'it hides modal window after pressing close button', js: true do
-      visit root_path
+      visit test_pages_path
 
       new_window = window_opened_by { click_link 'Visit' }
       within_window new_window do
@@ -142,7 +142,7 @@ feature 'AUTOMATIC SETUP' do
     end
 
     scenario 'it stops automatic setup if pressed close button', js: true do
-      visit root_path
+      visit test_pages_path
 
       new_window = window_opened_by { click_link 'Visit' }
       within_window new_window do
@@ -172,7 +172,7 @@ feature 'AUTOMATIC SETUP' do
     #   total - сумма корзины step 8
     context 'STEP 1: get current URL' do
       scenario 'modal window is correct', js: true do
-        visit root_path
+        visit test_pages_path
 
         new_window = window_opened_by { click_link 'Visit' }
         within_window new_window do
@@ -187,7 +187,7 @@ feature 'AUTOMATIC SETUP' do
       end
 
       scenario 'clicking on confirm button saves current URL (without secret param)', js: true do
-        visit root_path
+        visit test_pages_path
 
         new_window = window_opened_by { click_link 'Visit' }
         within_window new_window do
@@ -203,7 +203,7 @@ feature 'AUTOMATIC SETUP' do
       end
 
       scenario 'clicking on confirm button opens modal of next step', js: true do
-        visit root_path
+        visit test_pages_path
 
         new_window = window_opened_by { click_link 'Visit' }
         within_window new_window do
@@ -218,7 +218,7 @@ feature 'AUTOMATIC SETUP' do
       end
 
       scenario 'clicking on decline button terminates automatic setup', js: true do
-        visit root_path
+        visit test_pages_path
 
         new_window = window_opened_by { click_link 'Visit' }
         within_window new_window do
@@ -236,7 +236,7 @@ feature 'AUTOMATIC SETUP' do
 
     context 'STEP 2: get item image', js: true do
       before(:each) do
-        visit root_path
+        visit test_pages_path
 
         new_window = window_opened_by { click_link 'Visit' }
         within_window new_window do
@@ -359,7 +359,7 @@ feature 'AUTOMATIC SETUP' do
 
     context 'STEP 3: get item sku', js: true do
       before(:each) do
-        visit root_path
+        visit test_pages_path
         new_window = window_opened_by { click_link 'Visit' }
         within_window new_window do
           # Starts automatic setup
@@ -481,7 +481,7 @@ feature 'AUTOMATIC SETUP' do
 
     context 'STEP 4: get item name', js: true do
       before(:each) do
-        visit root_path
+        visit test_pages_path
         new_window = window_opened_by { click_link 'Visit' }
         within_window new_window do
           # Starts automatic setup
@@ -606,7 +606,7 @@ feature 'AUTOMATIC SETUP' do
 
     context 'STEP 5: get item link', js: true do
       before(:each) do
-        visit root_path
+        visit test_pages_path
         new_window = window_opened_by { click_link 'Visit' }
         within_window new_window do
           # Starts automatic setup
@@ -733,7 +733,7 @@ feature 'AUTOMATIC SETUP' do
 
     context 'STEP 6: get item quantity', js: true do
       before(:each) do
-        visit root_path
+        visit test_pages_path
         new_window = window_opened_by { click_link 'Visit' }
         within_window new_window do
           # Starts automatic setup
@@ -862,7 +862,7 @@ feature 'AUTOMATIC SETUP' do
 
     context 'STEP 7: get cart delivery price', js: true do
       before(:each) do
-        visit root_path
+        visit test_pages_path
         new_window = window_opened_by { click_link 'Visit' }
         within_window new_window do
           # Starts automatic setup
@@ -993,7 +993,7 @@ feature 'AUTOMATIC SETUP' do
 
     context 'STEP 8: get cart total', js: true do
       before(:each) do
-        visit root_path
+        visit test_pages_path
         new_window = window_opened_by { click_link 'Visit' }
         within_window new_window do
           # Starts automatic setup
@@ -1126,7 +1126,7 @@ feature 'AUTOMATIC SETUP' do
 
     context 'STEP 9: final message', js: true do
       before(:each) do
-        visit root_path
+        visit test_pages_path
         new_window = window_opened_by { click_link 'Visit' }
         within_window new_window do
           # Starts automatic setup
