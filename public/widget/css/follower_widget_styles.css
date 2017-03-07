@@ -29,6 +29,7 @@
 
 /* PARAMS */
 #follower_widget__params {
+  margin-top: 20px;
   display: block !important;
   height: auto !important;
   width: 260px !important;
@@ -61,7 +62,7 @@
   -moz-border-radius: 6px !important;
   -webkit-border-radius: 6px !important;
   border-radius: 6px !important;
-  border: none !important;
+  border: 1px solid gray !important;
   display: inline-block !important;
   cursor: pointer !important;
   text-decoration: none !important;
@@ -92,6 +93,7 @@
   padding: 6px 24px !important;
   color: white !important;
   background-color: #33BDEF !important;
+  border: 1px solid #33BDEF !important;
 }
 
 .follower_widget__button_success {
@@ -106,6 +108,8 @@
   font-size: 10px !important;
   font-weight: bold !important;
   padding: 3px 12px !important;
+  background-color: lightgray !important;
+  border: 1px solid lightgray !important;
 }
 
 #follower_widget__collapse_button {
