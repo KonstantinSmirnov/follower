@@ -3,15 +3,22 @@ require 'rails_helper'
 feature 'USERS REGISTRATION' do
 
   feature 'form validations' do
-    scenario 'fails without an email' do
+    scenario 'fails without an email', js: true do
       visit root_path
 
       click_button 'registration_button'
 
-      expect(page).to have_selector('')
+      expect(page).to have_selector('#registration_errors', text: "Email can't be blank")
     end
 
-    scenario 'fails if email format is invalid'
+    scenario 'fails if email format is invalid', js: true do
+      visit root_path
+
+      fill_in 'registration_email', with: 'invalid-email@@test.com'
+      click_button 'registration_button'
+
+      expect(page).to have_selector('#registration_errors', text: 'Email is invalid')
+    end
   end
 
   feature 'user exists' do

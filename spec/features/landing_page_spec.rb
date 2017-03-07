@@ -7,7 +7,7 @@ feature 'LANDING PAGE' do
     end
 
     scenario 'is a root page' do
-      visit root_page
+      visit root_path
 
       expect(page).to have_selector('nav. navbar-brand', text: 'Follower')
     end
