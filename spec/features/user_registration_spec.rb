@@ -41,17 +41,54 @@ feature 'USERS REGISTRATION' do
       expect(page).to have_selector('#modal .modal-title', text: 'Successful registration')
     end
 
-    scenario 'sends an email with a confirmation link'
-    scenario 'asks user to select password if user follows activation link'
-    scenario 'activates the account after confirmed selected password'
-    feature 'select password validation' do
+    scenario 'sends an email with a confirmation link', js: true do
+      expect {
+        fill_in 'registration_email', with: 'valid_email@mail.com'
+        click_button 'registration_button'
+        sleep 1
+      }.to change {
+        ActionMailer::Base.deliveries.size
+      }.by(1)
+
+      user = User.find_by_email('valid_email@mail.com')
+      confirmation_email = ActionMailer::Base.deliveries.last
+
+      expect(confirmation_email.subject).to eq('Account confirmation')
+      expect(confirmation_email.to[0]).to eq('valid_email@mail.com')
+      expect(confirmation_email.body).to include('Thank you for registering')
+      expect(confirmation_email.body).to include(activate_user_path(user.activation_token))
+    end
+
+    scenario 'activates the account if user follows activation link', js: true do
+      user = FactoryGirl.create(:user)
+
+      visit activate_user_path(user.activation_token)
+
+      expect(page).to have_text('User was successfully activated')
+    end
+
+    scenario 'asks user to select new password after activation'
+    feature 'select new password validation' do
       scenario 'fails without password'
       scenario 'fails without password confirmation'
       scenario 'fails if password and password confirmation do not match'
     end
-    scenario 'user redirects to home page after activation'
+    scenario 'user redirects to home page after password chaging'
     scenario 'a please login message will be displayed if activation token is unknown'
-    scenario 'sends a welcome email after account activation'
+
+    scenario 'sends a welcome email after account activation' do
+      user = FactoryGirl.create(:user)
+      expect {
+        visit activate_user_path(user.activation_token)
+      }.to change {
+        ActionMailer::Base.deliveries.size
+      }.by(1)
+
+      email = ActionMailer::Base.deliveries.last
+
+      expect(email.subject).to eq('Your account is now activated')
+      expect(email.body).to include('Your Follower account has been activated')
+    end
   end
 
 

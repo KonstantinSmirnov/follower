@@ -1,9 +1,4 @@
 Rails.application.routes.draw do
-  get 'users/new'
-
-  get 'users/create'
-
-  get 'user/new'
 
   get 'user/create'
 
@@ -21,7 +16,9 @@ Rails.application.routes.draw do
 
   # Users registration
   post 'registration' => 'users#create'
-  
+  get 'activate/:id' => 'users#activate', as: 'activate_user'
+
+
   # Widget
   get 'widget_init', to: 'widget/root#init'
   get 'widget_root', to: 'widget/root#root'
