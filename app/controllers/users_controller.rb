@@ -13,7 +13,8 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        redirect_to root_path, notice: 'Success'
+        # redirect_to root_path, notice: 'Success'
+        format.js { render 'create'}
       else
         format.js { render 'show_registration_errors' }
       end
