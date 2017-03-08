@@ -15,7 +15,7 @@ class UsersController < ApplicationController
       if @user.save
         redirect_to root_path, notice: 'Success'
       else
-        format.js { render 'show_registration_errors', locals: { user: @user } }
+        format.js { render 'show_registration_errors' }
       end
     end
 
