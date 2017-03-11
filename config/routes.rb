@@ -16,7 +16,8 @@ Rails.application.routes.draw do
   post 'registration' => 'users#create'
   get 'activate/:id' => 'users#activate', as: 'activate_user'
 
-  get 'login' => 'sessions#new', as: 'login'
+  get 'login' => 'sessions#new'
+  post 'login' => 'sessions#create'
 
 
   # Widget
