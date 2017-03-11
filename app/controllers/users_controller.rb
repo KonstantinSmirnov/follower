@@ -26,7 +26,7 @@ class UsersController < ApplicationController
       @user.activate!
       redirect_to(root_path, :notice => 'User was successfully activated.')
     else
-      not_authenticated
+      redirect_to(login_path, :notice => 'Activation token is invalid.')
     end
   end
 

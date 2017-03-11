@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
 
-  get 'user/create'
-
   root 'landing#index'
 
   get 'landing', to: 'landing#index', as: 'landing'
@@ -17,6 +15,8 @@ Rails.application.routes.draw do
   # Users registration
   post 'registration' => 'users#create'
   get 'activate/:id' => 'users#activate', as: 'activate_user'
+
+  get 'login' => 'sessions#new', as: 'login'
 
 
   # Widget

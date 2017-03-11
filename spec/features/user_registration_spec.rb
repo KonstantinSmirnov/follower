@@ -74,7 +74,24 @@ feature 'USERS REGISTRATION' do
       scenario 'fails if password and password confirmation do not match'
     end
     scenario 'user redirects to home page after password chaging'
-    scenario 'a please login message will be displayed if activation token is unknown'
+
+    scenario 'a please login message will be displayed if an active user follows activation link' do
+      user = FactoryGirl.create(:user)
+      url = activate_user_path(user.activation_token)
+      user.activate!
+
+      visit url
+
+      expect(current_path).to eq(login_path)
+      expect(page).to have_text('Activation token is invalid')
+    end
+
+    scenario 'a please login message will be displayed if activation token is unknown' do
+      visit activate_user_path('invalid_token')
+
+      expect(current_path).to eq(login_path)
+      expect(page).to have_text('Activation token is invalid')
+    end
 
     scenario 'sends a welcome email after account activation' do
       user = FactoryGirl.create(:user)

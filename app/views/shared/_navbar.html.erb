@@ -1,0 +1,26 @@
+<!-- navbar -->
+<nav class="navbar navbar-toggleable-sm navbar-top">
+  <div class="container">
+
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <%= link_to root_path, class: 'navbar-brand' do %>
+      <i class="fa fa-compass"></i> Follower
+    <% end %>
+
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <span class="navbar-text mr-auto">
+      </span>
+      <ul class="nav navbar-nav">
+        <li class="nav-item">
+          <%= link_to 'Test pages', test_pages_path, class: 'nav-link' %>
+        </li>
+        <li class="nav-item <%= 'active' if controller?('sessions') %>">
+          <%= link_to 'Sign in', login_path, class: "nav-link" %>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

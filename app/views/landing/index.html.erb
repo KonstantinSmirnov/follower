@@ -1,32 +1,3 @@
-<div class="landing-page">
-  <!-- navbar -->
-  <nav class="navbar navbar-toggleable-sm navbar-transparent navbar-top">
-    <div class="container">
-
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <%= link_to root_path, class: 'navbar-brand' do %>
-        <i class="fa fa-compass"></i> Follower
-      <% end %>
-
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <span class="navbar-text mr-auto">
-        </span>
-        <ul class="nav navbar-nav">
-          <li class="nav-item">
-            <%= link_to 'Test pages', test_pages_path, class: 'nav-link' %>
-          </li>
-          <li class="nav-item">
-            <%= link_to 'Sign in', '#', class: "nav-link" %>
-          </li>
-        </ul>
-      </div>
-
-    </div>
-  </nav>
-
   <!-- content -->
   <div class="parallax filter-gradient filter-color">
     <div class="parallax-background">
@@ -116,40 +87,3 @@
       </div>
     </div>
   </div>
-
-  <!-- footer -->
-  <footer class="footer">
-    <hr>
-      <div class="container">
-        <nav class="pull-left">
-          <ul>
-            <li>
-              <a href="#">
-                Home
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                Company
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                Products
-              </a>
-            </li>
-          </ul>
-        </nav>
-        <div class="social-area pull-right">
-          <a href="#">
-            <i class="fa fa-facebook-square btn-facebook"></i>
-          </a>
-          <a href="#">
-            <i class="fa fa-twitter btn-twitter"></i>
-          </a>
-        </div>
-      </div>
-  </footer>
-</div>
-
-<%= render partial: 'shared/modal' %>

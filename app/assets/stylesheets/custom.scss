@@ -2,14 +2,17 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.landing-page .container {
+.container {
   max-width: 1170px;
 }
 
 /* Header */
-.landing-page .navbar {
+.navbar {
   border: 0;
   font-size: 16px;
+}
+.follower-page .navbar {
+  background-color: #E8ECED;
 }
 .landing-page .navbar-top {
   position: absolute;
@@ -18,42 +21,123 @@
   left: 0;
   z-index: 1030;
 }
-.landing-page .navbar .navbar-brand {
+.navbar .navbar-brand {
   text-transform: uppercase;;
   font-weight: 600;
   margin: 5px 0px;
-  padding: 20px 15px;
+  padding: 5px 15px;
   font-size: 20px;
 }
-.landing-page .navbar .navbar-nav > li > a {
+.navbar .navbar-nav > li > a {
   padding: 10px 15px;
-  margin: 15px 0px;
+  margin: 5px 0px;
   background-color: transparent;
 }
-.landing-page .navbar-transparent .navbar-brand {
+.landing-page .navbar-brand {
   color: white;
   opacity: 0.9;
   filter: alpha(opacity=90);
 }
-.landing-page .navbar-transparent .navbar-brand:focus,
-.landing-page .navbar-transparent .navbar-brand:hover {
+.follower-page .navbar-brand {
+  color: #1C777F;
+  opacity: 0.9;
+  filter: alpha(opacity=90);
+}
+.landing-page .navbar-brand:focus,
+.landing-page .navbar-brand:hover {
   background-color: transparent;
   opacity: 1;
   filter: alpha(opacity=90);
 }
-.landing-page .navbar-transparent .navbar-nav > li > a {
+.follower-page .navbar-brand:focus,
+.follower-page .navbar-brand:hover {
+  background-color: transparent;
+  opacity: 1;
+  filter: alpha(opacity=90);
+}
+.landing-page .navbar-nav > li > a {
   color: white;
   opacity: 0.8;
   filter: alpha(opacity=80);
 }
-.landing-page .navbar-transparent .navbar-nav > .active > a,
-.landing-page .navbar-transparent .navbar-nav > .active > a:hover,
-.landing-page .navbar-transparent .navbar-nav > .active > a:focus,
-.landing-page .navbar-transparent .navbar-nav > li > a:hover,
-.landing-page .navbar-transparent .navbar-nav > li > a:focus {
+.follower-page .navbar-nav > li > a {
+  color: #1C777F;
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+}
+.landing-page .navbar-nav > .active > a,
+.landing-page .navbar-nav > .active > a:hover,
+.landing-page .navbar-nav > .active > a:focus,
+.landing-page .navbar-nav > li > a:hover,
+.landing-page .navbar-nav > li > a:focus {
   color: white;
   opacity: 1;
   filter: alpha(opacity=100);
+}
+.follower-page .navbar-nav > .active > a,
+.follower-page .navbar-nav > .active > a:hover,
+.follower-page .navbar-nav > .active > a:focus,
+.follower-page .navbar-nav > li > a:hover,
+.follower-page .navbar-nav > li > a:focus {
+  color: #1C777F;
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+
+/* FOOTER */
+.footer {
+  background-color: white;
+  line-height: 20px;
+}
+.footer hr {
+  border-color: #dddddd;
+}
+.footer nav > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  font-size: 16px;
+}
+.footer nav > ul a {
+  color: #9a9a9a;
+  display: block;
+  margin-bottom: 3px;
+  padding: 10px 0px;
+  margin: 15px 10px 15px 0px;
+}
+.footer nav > ul a:hover, .footer nav > ul a:focus {
+  color: #777777;
+  text-decoration: none;
+}
+.footer nav > ul li {
+  margin-right: 20px;
+  float: left;
+}
+.footer .social-area {
+  padding: 15px 10px;
+}
+.footer .social-area > a {
+  color: #9a9a9a;
+  display: inline-block;
+  vertical-align: top;
+  padding: 10px 5px;
+  font-size: 20px;
+  font-weight: normal;
+  line-height: 20px;
+  text-align: center;
+}
+.footer .social-area > a:hover, .footer .social-area > a:focus {
+  color: #777777;
+}
+.btn-facebook {
+  color: #3b5998;
+}
+.btn-twitter {
+  color: #55acee;
+}
+.btn-facebook:hover, .btn-twitter:hover {
+  color: #777777;
 }
 
 /* PARALLAX CONTAINER */
@@ -194,60 +278,6 @@
   margin: 0 17px;
 }
 
-.landing-page .footer {
-  background-color: white;
-  line-height: 20px;
-}
-.landing-page .footer hr {
-  border-color: #dddddd;
-}
-.landing-page .footer nav > ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  font-weight: normal;
-  font-size: 16px;
-}
-.landing-page .footer nav > ul a {
-  color: #9a9a9a;
-  display: block;
-  margin-bottom: 3px;
-  padding: 10px 0px;
-  margin: 15px 10px 15px 0px;
-}
-.landing-page .footer nav > ul a:hover, .footer nav > ul a:focus {
-  color: #777777;
-  text-decoration: none;
-}
-.landing-page .footer nav > ul li {
-  margin-right: 20px;
-  float: left;
-}
-.landing-page .footer .social-area {
-  padding: 15px 10px;
-}
-.landing-page .footer .social-area > a {
-  color: #9a9a9a;
-  display: inline-block;
-  vertical-align: top;
-  padding: 10px 5px;
-  font-size: 20px;
-  font-weight: normal;
-  line-height: 20px;
-  text-align: center;
-}
-.landing-page .footer .social-area > a:hover, .footer .social-area > a:focus {
-  color: #777777;
-}
-.landing-page .btn-facebook {
-  color: #3b5998;
-}
-.landing-page .btn-twitter {
-  color: #55acee;
-}
-.landing-page .btn-facebook:hover, .btn-twitter:hover {
-  color: #777777;
-}
 
 #registration_errors ul {
   padding-left: 0px;

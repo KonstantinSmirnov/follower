@@ -16,6 +16,14 @@
     <% flash.each do |key, value| %>
       <p><%= key %>: <%= value %></p>
     <% end%>
-    <%= yield %>
+
+    <div class="<%= page_primary_class(request.env['PATH_INFO']) %>">
+      <%= render partial: 'shared/navbar' %>
+
+      <%= yield %>
+
+      <%= render partial: 'shared/footer' %>
+    </div>
+    <%= render partial: 'shared/modal' %>
   </body>
 </html>
