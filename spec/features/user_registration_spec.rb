@@ -29,8 +29,6 @@ feature 'USERS REGISTRATION' do
 
       expect(page).to have_selector('#registration_errors', text: 'Email has already been taken')
     end
-
-    scenario 'fails if the email already exists even if account was not activated'
   end
 
   feature 'registration' do
@@ -67,13 +65,14 @@ feature 'USERS REGISTRATION' do
       expect(page).to have_text('User was successfully activated')
     end
 
-    scenario 'asks user to select new password after activation'
-    feature 'select new password validation' do
-      scenario 'fails without password'
-      scenario 'fails without password confirmation'
-      scenario 'fails if password and password confirmation do not match'
+    scenario 'asks user to select new password after activation', js: true do
+      user = FactoryGirl.create(:user)
+
+      visit activate_user_path(user.activation_token)
+      user.reload
+
+      expect(current_path).to eq(edit_password_reset_path(user.reset_password_token))
     end
-    scenario 'user redirects to home page after password chaging'
 
     scenario 'a please login message will be displayed if an active user follows activation link' do
       user = FactoryGirl.create(:user)

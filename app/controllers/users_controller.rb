@@ -24,7 +24,10 @@ class UsersController < ApplicationController
   def activate
     if (@user = User.load_from_activation_token(params[:id]))
       @user.activate!
-      redirect_to(root_path, :notice => 'User was successfully activated.')
+      reset_password_token = SecureRandom.urlsafe_base64(16)
+      @user.reset_password_token = reset_password_token
+      @user.save
+      redirect_to(edit_password_reset_path(@user.reset_password_token), :notice => 'User was successfully activated. Now please select a password.')
     else
       redirect_to(login_path, :notice => 'Activation token is invalid.')
     end
