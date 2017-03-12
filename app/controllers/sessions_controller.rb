@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
 
   def create
     if @user = login(params[:user][:email], params[:user][:password])
-      redirect_back_or_to(root_path, notice: 'Login successful')
+      redirect_back_or_to(dashboard_path, notice: 'Login successful')
     else
       @user = User.new
       flash.now[:alert] = 'Email or password is invalid'

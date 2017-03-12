@@ -21,6 +21,9 @@ Rails.application.routes.draw do
   delete 'logout' => 'sessions#destroy'
   resources :password_resets
 
+  # Dashboard
+  get 'dashboard' => 'dashboard#index'
+
 
   # Widget
   get 'widget_init', to: 'widget/root#init'

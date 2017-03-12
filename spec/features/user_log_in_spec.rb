@@ -50,5 +50,6 @@ feature 'USER LOG IN' do
     click_button 'Log In'
 
     expect(page).to have_text('Login successful')
+    expect(current_path).to eq(dashboard_path)
   end
 end
