@@ -85,6 +85,22 @@
   opacity: 1;
   filter: alpha(opacity=100);
 }
+.landing-page button.navbar-toggler i {
+  color: white;
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+  font-size: 1.7em;
+}
+.follower-page button.navbar-toggler i {
+  color: #1C777F;
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+  font-size: 1.7em;
+}
+.landing-page .navbar-collapse {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
 
 /* FOOTER */
 .footer {
