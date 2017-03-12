@@ -1,34 +1,36 @@
-<h1>This is the index page</h1>
+<div class="container">
+  <h1>This is the index page</h1>
 
-<%= link_to 'Test page with script', test_widget_with_script_path(hello_world: 'welcome') %>
-<br>
-<%= link_to 'Another test page with script', test_widget_another_with_script_path %>
-<br>
-<%= link_to 'Test page without script', test_widget_without_script_path(hello_world: 'welcome') %>
+  <%= link_to 'Test page with script', test_widget_with_script_path(hello_world: 'welcome') %>
+  <br>
+  <%= link_to 'Another test page with script', test_widget_another_with_script_path %>
+  <br>
+  <%= link_to 'Test page without script', test_widget_without_script_path(hello_world: 'welcome') %>
 
 
-<%= form_for @webpage do |f| %>
-  <%= f.label 'Url' %>
-  <%= f.text_field :url %>
+  <%= form_for @webpage do |f| %>
+    <%= f.label 'Url' %>
+    <%= f.text_field :url %>
 
-  <%= f.submit 'Add' %>
-<% end %>
+    <%= f.submit 'Add' %>
+  <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Id</th>
-      <th>URL</th>
-      <th>Options</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @webpages.each do |webpage| %>
+  <table>
+    <thead>
       <tr>
-        <td><%= webpage.id %></td>
-        <td><%= webpage.url %></td>
-        <td><%= link_to 'Visit', webpage.url + "?hello_world=welcome", :target => '_blank' %></td>
+        <th>Id</th>
+        <th>URL</th>
+        <th>Options</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @webpages.each do |webpage| %>
+        <tr>
+          <td><%= webpage.id %></td>
+          <td><%= webpage.url %></td>
+          <td><%= link_to 'Visit', webpage.url + "?hello_world=welcome", :target => '_blank' %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

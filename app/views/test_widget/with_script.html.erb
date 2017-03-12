@@ -1,81 +1,83 @@
 <script type="text/javascript" src="<%= request.base_url %>/widget_init.js">
 </script>
 
-<h1>TestWidget#index</h1>
-<p>Find me in app/views/test_widget/index.html.erb</p>
+<div class="container">
+  <h1>TestWidget#index</h1>
+  <p>Find me in app/views/test_widget/index.html.erb</p>
 
-<%= link_to 'Root page', root_path %>
-<br>
-<%= link_to 'Another test page with script', test_widget_another_with_script_path %>
+  <%= link_to 'Root page', root_path %>
+  <br>
+  <%= link_to 'Another test page with script', test_widget_another_with_script_path %>
 
-<hr>
+  <hr>
 
-<h1>This is an example of a cart:</h1>
+  <h1>This is an example of a cart:</h1>
 
-<div class="block-cart">
-    <form action="">
-      <div class="table">
-        <div class="th">
-          <div class="td name">наименование</div>
-          <div class="td weight">вес</div>
-          <div class="td number">кол-во</div>
-          <div class="td">стоимость</div>
-        </div>
-          <div class="tr" id="line_item_60350">
-            <div style="display:none;" class="product_price">60</div>
-            <div class="td name"><span>1</span><a href="/product/4774">Коробка  "Юшенг", 9,5х9,5х9,5 </a></div>
-              <div class="td weight">
-                <p>штучный</p>
+  <div class="block-cart">
+      <form action="">
+        <div class="table">
+          <div class="th">
+            <div class="td name">наименование</div>
+            <div class="td weight">вес</div>
+            <div class="td number">кол-во</div>
+            <div class="td">стоимость</div>
+          </div>
+            <div class="tr" id="line_item_60350">
+              <div style="display:none;" class="product_price">60</div>
+              <div class="td name"><span>1</span><a href="/product/4774">Коробка  "Юшенг", 9,5х9,5х9,5 </a></div>
+                <div class="td weight">
+                  <p>штучный</p>
+                </div>
+              <div class="td number">
+                <select name="" class="line_item_quantity" style="position: absolute; left: -9999px;">
+                    <option value="1">1</option>
+                    <option selected="true" value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select><span class="jq-selectbox jqselect line_item_quantity" style="display: inline-block; position: relative; z-index: 100;"><div class="jq-selectbox__select" style="float: left"><div class="jq-selectbox__text">2</div><div class="jq-selectbox__trigger"><div class="jq-selectbox__trigger-arrow"></div></div></div><div class="jq-selectbox__dropdown" style="position: absolute; overflow-y: auto; overflow-x: hidden; left: 0px; display: none; height: 196px; bottom: auto; top: 33px;"><ul style="list-style: none"><li class="">1</li><li class="selected sel">2</li><li class="">3</li><li class="">4</li><li class="">5</li><li class="">6</li><li class="">7</li><li class="">8</li><li class="">9</li><li class="">10</li></ul></div></span>
               </div>
-            <div class="td number">
-              <select name="" class="line_item_quantity" style="position: absolute; left: -9999px;">
-                  <option value="1">1</option>
-                  <option selected="true" value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-              </select><span class="jq-selectbox jqselect line_item_quantity" style="display: inline-block; position: relative; z-index: 100;"><div class="jq-selectbox__select" style="float: left"><div class="jq-selectbox__text">2</div><div class="jq-selectbox__trigger"><div class="jq-selectbox__trigger-arrow"></div></div></div><div class="jq-selectbox__dropdown" style="position: absolute; overflow-y: auto; overflow-x: hidden; left: 0px; display: none; height: 196px; bottom: auto; top: 33px;"><ul style="list-style: none"><li class="">1</li><li class="selected sel">2</li><li class="">3</li><li class="">4</li><li class="">5</li><li class="">6</li><li class="">7</li><li class="">8</li><li class="">9</li><li class="">10</li></ul></div></span>
+              <div class="td price">120 руб.</div>
+              <div class="td delete"><a href="/line_items/destroy/60350" class="dotted" data-remote="true"><i></i>Удалить</a></div>
             </div>
-            <div class="td price">120 руб.</div>
-            <div class="td delete"><a href="/line_items/destroy/60350" class="dotted" data-remote="true"><i></i>Удалить</a></div>
-          </div>
-      </div>
-      <div class="total-block clearfix">
-          <div class="more">
-    <p>У Вас нет скидки, добавьте в корзину товара еще на 2880 и получите скидку 3%. Скидки не распространяются на товары категорий vip и sale.</p>
-    <p><a href="/catalogue">Перейти в каталог</a> или выбрать что-нибудь <strong>из списка ниже</strong> ↓</p>
-  </div>
+        </div>
+        <div class="total-block clearfix">
+            <div class="more">
+      <p>У Вас нет скидки, добавьте в корзину товара еще на 2880 и получите скидку 3%. Скидки не распространяются на товары категорий vip и sale.</p>
+      <p><a href="/catalogue">Перейти в каталог</a> или выбрать что-нибудь <strong>из списка ниже</strong> ↓</p>
+    </div>
 
-        <div class="total">
-          <div class="text">итого:</div>
-          <div class="price" id="total_price">120 руб.</div>
-          <div class="order-block">
-            <p><a href="/order/new">Оформить заказ</a></p>
-            или <a href="/products">вернуться к покупкам</a>
+          <div class="total">
+            <div class="text">итого:</div>
+            <div class="price" id="total_price">120 руб.</div>
+            <div class="order-block">
+              <p><a href="/order/new">Оформить заказ</a></p>
+              или <a href="/products">вернуться к покупкам</a>
+            </div>
           </div>
         </div>
-      </div>
 
-    </form>
-  </div>
+      </form>
+    </div>
 
-<h1>There are test elements:</h1>
-<p id="follower_widget__test_item_sku">TEST-235</p>
-<p id="follower_widget__test_item_name">This is item name</p>
-<a id='follower_widget__test_item_link' href="http://mail.ru">This is item test link</a>
-<p id='follower_widget__test_item_quantity'>235</p>
-<p id='follower_widget__test_cart_delivery'>100</p>
-<p id='follower_widget__test_cart_total'>3000</p>
+  <h1>There are test elements:</h1>
+  <p id="follower_widget__test_item_sku">TEST-235</p>
+  <p id="follower_widget__test_item_name">This is item name</p>
+  <a id='follower_widget__test_item_link' href="http://mail.ru">This is item test link</a>
+  <p id='follower_widget__test_item_quantity'>235</p>
+  <p id='follower_widget__test_cart_delivery'>100</p>
+  <p id='follower_widget__test_cart_total'>3000</p>
 
-<h1>There are test images:</h1>
+  <h1>There are test images:</h1>
 
-<img id="follower_widget__test_image_1" src="http://www.n71.ru/files/72710/p72711d275i180.jpg" alt="Cat foto">
+  <img id="follower_widget__test_image_1" src="http://www.n71.ru/files/72710/p72711d275i180.jpg" alt="Cat foto">
 
-<img src="http://subi.milliyet.com.tr/MilliyetMizah/600xMax/2010/07/09/Saskin_maymun_c3519.jpg" alt="Monkey">
+  <img src="http://subi.milliyet.com.tr/MilliyetMizah/600xMax/2010/07/09/Saskin_maymun_c3519.jpg" alt="Monkey">
 
-<img src="https://im1-tub-ru.yandex.net/i?id=f244d3112e08f83eba7cb223841bc635-l&n=13" alt="">
+  <img src="https://im1-tub-ru.yandex.net/i?id=f244d3112e08f83eba7cb223841bc635-l&n=13" alt="">
+</div>
