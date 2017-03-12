@@ -35,7 +35,7 @@ feature 'USERS REGISTRATION' do
     scenario 'registers with a valid email', js: true do
       fill_in 'registration_email', with: 'valid@email.com'
       click_button 'registration_button'
-
+      sleep 1
       expect(page).to have_selector('#modal .modal-title', text: 'Successful registration')
     end
 
