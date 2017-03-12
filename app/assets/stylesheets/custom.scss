@@ -26,6 +26,8 @@
   font-weight: 600;
   margin: 5px 0px;
   padding: 5px 15px;
+  padding-left: 0;
+  margin-left: 0;
   font-size: 20px;
 }
 .navbar .navbar-nav > li > a {
@@ -278,11 +280,15 @@
   margin: 0 17px;
 }
 
-
 #registration_errors ul {
   padding-left: 0px;
   li {
     background-color: rgba(255, 255, 255, 0.3);
     list-style: none;
   }
+}
+
+/* ALERTS */
+.alert {
+  margin-bottom: 0px;
 }
