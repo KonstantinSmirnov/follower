@@ -6,4 +6,6 @@ class User < ApplicationRecord
   validates :password_confirmation, presence: true, if: -> { new_record? || changes["crypted_password"] }
   validates :email, uniqueness: true, presence: true, if: -> { new_record? || changes["crypted_password"] }
   validates_format_of :email,:with => /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/, :allow_blank => true
+
+  has_many :webpages
 end

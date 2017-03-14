@@ -50,11 +50,11 @@ feature 'USER LOG IN' do
     click_button 'Log In'
 
     expect(page).to have_text('Login successful')
-    expect(current_path).to eq(dashboard_path)
+    expect(current_path).to eq(workspace_dashboard_path)
   end
 
   scenario 'has no access to pages if not logged in' do
-    visit dashboard_path
+    visit workspace_dashboard_path
 
     expect(current_path).to eq(login_path)
     expect(page).to have_text('Please login first')

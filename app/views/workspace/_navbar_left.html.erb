@@ -1,0 +1,22 @@
+<div class="nav-right-section">
+  <ul class="nav flex-column">
+    <li class="nav-item">
+      <%= link_to 'Dashboard', workspace_dashboard_path, class: "nav-link #{'active' if controller?('workspace/dashboard') }" %>
+    </li>
+    <li class="nav-item">
+      <span class="nav-link">
+        <small>
+          <b>WEBPAGES</b>
+          <%= link_to new_workspace_webpage_path, id: 'add-new-page-button', remote: true do %>
+            <i class="fa fa-plus"></i>
+          <% end %>
+        </small>
+      </span>
+    </li>
+    <% @webpages.each do |webpage| %>
+    <li class="nav-item">
+      <%= link_to webpage.name, workspace_webpage_path(webpage), class: "nav-link #{'active' if controller?('workspace/webpages') && action?('show') && params[:id].to_i == webpage.id }" %>
+    </li>
+    <% end %>
+  </ul>
+</div>

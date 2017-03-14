@@ -150,21 +150,23 @@ feature 'RECOVER PASSWORD' do
       click_button 'Reset my password'
 
       @user.reload
-      visit edit_password_reset_path(@user.reset_password_token)
+      password_reset_path = edit_password_reset_path(@user.reset_password_token)
+      visit password_reset_path
 
       fill_in 'user_password', with: 'password'
       fill_in 'user_password_confirmation', with: 'password'
       click_button 'Update'
 
-      visit edit_password_reset_path(@user.reset_password_token)
+      visit password_reset_path
 
-      expect(current_path).to eq(root_path)
+      expect(page).to have_text('Invalid token')
+      expect(current_path).to eq(login_path)
     end
 
     scenario 'can not reset a password if follows invalid reset link' do
       visit edit_password_reset_path('invalid_token')
 
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(login_path)
     end
 
     scenario 'can not reset a password if reset token is expired'

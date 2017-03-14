@@ -17,10 +17,38 @@
       <%= render partial: 'shared/navbar' %>
       <%= render partial: 'shared/alert' %>
 
-      <%= yield %>
+      <% if namespace?('workspace') %>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-3">
+              <%= render partial: 'workspace/navbar_left' %>
+            </div>
+            <div class="col-md-9">
+              <%= yield %>
+            </div>
+          </div>
+        </div>
+      <% else %>
+        <%= yield %>
+      <% end %>
 
       <%= render partial: 'shared/footer' %>
     </div>
-    <%= render partial: 'shared/modal' %>
+
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+      </div>
+    </div>
+
+    <% if Rails.env.development? %>
+      <div class="row">
+        <div class="container">
+          <%= debug(params) %>
+        </div>
+      </div>
+
+    <% end %>
   </body>
 </html>

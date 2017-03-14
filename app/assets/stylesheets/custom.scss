@@ -311,7 +311,32 @@ button.navbar-toggler i:hover {
   }
 }
 
-/* ALERTS */
-.alert {
-  margin-bottom: 0px;
+/* DASHBOARD RIGHT NAV */
+.nav-right-section {
+  display: block;
+  min-height: calc(100vh - 100px);
+  width: auto;
+  border-left: 1px solid #E8ECED;
+  border-right: 1px solid #E8ECED;
+  border-bottom: 1px solid #E8ECED;
+}
+.nav-right-section .nav-item a#add-new-page-button {
+  float:right;
+  font-size: 1.2em;
+  padding-top: 3px;
+}
+.nav-right-section .nav-item a,
+.nav-right-section .nav-item i {
+  color: #1C777F;
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+}
+.nav-right-section .nav-item a.active,
+.nav-right-section .nav-item a:hover,
+.nav-right-section .nav-item a:focus,
+.nav-right-section .nav-item i:hover,
+.nav-right-section .nav-item i:focus {
+  color: #1C777F;
+  opacity: 1;
+  filter: alpha(opacity=100);
 }

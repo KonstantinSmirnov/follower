@@ -10,7 +10,11 @@ Rails.application.routes.draw do
 
   get 'test_pages', to: 'static_pages#index', as: 'test_pages'
 
-  resources :webpages
+  namespace :workspace do
+    get 'dashboard' => 'dashboard#index'
+    resources :webpages
+  end
+
 
   # Users registration
   post 'registration' => 'users#create'
