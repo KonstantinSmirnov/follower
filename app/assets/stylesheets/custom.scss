@@ -312,13 +312,10 @@ button.navbar-toggler i:hover {
 }
 
 /* DASHBOARD RIGHT NAV */
-.nav-right-section {
-  display: block;
-  min-height: calc(100vh - 100px);
-  width: auto;
-  border-left: 1px solid #E8ECED;
-  border-right: 1px solid #E8ECED;
-  border-bottom: 1px solid #E8ECED;
+.nav-right-section .card {
+  border-top: none;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
 }
 .nav-right-section .nav-item a#add-new-page-button {
   float:right;
