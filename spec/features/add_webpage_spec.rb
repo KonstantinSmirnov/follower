@@ -12,6 +12,11 @@ feature 'ADD WEBPAGE' do
     visit workspace_dashboard_path
   end
 
+  scenario 'workspace has a link' do
+    expect(page).to have_selector('.nav-item.active .nav-link', text: 'Workspace')
+    expect(current_path).to eq(workspace_dashboard_path)
+  end
+
   scenario 'has modal window for new webpage form', js: true do
     click_link 'add-new-page-button'
 

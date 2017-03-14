@@ -15,8 +15,8 @@
       </span>
       <ul class="nav navbar-nav">
         <% if current_user %>
-          <li class="nav-item <%= 'active' if controller?('dashboard') %>">
-            <%= link_to 'Dashboard', workspace_dashboard_path, class: 'nav-link' %>
+          <li class="nav-item <%= 'active' if namespace?('workspace') %>">
+            <%= link_to 'Workspace', workspace_dashboard_path, class: 'nav-link' %>
           </li>
           <li class="nav-item">
             <%= link_to 'Test pages', test_pages_path, class: 'nav-link' %>
