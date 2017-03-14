@@ -1,0 +1,38 @@
+<%= render partial: 'webpage_header' %>
+
+<br>
+
+<div class="row justify-content-center">
+  <div class="col-sm-12 col-md-12 col-lg-8">
+
+    <div class="card">
+      <div class="card-header">
+        General
+      </div>
+      <div class="card-block">
+        <div id="errors"></div>
+
+        <%= simple_form_for [:workspace, @webpage], remote: true do |f| %>
+
+          <%= f.input :name %>
+          <%= f.input :url %>
+
+          <%= f.submit 'Update', class: 'btn btn-primary' %>
+
+        <% end %>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="card">
+      <div class="card-header">
+        Delete webpage
+      </div>
+      <div class="card-block">
+        <%= link_to 'Remove this webpage', workspace_webpage_remove_modal_path(@webpage), class: 'btn btn-danger', remote: true %>
+      </div>
+    </div>
+
+  </div>
+</div>

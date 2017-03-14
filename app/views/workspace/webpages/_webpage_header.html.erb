@@ -1,0 +1,15 @@
+<div class="text-center">
+  <h2><%= @webpage.name %></h2>
+</div>
+<ul class="nav nav-tabs-custom justify-content-center">
+  <li class="nav-item">
+    <%= link_to workspace_webpage_path(@webpage), class: "nav-link #{'active' if action?('show')}" do %>
+      <i class="fa fa-compass"></i> Common
+    <% end %>
+  </li>
+  <li class="nav-item">
+    <%= link_to edit_workspace_webpage_path(@webpage), class: "nav-link #{'active' if action?('edit')}" do %>
+      <i class="fa fa-cog"></i> Settings
+    <% end %>
+  </li>
+</ul>

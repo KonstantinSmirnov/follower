@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   namespace :workspace do
     get 'dashboard' => 'dashboard#index'
     resources :webpages
+    get 'webpage_remove_modal/:id' => 'webpages#remove_modal', as: 'webpage_remove_modal'
   end
 
 

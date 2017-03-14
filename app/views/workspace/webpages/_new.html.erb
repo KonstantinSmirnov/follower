@@ -6,7 +6,7 @@
 </div>
 <%= simple_form_for [:workspace, @webpage], remote: true do |f| %>
 <div class="modal-body">
-  <div id="errors"></div>
+  <div id="modal-errors"></div>
   <%= f.input :name %>
   <%= f.input :url %>
 </div>

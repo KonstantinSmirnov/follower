@@ -55,7 +55,7 @@ feature 'ADD WEBPAGE' do
 
     expect(page).to have_text('You have added new web page')
     expect(page).to have_selector('.nav-item .nav-link.active', text: webpage_name)
-    expect(page).to have_selector('h1', webpage_name )
+    expect(page).to have_selector('h2', webpage_name )
     expect(current_path).to eq(workspace_webpage_path(webpage))
   end
 

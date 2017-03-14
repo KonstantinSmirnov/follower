@@ -1,6 +1,9 @@
 <div class="nav-right-section">
   <ul class="nav flex-column">
     <li class="nav-item">
+      <span class="nav-link"><small><b>GENERAL</b></small></span>
+    </li>
+    <li class="nav-item">
       <%= link_to 'Dashboard', workspace_dashboard_path, class: "nav-link #{'active' if controller?('workspace/dashboard') }" %>
     </li>
     <li class="nav-item">
@@ -15,7 +18,7 @@
     </li>
     <% @webpages.each do |webpage| %>
     <li class="nav-item">
-      <%= link_to webpage.name, workspace_webpage_path(webpage), class: "nav-link #{'active' if controller?('workspace/webpages') && action?('show') && params[:id].to_i == webpage.id }" %>
+      <%= link_to webpage.name, workspace_webpage_path(webpage), class: "nav-link #{'active' if controller?('workspace/webpages') && (action?('show') || action?('edit')) && params[:id].to_i == webpage.id }" %>
     </li>
     <% end %>
   </ul>

@@ -1,0 +1,19 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel">Delete page</h5>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<%= simple_form_for :webpage, url: workspace_webpage_path(@webpage), method: :delete, remote: true do |f| %>
+<div class="modal-body">
+  <p>This action CANNOT be undone. This will permanently delete the webpage <b><%= @webpage.name %></b>, and all content connected with it.
+
+  <p>Please type in the name of the repository to confirm.</p>
+  <div id="modal-errors"></div>
+  <%= f.input :name_confirmation, label: false, input_html: {value: ''} %>
+</div>
+<div class="modal-footer">
+  <%= f.submit 'I understand the consequences, delete it', class: 'btn btn-danger' %>
+  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+</div>
+<% end %>
