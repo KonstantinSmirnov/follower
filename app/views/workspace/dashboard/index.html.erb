@@ -1,1 +1,17 @@
 <h1>Dashboard</h1>
+
+
+<% if @webpages.empty? %>
+  <div class="row justify-content-center">
+    <div class="col-sm-12 col-md-12 col-lg-8">
+      <div class="card">
+        <div class="card-block">
+          <p>Hello! You do not have added webpages. Let's start and add one!</p>
+          <div class="text-center">
+            <%= link_to 'Add webpage', new_workspace_webpage_path, class: 'btn btn-primary btn-lg', remote: true %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

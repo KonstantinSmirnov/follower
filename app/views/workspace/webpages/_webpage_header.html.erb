@@ -1,11 +1,15 @@
 <div class="text-center">
   <h2><%= @webpage.name %></h2>
+  <small><%= @webpage.url %></small>
 </div>
 <ul class="nav nav-tabs-custom justify-content-center">
   <li class="nav-item">
     <%= link_to workspace_webpage_path(@webpage), class: "nav-link #{'active' if action?('show')}" do %>
       <i class="fa fa-compass"></i> Common
     <% end %>
+  </li>
+  <li class="nav-item">
+    <a href="#" class="nav-link"><i class="fa fa-send"></i> Email templates</a>
   </li>
   <li class="nav-item">
     <%= link_to edit_workspace_webpage_path(@webpage), class: "nav-link #{'active' if action?('edit')}" do %>
