@@ -10,12 +10,16 @@
       </div>
       <div class="card-block">
         <p>Add this script on your web page, then press confirm button. Once is done, go to another step.</p>
-        <textarea class="form-control" id="exampleTextarea" rows="3">
+        <textarea class="form-control" id="follower_widget__script" rows="3">
           <script id="follower_widget__init_script" type="text/javascript" src="<%= request.base_url %>/widget_init.js">
           </script>
         </textarea>
         <br>
-        <%= link_to 'Check script', '#', class: 'btn btn-primary' %>
+        <% if @webpage.has_script? %>
+          <%= link_to 'Confirmed! Press to recheck.', workspace_confirm_widget_script_path, class: 'btn btn-success', id: 'widget_script_status_button', remote: true %>
+        <% else %>
+          <%= link_to 'Check script status', workspace_confirm_widget_script_path, class: 'btn btn-primary', id: 'widget_script_status_button', remote: true %>
+        <% end %>
       </div>
     </div>
   </div>

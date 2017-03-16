@@ -14,6 +14,8 @@ Rails.application.routes.draw do
     get 'dashboard' => 'dashboard#index'
     resources :webpages
     get 'webpage_remove_modal/:id' => 'webpages#remove_modal', as: 'webpage_remove_modal'
+
+    get 'confirm_widget_script/:id' => 'webpages#confirm_widget_script', as: 'confirm_widget_script'
   end
 
 

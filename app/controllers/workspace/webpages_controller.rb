@@ -1,4 +1,6 @@
 class Workspace::WebpagesController < WorkspaceController
+  require 'open-uri'
+  require 'nokogiri'
 
   def show
     @webpage = Webpage.find(params[:id])
@@ -63,9 +65,50 @@ class Workspace::WebpagesController < WorkspaceController
     end
   end
 
+  def confirm_widget_script
+    @webpage = Webpage.find(params[:id])
+
+    respond_to do |format|
+
+      url = @webpage.url
+
+      begin
+        html = open(URI.parse(url))
+        doc = Nokogiri::HTML(html)
+        if doc.css('#follower_widget__init_script').any?
+          set_webpage_has_script(true)
+          format.js { render 'confirm_widget_script' }
+        else
+          set_webpage_has_script(false)
+          format.js { render 'not_confirm_widget_script' }
+        end
+      rescue
+        set_webpage_has_script(false)
+        format.js { render 'not_confirm_webpage_url' }
+      end
+    end
+  end
+
   private
 
   def webpage_params
     params.require(:webpage).permit(:name, :url)
   end
+
+  def set_webpage_has_script(value)
+    case value
+    when true
+      if !@webpage.has_script?
+        @webpage.has_script = true
+        @webpage.save
+      end
+    when false
+      if @webpage.has_script?
+        @webpage.has_script = false
+        @webpage.save
+      end
+    end
+
+  end
+
 end

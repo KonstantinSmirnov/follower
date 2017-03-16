@@ -1,6 +1,6 @@
 <div class="text-center">
   <h2><%= @webpage.name %></h2>
-  <small><%= @webpage.url %></small>
+  <small><%= link_to "#{@webpage.url}", @webpage.url, target: '_blank' %></small>
 </div>
 <ul class="nav nav-tabs-custom justify-content-center">
   <li class="nav-item">
