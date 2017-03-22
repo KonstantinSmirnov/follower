@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature 'AUTOMATIC SETUP' do
   let(:user) { FactoryGirl.create(:user, password: 'password', password_confirmation: 'password') }
-  let(:webpage) { FactoryGirl.create(:webpage_with_script, user: user) }
+  let!(:webpage) { FactoryGirl.create(:webpage_with_script, user: user) }
 
   before(:each) do
     user.activate!
@@ -10,25 +10,16 @@ feature 'AUTOMATIC SETUP' do
   end
 
   scenario 'it has start setup button', js: true do
-    visit workspace_webpage_path(webpage)
+    visit test_widget_with_script_path(follower_widget_id: webpage.id, follower_widget_token: webpage.widget_token)
 
-    new_window = window_opened_by { find('#open_webpage_button').click }
-    sleep 300000
-    within_window new_window do
-      expect(page).to have_selector('button#follower_widget__automatic_setup', text: 'START AUTOMATIC SETUP')
-      page.execute_script "window.close();"
-    end
+    expect(page).to have_selector('button#follower_widget__automatic_setup', text: 'START AUTOMATIC SETUP')
   end
 
   scenario 'it hides widget after pressed automatic setup button', js: true do
-    visit test_pages_path
+    visit test_widget_with_script_path(follower_widget_id: webpage.id, follower_widget_token: webpage.widget_token)
 
-    new_window = window_opened_by { click_link 'Visit' }
-    within_window new_window do
-      click_button 'follower_widget__automatic_setup'
-      expect(find('#follower_widget__root').native.css_value('right')).to eq('-300px')
-      page.execute_script 'window.close();'
-    end
+    click_button 'follower_widget__automatic_setup'
+    expect(find('#follower_widget__root').native.css_value('right')).to eq('-300px')
   end
 
   scenario 'it changes start automatic setup button text after starting', js: true do
