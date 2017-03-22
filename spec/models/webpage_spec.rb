@@ -43,4 +43,25 @@ RSpec.describe Webpage, type: :model do
     expect(webpage).to be_valid
     expect(webpage.user).to eq(user)
   end
+
+  it "gets a widget token after creating" do
+    user = FactoryGirl.create(:user)
+    webpage = FactoryGirl.create(:webpage, user: user)
+
+    expect(webpage).to be_valid
+    expect(webpage.attributes).to include('widget_token')
+  end
+
+  it "does not update widget token if updates webpage attributes" do
+    user = FactoryGirl.create(:user)
+    webpage = FactoryGirl.create(:webpage, user: user)
+    token = webpage.widget_token
+
+    webpage.url = 'another_url'
+    webpage.name = 'another name'
+    webpage.save
+
+    expect(webpage).to be_valid
+    expect(webpage.widget_token).to eq(token)
+  end
 end

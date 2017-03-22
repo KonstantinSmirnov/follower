@@ -5,7 +5,7 @@ class Widget::RootController < ApplicationController
     respond_to do |format|
       format.html
 
-      format.js { render 'init', formats: [:js] }
+      format.js { render 'init', content_type: Mime::Type.lookup("text/javascript").to_s }
     end
   end
 
@@ -13,7 +13,7 @@ class Widget::RootController < ApplicationController
     respond_to do |format|
       format.html
 
-      format.js { render 'root', formats: [:js] }
+      format.js { render 'root', :content_type => 'text/javascript' }
     end
   end
 end

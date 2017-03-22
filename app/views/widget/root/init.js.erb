@@ -1,33 +1,17 @@
 (function() {
+  console.log('test');
+  var follower_widget_id,
+      follower_widget_token,
+      follower_widget_id_cookie,
+      follower_widget_token_cookie;
 
-  /******* Check URL parameters and cookies*********/
-  if (readCookie("hello_world_cookie") == "welcome") {
-    console.log("Correct cookie found!");
-    // verify session hash
-    // Load jQuery
-    if (document.getElementById('follower_widget__script')) {
-      console.log('script is already loaded');
-      document.getElementById('follower_widget__script').remove();
-      loadWidget();
-    } else {
-      loadWidget();
-    }
-  } else if (getParameterByName("hello_world") == "welcome") {
-    console.log("URL parameter is corerct");
-    // verify session hash
-    // Create cookie
-    createCookie("hello_world_cookie", "welcome", 1);
-    // Load jQuery
-    if (document.getElementById('follower_widget__script')) {
-      console.log('script is already loaded');
-      document.getElementById('follower_widget__script').remove();
-      loadWidget();
-    } else {
-      loadWidget();
-    }
-  } else {
-    console.log('You have no parameter nor cookie to access widget');
-  }
+  follower_widget_id_param = getParameterByName('follower_widget_id');
+  follower_widget_token_param = getParameterByName('follower_widget_token');
+  follower_widget_id_cookie = readCookie('follower_widget_id');
+  follower_widget_token_cookie = readCookie('follower_widget_token');
+
+  authenticateWidgetFromParams(follower_widget_id_param, follower_widget_token_param);
+
 
   /**********    FUNCTIONS **************/
 
@@ -50,7 +34,7 @@
       while (cookie.charAt(0) == " ") cookie = cookie.substring(1, cookie.length);
       if (cookie.indexOf(nameEq) == 0) return cookie.substring(nameEq.length, cookie.length);
     }
-    return null;
+    return false;
   }
 
   function getParameterByName(name, url) {
@@ -63,6 +47,88 @@
     if (!results) return null;
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
+  }
+
+  function authenticateWidgetFromParams(id, token) {
+    if (id == null || token == null || id == '' || token == '') {
+      console.log('params are null, checking cookies');
+      authenticateWidgetFromCookies(follower_widget_id_cookie, follower_widget_token_cookie);
+    } else {
+      console.log('authenticating from params');
+
+      var xmlhttp = new XMLHttpRequest();
+
+      xmlhttp.onreadystatechange = function() {
+          if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
+             if (xmlhttp.status == 200) {
+                 if (xmlhttp.responseText == id) {
+                   console.log("URL parameter is corerct");
+                   // verify session hash
+                   // Create cookie
+                   createCookie("follower_widget_id", id, 1);
+                   createCookie("follower_widget_token", token, 1);
+                   // Load jQuery
+                   if (document.getElementById('follower_widget__script')) {
+                     console.log('script is already loaded');
+                     document.getElementById('follower_widget__script').remove();
+                     loadWidget();
+                   } else {
+                     loadWidget();
+                   }
+                 } else {
+                   authenticateWidgetFromCookies(follower_widget_id_cookie, follower_widget_token_cookie);
+                 }
+             }
+             else if (xmlhttp.status == 400) {
+                alert('There was an error 400');
+             }
+             else {
+                 alert('something else other than 200 was returned');
+             }
+          }
+      };
+
+      xmlhttp.open("GET", "<%= request.base_url %>" + "/ajax/token_validation/" + id + "/" + token, true);
+      xmlhttp.send();
+
+    }
+  }
+
+  function authenticateWidgetFromCookies(id, token) {
+    console.log('authenticating from cookies');
+
+    var xmlhttp = new XMLHttpRequest();
+
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
+           if (xmlhttp.status == 200) {
+               if (xmlhttp.responseText == id) {
+                 console.log("Correct cookies found");
+                 // verify session hash
+                 // Load jQuery
+                 if (document.getElementById('follower_widget__script')) {
+                   console.log('script is already loaded');
+                   document.getElementById('follower_widget__script').remove();
+                   loadWidget();
+                 } else {
+                   loadWidget();
+                 }
+               } else {
+                 console.log('no valid params');
+               }
+           }
+           else if (xmlhttp.status == 400) {
+              alert('There was an error 400');
+           }
+           else {
+               alert('something else other than 200 was returned');
+           }
+        }
+    };
+
+    xmlhttp.open("GET", "<%= request.base_url %>" + "/ajax/token_validation/" + id + "/" + token, true);
+    xmlhttp.send();
+
   }
 
   function loadWidget() {

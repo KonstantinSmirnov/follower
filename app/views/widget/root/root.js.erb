@@ -308,8 +308,9 @@
   }
 
   function logOut() {
-    removeCookie('hello_world_cookie');
-    window.location.href = removeURLParam('hello_world', window.location.href);
+    removeCookie('follower_widget_id');
+    removeCookie('follower_widget_token');
+    window.location.href = removeURLParams('follower_widget_id', 'follower_widget_token', window.location.href);
   }
 
   function removeCookie(name) {
@@ -317,7 +318,7 @@
     console.log('cookie removed');
   }
 
-  function removeURLParam(key, sourceURL) {
+  function removeURLParams(key1, key2, sourceURL) {
     var rtn = sourceURL.split("?")[0],
       param,
       params_arr = [],
@@ -326,7 +327,10 @@
       params_arr = queryString.split("&");
       for (var i = params_arr.length - 1; i >= 0; i -= 1) {
         param = params_arr[i].split("=")[0];
-        if (param === key) {
+        if (param === key1) {
+          params_arr.splice(i, 1);
+        }
+        if (param === key2) {
           params_arr.splice(i, 1);
         }
       }

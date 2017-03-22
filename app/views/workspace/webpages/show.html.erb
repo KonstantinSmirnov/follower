@@ -35,7 +35,7 @@
       </div>
       <div class="card-block">
         <p>Using this link go to your page and set up all cart elements.</p>
-        <%= link_to 'Setup cart elements', @webpage.url + '?hello_world=welcome', class: 'btn btn-primary', target: '_blank' %>
+        <%= link_to 'Setup cart elements', @webpage.url + '?follower_widget_id=' + @webpage.id.to_s + '&follower_widget_token=' + @webpage.widget_token, class: 'btn btn-primary', id: 'open_webpage_button', target: '_blank' %>
       </div>
     </div>
   </div>

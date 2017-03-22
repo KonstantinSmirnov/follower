@@ -75,3 +75,6 @@ group :test do
   gem 'database_cleaner'
   gem 'launchy'
 end
+
+# add Access-Control-Allow-Origin header
+gem 'rack-cors', :require => 'rack/cors'

@@ -18,6 +18,10 @@ Rails.application.routes.draw do
     get 'confirm_widget_script/:id' => 'webpages#confirm_widget_script', as: 'confirm_widget_script'
   end
 
+  namespace :ajax do
+    get 'token_validation/:id/:token' => 'token_validation#index', as: 'token_validation'
+  end
+
 
   # Users registration
   post 'registration' => 'users#create'
