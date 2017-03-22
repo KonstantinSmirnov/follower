@@ -43,4 +43,6 @@ feature 'WIDGET WORKFLOW STEP 8' do
     expect(page).to have_selector('#follower_widget__collapse_button', text: '>')
     expect(page).to have_selector('button#follower_widget__automatic_setup', text: 'START AUTOMATIC SETUP')
   end
+
+  scenario 'ask user to close webpage with widget if finished setup'
 end
