@@ -2,11 +2,17 @@ require 'rails_helper'
 
 feature 'WIDGET APPEARANCE' do
   context 'Webpage contains script' do
-    let!(:webpage) { FactoryGirl.create(:webpage_with_script) }
+    let!(:user) { FactoryGirl.create(:user, password: 'password', password_confirmation: 'password') }
+    let!(:webpage) { FactoryGirl.create(:webpage_with_script, user: user) }
 
     before(:each) do
-      visit webpage.url + '?hello_world=welcome'
+      user.activate!
+      log_in_with(user.email, 'password')
+
+      visit test_widget_with_script_path(follower_widget_id: webpage.id, follower_widget_token: webpage.widget_token)
+      sleep 1
     end
+
 
     scenario 'widget has title', js: true do
       expect(page).to have_selector('h4', text: 'Follower')

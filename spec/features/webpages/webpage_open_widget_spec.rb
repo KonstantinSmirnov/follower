@@ -62,18 +62,16 @@ feature 'WEBPAGE' do
     end
 
     scenario 'opens widget if webpage id and token are valid', js: true do
-      visit workspace_webpage_path(webpage)
+      visit test_widget_with_script_path(follower_widget_id: webpage.id, follower_widget_token: webpage.widget_token)
 
-      new_window = window_opened_by { find('#open_webpage_button').click }
-      within_window new_window do
-        visit login_path
+      expect(page).to have_selector('#follower_widget__root')
+    end
 
-        visit test_widget_with_script_path(follower_widget_id: webpage.id, follower_widget_token: webpage.widget_token)
+    scenario 'keeps widget if redirected on another page with script', js: true do
+      visit test_widget_with_script_path(follower_widget_id: webpage.id, follower_widget_token: webpage.widget_token)
+      visit test_widget_another_with_script_path(follower_widget_id: webpage.id, follower_widget_token: webpage.widget_token)
 
-        expect(page).to have_selector('#follower_widget__root')
-        page.execute_script 'window.close();'
-      end
-
+      expect(page).to have_selector('#follower_widget__root')
     end
 
     scenario 'opens widget with invalid params if already opened before' do
@@ -82,6 +80,22 @@ feature 'WEBPAGE' do
 
     scenario 'opens widget without params if already opened before' do
       skip 'Chrome dows not work well with local cookies'
+    end
+
+    scenario 'added cookie is valid for one day'
+    scenario 'widget disappears after logout'
+    scenario 'removes cookies if logout'
+
+    scenario 'removes url parameter if widget logout', js: true do
+      webpage.url = 'http://127.0.0.1:8200/test_widget/with_script'
+      webpage.save
+
+      visit test_widget_with_script_path(follower_widget_id: webpage.id, follower_widget_token: webpage.widget_token)
+
+      click_button 'Log Out'
+      page.driver.browser.switch_to.alert.accept
+
+      expect(current_url).to eq(webpage.url + '?')
     end
   end
 
@@ -93,18 +107,13 @@ feature 'WEBPAGE' do
 
       user.activate!
       log_in_with(user.email, 'password')
+      visit test_widget_without_script_path(follower_widget_id: webpage.id, follower_widget_token: webpage.widget_token)
+      sleep 1
     end
 
     scenario 'opens without widget', js: true do
-      visit workspace_webpage_path(webpage)
-
-      new_window = window_opened_by { find('#open_webpage_button').click }
-      within_window new_window do
-        expect(page).not_to have_selector('#follower_widget__script')
-        expect(page).not_to have_selector('#follower_widget__root')
-        page.execute_script 'window.close();'
-      end
-
+      expect(page).not_to have_selector('#follower_widget__script')
+      expect(page).not_to have_selector('#follower_widget__root')
     end
   end
 end

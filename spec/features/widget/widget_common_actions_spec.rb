@@ -9,6 +9,7 @@ feature 'AUTOMATIC SETUP' do
     log_in_with(user.email, 'password')
 
     visit test_widget_with_script_path(follower_widget_id: webpage.id, follower_widget_token: webpage.widget_token)
+    sleep 1
   end
 
   scenario 'it has start setup button', js: true do
