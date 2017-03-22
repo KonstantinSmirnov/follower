@@ -1,12 +1,19 @@
 require 'rails_helper'
 
 feature 'AUTOMATIC SETUP' do
-  let!(:webpage) { FactoryGirl.create(:webpage_with_script) }
+  let(:user) { FactoryGirl.create(:user, password: 'password', password_confirmation: 'password') }
+  let(:webpage) { FactoryGirl.create(:webpage_with_script, user: user) }
+
+  before(:each) do
+    user.activate!
+    log_in_with(user.email, 'password')
+  end
 
   scenario 'it has start setup button', js: true do
-    visit test_pages_path
+    visit workspace_webpage_path(webpage)
 
-    new_window = window_opened_by { click_link 'Visit' }
+    new_window = window_opened_by { find('#open_webpage_button').click }
+    sleep 300000
     within_window new_window do
       expect(page).to have_selector('button#follower_widget__automatic_setup', text: 'START AUTOMATIC SETUP')
       page.execute_script "window.close();"
