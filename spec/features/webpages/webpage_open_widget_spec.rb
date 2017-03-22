@@ -1,15 +1,15 @@
 require 'rails_helper'
 
 feature 'WEBPAGE' do
-  let(:user) { FactoryGirl.create(:user, password: 'password', password_confirmation: 'password') }
-  let(:webpage) { FactoryGirl.create(:webpage, user: user) }
-
-  before(:each) do
-    user.activate!
-    log_in_with(user.email, 'password')
-  end
+  let!(:user) { FactoryGirl.create(:user, password: 'password', password_confirmation: 'password') }
+  let!(:webpage) { FactoryGirl.create(:webpage, user: user) }
 
   context 'Common behavior' do
+    before(:each) do
+      user.activate!
+      log_in_with(user.email, 'password')
+    end
+
     scenario 'webpage opens by click in new window', js: true do
       visit workspace_webpage_path(webpage)
 
@@ -29,6 +29,14 @@ feature 'WEBPAGE' do
   end
 
   context 'Has widget script' do
+    before(:each) do
+      user.activate!
+      webpage.url = 'http://localhost:3000/test_widget/with_script'
+      webpage.save
+      webpage.reload
+      log_in_with(user.email, 'password')
+    end
+
     scenario 'fails to open widget if webpage id is invalid' do
       visit test_widget_with_script_path(follower_widget_id: '123', follower_widget_token: webpage.widget_token)
 
@@ -54,20 +62,27 @@ feature 'WEBPAGE' do
     end
 
     scenario 'opens widget if webpage id and token are valid', js: true do
-      webpage.url = 'http://localhost:3000/test_widget/with_script'
-      webpage.save
-      webpage.reload
-
-      #visit test_widget_with_script_path(follower_widget_id: webpage.id, follower_widget_token: webpage.widget_token)
       visit workspace_webpage_path(webpage)
-      find('#open_webpage_button').click
-      sleep 30000
-      expect(page).to have_selector('#follower_widget__script')
-      expect(page).to have_selector('#follower_widget__root')
+
+      new_window = window_opened_by { find('#open_webpage_button').click }
+      within_window new_window do
+        visit login_path
+
+        visit test_widget_with_script_path(follower_widget_id: webpage.id, follower_widget_token: webpage.widget_token)
+
+        expect(page).to have_selector('#follower_widget__root')
+        page.execute_script 'window.close();'
+      end
+
     end
 
-    scenario 'opens widget with invalid params if already opened before'
-    scenario 'opens widget without params if already opened before'
+    scenario 'opens widget with invalid params if already opened before' do
+      skip 'Chrome does not work well with local cookies'
+    end
+
+    scenario 'opens widget without params if already opened before' do
+      skip 'Chrome dows not work well with local cookies'
+    end
   end
 
   context 'Has no widget script' do

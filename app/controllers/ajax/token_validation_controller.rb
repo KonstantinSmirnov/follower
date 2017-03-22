@@ -4,9 +4,7 @@ class Ajax::TokenValidationController < ApplicationController
   def index
     @webpage = Webpage.find_by(id: params[:id], widget_token: params[:token])
 
-    respond_to do |format|
-      format.json { render json: @webpage.try(:id) }
-    end
+    render json: @webpage.try(:id)
   end
 
 end
