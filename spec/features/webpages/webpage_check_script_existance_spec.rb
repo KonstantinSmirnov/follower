@@ -26,6 +26,8 @@ feature 'WEBPAGE SCRIPT' do
       end
 
       scenario 'shows that is in process while processing', js: true do
+        webpage.url = 'https://mail.ru'
+        webpage.save
         visit workspace_webpage_path(webpage)
 
         find('#widget_script_status_button').click
