@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
   namespace :ajax do
     get 'token_validation/:id/:token' => 'token_validation#index', as: 'token_validation'
+    get 'add_cart_url' => 'add_cart_url#create', as: 'add_cart_url'
   end
 
 

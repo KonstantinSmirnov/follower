@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170317185348) do
+ActiveRecord::Schema.define(version: 20170323114800) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20170317185348) do
     t.integer  "user_id"
     t.boolean  "has_script",   default: false
     t.string   "widget_token"
+    t.string   "cart_url"
   end
 
 end

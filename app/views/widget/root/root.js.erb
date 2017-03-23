@@ -372,6 +372,17 @@
     widgetModal.hide();
   }
 
+  function readCookie(name) {
+    var nameEq = name + "=";
+    var cookiesArray = document.cookie.split(";");
+    for (var i = 0; i < cookiesArray.length; i++) {
+      var cookie = cookiesArray[i];
+      while (cookie.charAt(0) == " ") cookie = cookie.substring(1, cookie.length);
+      if (cookie.indexOf(nameEq) == 0) return cookie.substring(nameEq.length, cookie.length);
+    }
+    return false;
+  }
+
   /******* SETUP FUNCTIONS *******/
   // STEP 1
   function initGetCartURL() {
@@ -394,8 +405,15 @@
     var paramsURL = document.getElementById('follower_widget__params_url');
     paramsURL.innerHTML = 'URL: '; // + temporaryBuffer;
     paramsURL.append(new StatusIcon('success'));
-
-    initSelectItemImage();
+    var encodedParam = encodeURIComponent('http://mailwell.ru');
+    url = '<%= request.base_url %>' +
+          '/ajax/add_cart_url?' +
+          'id=' + readCookie('follower_widget_id') +
+          '&token=' + readCookie('follower_widget_token') +
+          '&url=' + removeURLParams('follower_widget_id', 'follower_widget_token', window.location.href);
+    jQuery.getJSON(url, function( data ) {
+      initSelectItemImage();
+    })
   };
 
   // STEP 2
@@ -840,48 +858,6 @@
     );
 
   }
-
-//========== TEMP
-  function selectItemPrice() {
-    //FirstClick variable is used to disable first click which appears when we load funciton first time
-    var firstClick = true;
-    window.onclick = function(e) {
-      if (firstClick) {
-        firstClick = false;
-      } else {
-        // can check elements only if they are not from widget
-        if (e.target.id != 'follower_widget__root'
-        && $(e.target).parents('#follower_widget__root').length == 0)
-        {
-          //checkingElements(e);
-          //Disable clicking function
-          window.onclick = null;
-
-          e.preventDefault();
-          var elementMouseIsOver, old_style, x, y;
-          x = e.clientX;
-          y = e.clientY;
-          elementMouseIsOver = document.elementFromPoint(x, y);
-          old_style = elementMouseIsOver.style["boxShadow"];
-          elementMouseIsOver.style["boxShadow"] = "0 0 15px #EC5616";
-          //Display element which was selected
-          var content = document.createElement('p');
-          content.innerHTML = elementMouseIsOver.innerHTML;
-
-          setTimeout((function() {
-            widgetModal.show(
-              'Is this the price you selected?',
-              content,
-              finishAutomaticSetup,
-              selectItemPrice
-            );
-            elementMouseIsOver.style["boxShadow"] = old_style;
-          }), 500);
-        }
-      }
-    }
-  }
-
 
   /******* END FOLLOWER WIDGET FUNCTIONS ***/
 

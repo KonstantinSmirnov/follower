@@ -20,12 +20,18 @@ feature 'WIDGET WORKFLOW STEP 1' do
     expect(page).to have_selector('#follower_widget__modal_decline', text: 'I am not on cart page')
   end
 
-  scenario 'clicking on confirm button saves current URL (without secret param)', js: true do
+  scenario 'clicking on confirm button saves current URL', js: true do
     click_button 'follower_widget__automatic_setup'
     page.find("#follower_widget__modal_confirm").click
     click_button 'follower_widget__collapse_button'
+    webpage.reload
 
     expect(page).to have_selector('#follower_widget__params_url img.follower_widget__params_success')
+    expect(current_url).to include(webpage.cart_url)
+
+    visit workspace_webpage_path(webpage)
+
+    expect(page).to have_selector('td', text: webpage.cart_url)
   end
 
   scenario 'clicking on confirm button opens modal of next step', js: true do
