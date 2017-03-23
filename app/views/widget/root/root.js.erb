@@ -405,13 +405,22 @@
     var paramsURL = document.getElementById('follower_widget__params_url');
     paramsURL.innerHTML = 'URL: '; // + temporaryBuffer;
     paramsURL.append(new StatusIcon('success'));
-    var encodedParam = encodeURIComponent('http://mailwell.ru');
     url = '<%= request.base_url %>' +
           '/ajax/update_cart_url?' +
           'id=' + readCookie('follower_widget_id') +
           '&token=' + readCookie('follower_widget_token') +
           '&url=' + removeURLParams('follower_widget_id', 'follower_widget_token', window.location.href);
-    jQuery.getJSON(url, function( data ) { initSelectItemImage() })
+    jQuery.ajax({
+      type: "GET",
+      url: url,
+      success: function () {
+        initSelectItemImage();
+      },
+      error: function(){
+        alert('error!');
+      },
+      cache: false
+    });
   };
 
   // STEP 2
@@ -449,19 +458,33 @@
           elementMouseIsOver.style["boxShadow"] = "0 0 15px #EC5616";
           // Display element which was clicked
           setTimeout((function() {
-            var content = document.createElement('img');
-            content.id = 'follower_widget__modal_image'
-            content.src = elementMouseIsOver.src;
-            temporaryBuffer = elementMouseIsOver.id;
+            if (elementMouseIsOver.tagName == 'IMG') {
+              var content = document.createElement('img');
+              content.id = 'follower_widget__modal_image'
+              content.src = elementMouseIsOver.src;
+              temporaryBuffer = elementMouseIsOver.id;
 
-            widgetModal.show(
-              'Is it a correct item image?',
-              content,
-              'Correct',
-              getItemImage,
-              'Incorrect, I will try again',
-              selectItemImage
-            );
+              widgetModal.show(
+                'Is it a correct item image?',
+                content,
+                'Correct',
+                getItemImage,
+                'Incorrect, I will try again',
+                selectItemImage
+              );
+            } else {
+              var content = document.createElement('p');
+              content.innerHTML = 'Please select an image or skip this step' + elementMouseIsOver.tagName
+
+              widgetModal.show(
+                'This is not an image!',
+                content,
+                'Try again',
+                selectItemImage,
+                'Skip',
+                initGetItemSKU
+              );
+            }
             elementMouseIsOver.style["boxShadow"] = old_style;
           }), 500);
         }
@@ -477,7 +500,18 @@
           'id=' + readCookie('follower_widget_id') +
           '&token=' + readCookie('follower_widget_token') +
           '&item_image_id=' + temporaryBuffer;
-    jQuery.getJSON(url, function( data ) { initGetItemSKU() });
+          console.log(url);
+    jQuery.ajax({
+      type: "GET",
+      url: url,
+      success: function () {
+        initGetItemSKU();
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+        console.info( errorThrown );
+      },
+      cache: false
+    });
   };
 
   // STEP 3: get item sku
@@ -542,7 +576,17 @@
           'id=' + readCookie('follower_widget_id') +
           '&token=' + readCookie('follower_widget_token') +
           '&item_sku_id=' + temporaryBuffer;
-    jQuery.getJSON(url, function( data ) { initGetItemName() });
+    jQuery.ajax({
+      type: "GET",
+      url: url,
+      success: function () {
+        initGetItemName();
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+        console.info( errorThrown );
+      },
+      cache: false
+    });
   }
 
   // STEP 4: get item name
@@ -607,7 +651,17 @@
           'id=' + readCookie('follower_widget_id') +
           '&token=' + readCookie('follower_widget_token') +
           '&item_name_id=' + temporaryBuffer;
-    jQuery.getJSON(url, function( data ) { initGetItemLink() });
+    jQuery.ajax({
+      type: "GET",
+      url: url,
+      success: function () {
+        initGetItemLink();
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+        console.info( errorThrown );
+      },
+      cache: false
+    });
   }
 
   // STEP 5: get item link
@@ -672,7 +726,17 @@
           'id=' + readCookie('follower_widget_id') +
           '&token=' + readCookie('follower_widget_token') +
           '&item_link_id=' + temporaryBuffer;
-    jQuery.getJSON(url, function( data ) { initGetItemQuantity() });
+    jQuery.ajax({
+      type: "GET",
+      url: url,
+      success: function () {
+        initGetItemQuantity();
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+        console.info( errorThrown );
+      },
+      cache: false
+    });
   }
 
   // STEP 6: get item quantity
@@ -737,7 +801,17 @@
           'id=' + readCookie('follower_widget_id') +
           '&token=' + readCookie('follower_widget_token') +
           '&item_quantity_id=' + temporaryBuffer;
-    jQuery.getJSON(url, function( data ) { initGetCartDeliveryPrice() });
+    jQuery.ajax({
+      type: "GET",
+      url: url,
+      success: function () {
+        initGetCartDeliveryPrice();
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+        console.info( errorThrown );
+      },
+      cache: false
+    });
   }
 
   // STEP 7: get cart delivery price
@@ -802,7 +876,17 @@
           'id=' + readCookie('follower_widget_id') +
           '&token=' + readCookie('follower_widget_token') +
           '&delivery_price_id=' + temporaryBuffer;
-    jQuery.getJSON(url, function( data ) { initGetCartTotal() });
+    jQuery.ajax({
+      type: "GET",
+      url: url,
+      success: function () {
+        initGetCartTotal();
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+        console.info( errorThrown );
+      },
+      cache: false
+    });
   }
 
 
@@ -868,7 +952,17 @@
           'id=' + readCookie('follower_widget_id') +
           '&token=' + readCookie('follower_widget_token') +
           '&cart_total_id=' + temporaryBuffer;
-    jQuery.getJSON(url, function( data ) { finishAutomaticSetup() });
+    jQuery.ajax({
+      type: "GET",
+      url: url,
+      success: function () {
+        finishAutomaticSetup();
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+        console.info( errorThrown );
+      },
+      cache: false
+    });
   }
 
 
