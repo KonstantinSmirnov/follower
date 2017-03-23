@@ -407,13 +407,11 @@
     paramsURL.append(new StatusIcon('success'));
     var encodedParam = encodeURIComponent('http://mailwell.ru');
     url = '<%= request.base_url %>' +
-          '/ajax/add_cart_url?' +
+          '/ajax/update_cart_url?' +
           'id=' + readCookie('follower_widget_id') +
           '&token=' + readCookie('follower_widget_token') +
           '&url=' + removeURLParams('follower_widget_id', 'follower_widget_token', window.location.href);
-    jQuery.getJSON(url, function( data ) {
-      initSelectItemImage();
-    })
+    jQuery.getJSON(url, function( data ) { initSelectItemImage() })
   };
 
   // STEP 2
@@ -454,7 +452,7 @@
             var content = document.createElement('img');
             content.id = 'follower_widget__modal_image'
             content.src = elementMouseIsOver.src;
-            temporaryBuffer = elementMouseIsOver.src;
+            temporaryBuffer = elementMouseIsOver.id;
 
             widgetModal.show(
               'Is it a correct item image?',
@@ -474,8 +472,12 @@
     var itemImage = document.getElementById('follower_widget__params_item_image');
     itemImage.innerHTML = 'Item Image: '; // + temporaryBuffer;
     itemImage.append(new StatusIcon('success'));
-
-    initGetItemSKU();
+    url = '<%= request.base_url %>' +
+          '/ajax/update_item_image_id?' +
+          'id=' + readCookie('follower_widget_id') +
+          '&token=' + readCookie('follower_widget_token') +
+          '&item_image_id=' + temporaryBuffer;
+    jQuery.getJSON(url, function( data ) { initGetItemSKU() });
   };
 
   // STEP 3: get item sku
@@ -515,7 +517,7 @@
           setTimeout((function() {
             var content = document.createElement('p');
             content.innerHTML = elementMouseIsOver.innerHTML;
-            temporaryBuffer = elementMouseIsOver.innerHTML;
+            temporaryBuffer = elementMouseIsOver.id;
 
             widgetModal.show(
               'Is it a correct item SKU?',
@@ -535,8 +537,12 @@
     var itemSKU = document.getElementById('follower_widget__params_item_sku');
     itemSKU.innerHTML = 'Item SKU: '; // + temporaryBuffer;
     itemSKU.append(new StatusIcon('success'));
-
-    initGetItemName();
+    url = '<%= request.base_url %>' +
+          '/ajax/update_item_sku_id?' +
+          'id=' + readCookie('follower_widget_id') +
+          '&token=' + readCookie('follower_widget_token') +
+          '&item_sku_id=' + temporaryBuffer;
+    jQuery.getJSON(url, function( data ) { initGetItemName() });
   }
 
   // STEP 4: get item name
@@ -576,7 +582,7 @@
           setTimeout((function() {
             var content = document.createElement('p');
             content.innerHTML = elementMouseIsOver.innerHTML;
-            temporaryBuffer = elementMouseIsOver.innerHTML;
+            temporaryBuffer = elementMouseIsOver.id;
 
             widgetModal.show(
               'Is it a correct item name?',
@@ -596,7 +602,12 @@
     var itemName = document.getElementById('follower_widget__params_item_name');
     itemName.innerHTML = 'Item name: '; // + temporaryBuffer;
     itemName.append(new StatusIcon('success'));
-    initGetItemLink();
+    url = '<%= request.base_url %>' +
+          '/ajax/update_item_name_id?' +
+          'id=' + readCookie('follower_widget_id') +
+          '&token=' + readCookie('follower_widget_token') +
+          '&item_name_id=' + temporaryBuffer;
+    jQuery.getJSON(url, function( data ) { initGetItemLink() });
   }
 
   // STEP 5: get item link
@@ -636,7 +647,7 @@
           setTimeout((function() {
             var content = document.createElement('p');
             content.innerHTML = elementMouseIsOver.href;
-            temporaryBuffer = elementMouseIsOver.href;
+            temporaryBuffer = elementMouseIsOver.id;
 
             widgetModal.show(
               'Is it a correct item link?',
@@ -656,8 +667,12 @@
     var itemLink = document.getElementById('follower_widget__params_item_link');
     itemLink.innerHTML = 'Item link: '; // + temporaryBuffer;
     itemLink.append(new StatusIcon('success'));
-
-    initGetItemQuantity();
+    url = '<%= request.base_url %>' +
+          '/ajax/update_item_link_id?' +
+          'id=' + readCookie('follower_widget_id') +
+          '&token=' + readCookie('follower_widget_token') +
+          '&item_link_id=' + temporaryBuffer;
+    jQuery.getJSON(url, function( data ) { initGetItemQuantity() });
   }
 
   // STEP 6: get item quantity
@@ -697,7 +712,7 @@
           setTimeout((function() {
             var content = document.createElement('p');
             content.innerHTML = elementMouseIsOver.innerHTML;
-            temporaryBuffer = elementMouseIsOver.innerHTML;
+            temporaryBuffer = elementMouseIsOver.id;
 
             widgetModal.show(
               'Is it a correct item quantity?',
@@ -717,8 +732,12 @@
     var itemQuantity = document.getElementById('follower_widget__params_item_quantity');
     itemQuantity.innerHTML = 'Item quantity: '; // + temporaryBuffer;
     itemQuantity.append(new StatusIcon('success'));
-
-    initGetCartDeliveryPrice();
+    url = '<%= request.base_url %>' +
+          '/ajax/update_item_quantity_id?' +
+          'id=' + readCookie('follower_widget_id') +
+          '&token=' + readCookie('follower_widget_token') +
+          '&item_quantity_id=' + temporaryBuffer;
+    jQuery.getJSON(url, function( data ) { initGetCartDeliveryPrice() });
   }
 
   // STEP 7: get cart delivery price
@@ -758,7 +777,7 @@
           setTimeout((function() {
             var content = document.createElement('p');
             content.innerHTML = elementMouseIsOver.innerHTML;
-            temporaryBuffer = elementMouseIsOver.innerHTML;
+            temporaryBuffer = elementMouseIsOver.id;
 
             widgetModal.show(
               'Is it a correct delivery price?',
@@ -778,8 +797,12 @@
     var cartDelivery = document.getElementById('follower_widget__params_cart_delivery');
     cartDelivery.innerHTML = 'Delivery price: '; // + temporaryBuffer;
     cartDelivery.append(new StatusIcon('success'));
-
-    initGetCartTotal();
+    url = '<%= request.base_url %>' +
+          '/ajax/update_delivery_price_id?' +
+          'id=' + readCookie('follower_widget_id') +
+          '&token=' + readCookie('follower_widget_token') +
+          '&delivery_price_id=' + temporaryBuffer;
+    jQuery.getJSON(url, function( data ) { initGetCartTotal() });
   }
 
 
@@ -820,7 +843,7 @@
           setTimeout((function() {
             var content = document.createElement('p');
             content.innerHTML = elementMouseIsOver.innerHTML;
-            temporaryBuffer = elementMouseIsOver.innerHTML;
+            temporaryBuffer = elementMouseIsOver.id;
 
             widgetModal.show(
               'Is it a correct cart total?',
@@ -840,8 +863,12 @@
     var cartTotal = document.getElementById('follower_widget__params_cart_total');
     cartTotal.innerHTML = 'Item name: '; // + temporaryBuffer;
     cartTotal.append(new StatusIcon('success'));
-
-    finishAutomaticSetup();
+    url = '<%= request.base_url %>' +
+          '/ajax/update_cart_total_id?' +
+          'id=' + readCookie('follower_widget_id') +
+          '&token=' + readCookie('follower_widget_token') +
+          '&cart_total_id=' + temporaryBuffer;
+    jQuery.getJSON(url, function( data ) { finishAutomaticSetup() });
   }
 
 

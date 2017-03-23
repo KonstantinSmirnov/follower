@@ -20,7 +20,14 @@ Rails.application.routes.draw do
 
   namespace :ajax do
     get 'token_validation/:id/:token' => 'token_validation#index', as: 'token_validation'
-    get 'add_cart_url' => 'add_cart_url#create', as: 'add_cart_url'
+    get 'update_cart_url' => 'cart_url#update', as: 'update_cart_url'
+    get 'update_item_image_id' => 'item_image_id#update', as: 'update_item_image_id'
+    get 'update_item_sku_id' => 'item_sku_id#update', as: 'update_item_sku_id'
+    get 'update_item_name_id' => 'item_name_id#update', as: 'update_item_name_id'
+    get 'update_item_link_id' => 'item_link_id#update', as: 'update_item_link_id'
+    get 'update_item_quantity_id' => 'item_quantity_id#update', as: 'update_item_quantity_id'
+    get 'update_delivery_price_id' => 'delivery_price_id#update', as: 'update_delivery_price_id'
+    get 'update_cart_total_id' => 'cart_total_id#update', as: 'update_cart_total_id'
   end
 
 

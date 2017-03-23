@@ -79,8 +79,14 @@ feature 'WIDGET WORKFLOW STEP 6' do
 
     sleep 1
     page.find('#follower_widget__collapse_button').click
+    webpage.reload
 
     expect(page).to have_selector('#follower_widget__params_item_quantity img.follower_widget__params_success')
+    expect(webpage.item_quantity_id.to_s).to include('follower_widget__test_item_quantity')
+
+    visit workspace_webpage_path(webpage)
+
+    expect(page).to have_selector('td', text: 'follower_widget__test_item_quantity')
   end
 
   scenario 'clicking on confirm button for selected value opens the next step modal', js: true do

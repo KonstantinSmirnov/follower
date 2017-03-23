@@ -54,13 +54,19 @@ feature 'WIDGET WORKFLOW STEP 2' do
 
   scenario 'clicking on confirm button for selected image saves image URL', js: true do
     page.find("#follower_widget__modal_confirm").click
-    page.find("#follower_widget__test_image_1").click
+    page.find('#follower_widget__test_image_1').click
     page.find("#follower_widget__modal_confirm").click
 
     sleep 1
     page.find("#follower_widget__collapse_button").click
+    webpage.reload
 
     expect(page).to have_selector('#follower_widget__params_item_image img.follower_widget__params_success')
+    expect(webpage.item_image_id.to_s).to include('follower_widget__test_image_1')
+
+    visit workspace_webpage_path(webpage)
+
+    expect(page).to have_selector('td', text: 'follower_widget__test_image_1')
   end
 
   scenario 'can select another image if selected incorrect image and clicked decline button', js: true do
