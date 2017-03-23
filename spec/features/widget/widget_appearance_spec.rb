@@ -22,7 +22,7 @@ feature 'WIDGET APPEARANCE' do
       # Params header
       expect(page).to have_selector('#follower_widget__params_header', text: 'PARAMETERS')
       # CartURL
-      expect(page).to have_selector('#follower_widget__params_url', text: 'URL:')
+      expect(page).to have_selector('#follower_widget__params_url', text: 'CART URL:')
       expect(page).to have_selector('#follower_widget__params_url img.follower_widget__params_skip')
       # Item image
       expect(page).to have_selector('#follower_widget__params_item_image', text: 'ITEM IMAGE:')
